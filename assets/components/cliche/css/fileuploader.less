@@ -1,0 +1,111 @@
+/* Upload list */
+
+.upload-list {
+	margin: 25px 0 0;
+	padding:0; 
+	list-style:disc;
+}
+.upload-list li { 
+    border: 1px solid #DADADA;
+    background-color: #F3F3F3;
+    font-size: 12px;
+    line-height: 15px;
+	list-style: none outside none;
+    margin: 2px 0 0;
+    padding: 10px;
+	:last-child{
+		margin-bottom: 15px;
+	}
+}
+.upload-file, .upload-spinner, .upload-size, .upload-cancel, .upload-failed-text, .upload-success-text {
+    margin-right: 7px;
+}
+.upload-file { 
+	color: #4D535F; 
+	font-weight: bold; 
+	text-transform: uppercase;
+}
+.upload-spinner {
+	display:inline-block; 
+	background: url("../images/fu-loading.gif"); 
+	width:15px; height:15px; 
+	vertical-align:text-bottom;
+	display: none;
+}
+.active .upload-spinner {
+	display: inline-block;
+}
+.upload-size {
+	color: #95989F; 
+	font-weight: bold;
+}
+.upload-cancel {
+	color: #AF0007 !important;
+    float: right;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.upload-failed-text, .upload-success-text {
+	display:none;
+}
+.upload-success-text {
+	background: url("../images/tick.png") no-repeat scroll center center #FFFFFF;
+    color: #4C5F00;
+    float: right;
+    font-weight: bold;
+    margin: -10px;
+    padding: 10px 35px 10px 15px;
+    text-indent: -999em;
+    text-transform: uppercase;
+}
+.upload-success {
+	background-color: #fff !important;
+	.upload-success-text{
+		display: inline;	
+	}
+	.upload-cancel {
+		display: none;
+	}
+}
+.upload-fail{
+    background-color: #FFEFF0 !important;
+    border-color: #DFB5B7 !important;
+	.qq-upload-failed-text {
+		display:inline;
+	}
+	.failure{
+		background: url("../images/exclamation.png") no-repeat scroll 335px center transparent;
+		border-left: 1px dotted #DFB5B7;
+		color: #AF0007;
+		float: right;
+		font-weight: bold;
+		margin: -10px;
+		padding: 10px 50px 10px 15px;
+		text-transform: uppercase;
+	}
+}
+
+/* Custom file input */
+.x-form-file-wrap {
+    position: relative;
+	padding: 1px;
+	height: auto;
+	.x-form-file {
+		opacity: 0;
+		position: absolute !important;
+		right: 0;
+		top: 0;
+		z-index: 2;
+	}
+	.x-form-file-btn {
+		position: absolute !important;
+		right: 0;
+		top: 1px;
+		z-index: 1;
+	}
+	.x-form-file-text {
+		color: #777777;
+		z-index: 3;
+	}
+}

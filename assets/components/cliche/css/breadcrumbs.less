@@ -1,0 +1,31 @@
+#crumbs {
+	background-color: #EFEFEF;
+	border-bottom: 2px solid #FFF;
+	height: 40px;
+	li {
+		background: url("../images/crumbs_bg_link.png") no-repeat scroll right center #dddfe5;
+		color: #757F1F;
+		float: left;
+		font-weight: bold;
+		line-height: 40px;
+		padding: 0 30px 0 20px;
+		text-shadow: 0 1px 0 #E7EFA4;
+		&.last{
+			background: url("../images/crumbs_bg_link_last.png") no-repeat scroll right center #dddfe5;		
+		}
+		&.active{
+			background: url("../images/crumbs_bg_active.png") no-repeat scroll right center #DFE895;		
+		}		
+		a{
+			display:block;
+			padding: 0;			
+			color:#888;
+			text-shadow: none;
+			text-decoration: none;
+			:hover{
+				color: #777;
+				cursor: pointer;
+			}
+		}
+	}
+}
