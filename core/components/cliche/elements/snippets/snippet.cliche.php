@@ -18,7 +18,4 @@ if (!($Cliche instanceof Cliche)) return 'Cliche could not be loaded';
 $Cliche->initialize('web');
 $output = $Cliche->getOutput($scriptProperties);
 
-if(empty($output))
-	return 'tadaaaa';
-
 return $output;
