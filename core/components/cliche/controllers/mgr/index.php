@@ -7,7 +7,7 @@
  */
  
 /* Less file for development */
-$modx->regClientCSS($cliche->config['css_url'] .'styles.php');
+$modx->regClientCSS($cliche->config['css_url'] .'styles.css');
 
 /* Properties */
 $modx->regClientStartupHTMLBlock('<script type="text/javascript">
