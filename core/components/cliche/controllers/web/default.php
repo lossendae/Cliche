@@ -32,10 +32,10 @@ $thumbHeight = $this->getOption('thumbHeight', $config, 120);
 $columns = $this->getOption('columns', $config, 3);
 
 /* Chunks */
-$albumsWrapperTpl = $this->getOption('albumsWrapperTpl', $config, 'albumswrapper');
+$albumsWrapperTpl = $this->getOption('albumsListWrapperTpl', $config, 'albumswrapper');
+$albumsTpl = $this->getOption('albumsListItemTpl', $config, 'albums');
 $albumWrapperTpl = $this->getOption('albumWrapperTpl', $config, 'albumwrapper');
-$albumsTpl = $this->getOption('albumsTpl', $config, 'albums');
-$albumTpl = $this->getOption('albumTpl', $config, 'album');
+$albumTpl = $this->getOption('albumItemTpl', $config, 'album');
 $itemTpl = $this->getOption('itemTpl', $config, 'item');
 
 /* Single Item settings */
@@ -48,6 +48,10 @@ $view = $this->getOption('view', $_REQUEST, $this->getOption('view', $config, 'd
 /* Load styles */
 $modx->regClientCSS($this->config['chunks_url'] . 'default.css');
 
+if($loadJQuery){
+	// $modx->regClientStartUpScript('http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js');
+}
+
 switch($view){
 	case 'item':
 		$id = $modx->getOption('cid', $_REQUEST, $this->getOption('id', $config, null));
@@ -56,10 +60,7 @@ switch($view){
 		}
 		
 		/* If the user want to see a larger version of the image using javascript on single item */
-		if($useZoom){
-			if($loadJQuery){
-				$modx->regClientStartUpScript('http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js');
-			}			
+		if($useZoom){			
 			$modx->regClientCSS($config['chunks_url'] . 'fancybox/jquery.fancybox-1.3.4.css');			
 			$modx->regClientScript($config['chunks_url'] . 'fancybox/jquery.fancybox-1.3.4.pack.js');
 			$modx->regClientHTMLBlock('<script type="text/javascript">

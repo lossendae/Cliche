@@ -8,6 +8,14 @@
 /**
  * Main class file for Cliche.
  *
+ * @TODO
+ *
+ *  From Shaun's remarks :
+ *
+ *  - Moving Gallery from development to live is hard
+ *  - Managing gallery items isn't always easy (no custom fields on gallery items)
+ *  - There's no real easy, intuitive way to create and customize a gallery per resource
+ *
  * @author Stephane Boulard <lossendae@gmail.com>
  * @package cliche
  */
