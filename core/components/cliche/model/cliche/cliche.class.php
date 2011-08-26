@@ -140,8 +140,13 @@ class Cliche {
 		/* Make sure that scriptProperties are really passsed to config (multi instance) */
 		$config = array_merge($this->config, $scriptProperties);
 		
+		$f = $this->config['controllers_path'] . 'web/' . $this->config['controller'] .'.php';
 		
-		include $this->config['controllers_path'] . 'web/' . $this->config['controller'] .'.php';
+		if(file_exists($f)){
+			include $f;
+		} else {
+			$output = 'Controller not found in <strong>'. $f .'</strong>';
+		}
 		return $output;
 	}
 	 
