@@ -22,6 +22,7 @@
 		
 		<composite alias="Items" class="ClicheItems" local="id" foreign="album_id" cardinality="many" owner="local" />
 		<composite alias="Cover" class="ClicheItems" local="cover_id" foreign="id" cardinality="one" owner="local" />
+		<aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign" />
 	</object>
 	<object class="ClicheItems" table="cliche_items" extends="xPDOSimpleObject">
 		<field key="name" dbtype="varchar" precision="100" phptype="string" null="false" default="" />
@@ -30,6 +31,7 @@
 		<field key="createdon" dbtype="datetime" phptype="datetime" null="true" />
 		<field key="createdby" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" index="index" />
 		<field key="album_id" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+		<field key="type" dbtype="varchar" precision="50" phptype="string" null="false" default="image"/>
 		<field key="metas" dbtype="text" phptype="json" default="{}" null="false" />
 
 		<index alias="PRIMARY" name="PRIMARY" primary="true" unique="true">
@@ -40,5 +42,6 @@
 		</index>
 		
 		<aggregate alias="Album" class="ClicheAlbums" local="album_id" foreign="id" cardinality="one" owner="foreign" />
+		<aggregate alias="CreatedBy" class="modUser" local="createdby" foreign="id" cardinality="one" owner="foreign" />
 	</object>
 </model>
