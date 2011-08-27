@@ -1,6 +1,6 @@
 <?php
 
-$id = $_REQUEST['id'];
+$id = $scriptProperties['id'];
 
 if(!empty($id)){
 	$photo = $modx->getObjectGraph('ClicheItems', '{ "Album":{} }', $id);

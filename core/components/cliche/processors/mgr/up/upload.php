@@ -1,5 +1,5 @@
 <?php
-$name = $_REQUEST['name'];
+$name = $scriptProperties['name'];
 
 if (!$modx->loadClass('cliche.helpers.FileUploader',$modx->cliche->config['model_path'],true,true)) {
 	return $modx->error->failure('Could not load helper class FileUploader.');

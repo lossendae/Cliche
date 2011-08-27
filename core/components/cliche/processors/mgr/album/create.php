@@ -1,6 +1,6 @@
 <?php
-$name = $_REQUEST['name'];
-$description = $_REQUEST['description'];
+$name = $scriptProperties['name'];
+$description = $scriptProperties['description'];
 
 /* @TODO - remove that */
 $manager = $modx->getManager();

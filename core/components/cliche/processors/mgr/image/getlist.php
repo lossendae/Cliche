@@ -1,31 +1,37 @@
 <?php
-$start = $_REQUEST['start'];
-$limit = $_REQUEST['limit'];
-$albumId = $_REQUEST['album'];
-$sort = 'ClicheItems.'.$_REQUEST['sort'];
-$dir = $_REQUEST['dir'];
+$start = $scriptProperties['start'];
+$limit = $scriptProperties['limit'];
+$albumId = $scriptProperties['album'];
+$sort = 'ClicheItems.'.$scriptProperties['sort'];
+$dir = $scriptProperties['dir'];
 
 $c = $modx->newQuery('ClicheItems');
 $c->where(array(
 	'album_id' => $albumId,
 ));
+/* paginate result */
+$count = $modx->getCount('ClicheItems', $c);
+
+/* limit and sort */
 $c->sortBy($sort,$dir);
-$c->limit($limit,$start);
+$c->limit($limit, $start);
 
-$rows = $modx->getCollection('ClicheItems', $c);
-
+$rows = $modx->getCollectionGraph('ClicheItems', '{ "CreatedBy": {} }',$c);
 if($rows){
 	foreach($rows as $row){
 		$pic = $row->toArray();
+		$pic['createdby'] = $row->CreatedBy->get('username');
+		$pic['createdon'] = date('j M Y',strtotime($pic['createdon']));
 		$pic['image'] = $modx->cliche->config['images_url'].$row->filename;	
 		$pic['thumbnail'] = $modx->cliche->config['phpthumb'].urlencode($pic['image']).'&h=80&w=90&zc=1';	
 		$pic['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($pic['image']);
 		$pics[] = $pic;
 	}
-	$response['results'] = $pics;
+	$results = $pics;
 } else {
-	$response['results'] = array();
+	$results = array();
 }
 $response['success'] = true;
-$response['total'] = 0;
+$response['total'] = $count;
+$response['results'] = $results;
 return $modx->toJSON($response);
