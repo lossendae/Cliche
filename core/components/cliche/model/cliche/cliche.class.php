@@ -74,7 +74,6 @@ class Cliche {
 			'phpthumb' => $assets_url.'connector.php?action=web/phpthumb&src=',					
 			'chunks_prefix' => 'Cliche',
 			
-			'controller' => 'default',	
 			'use_filebased_chunks' => true,			
 			'tpl_suffix' => '.tpl',									
             
@@ -123,9 +122,7 @@ class Cliche {
 			}
 			$this->request = new ClicheControllerRequest($this);
 			return $this->request->handleRequest();
-        } else {
-			$this->_setChunksPath();
-		}
+        }
     }
 		 
     /**
@@ -161,28 +158,6 @@ class Cliche {
 		return $this->modx->toJSON($result);	
 	}
 	
-	/**
-     * setPathToFileBasedChunks.
-     *
-     * Convert string params to path for use in file based chunks
-     *
-	 * @access private
-     */
-	private function _setChunksPath(){			
-		$config = str_replace(array(
-			'{base_path}',
-			'{assets_path}',
-		),array(
-			$this->modx->getOption('base_path'),
-			$this->modx->getOption('assets_path'),
-		), $this->config);
-		
-		$config['chunks_path'] = $config['plugins_path'] . $config['controller'] . '/';
-		$config['chunks_url'] = $config['plugins_url'] . $config['controller'] . '/';
-		
-		$this->config = array_merge($this->config, $config);	
-	}
-
 	/**
      * Processes the content of a chunk in either of the following ways:
      *
