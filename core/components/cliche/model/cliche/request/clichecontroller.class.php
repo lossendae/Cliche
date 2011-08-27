@@ -26,8 +26,9 @@ abstract class ClicheController {
     }
 
     public function run($scriptProperties) {
-        $this->setProperties($scriptProperties);
-        $this->initialize();
+        $this->setProperties($scriptProperties);		
+        $this->initialize();    
+		$this->_setChunksPath();		
         return $this->process();
     }
 
@@ -134,7 +135,37 @@ abstract class ClicheController {
         return $output;
     }
 	
-	public function getChunk($name, $properties){
+	/**
+     * _setChunksPath.
+     *
+     * Convert string params to path for use in file based chunks
+     *
+	 * @access private
+     */
+	private function _setChunksPath(){			
+		$config = str_replace(array(
+			'{base_path}',
+			'{assets_path}',
+		),array(
+			$this->modx->getOption('base_path'),
+			$this->modx->getOption('assets_path'),
+		), $this->config);
+		
+		$config['chunks_path'] = $config['plugins_path'] . $this->getProperty('display') . '/';
+		$config['chunks_url'] = $config['plugins_url'] . $this->getProperty('display') . '/';
+		
+		$this->config = array_merge($this->config, $config);	
+		$this->cliche->config = $this->config;	
+	}
+	
+	public function getChunk($name, $properties = array()){
 		return $this->cliche->getChunk($name, $properties);
+	}
+	
+	public function regClientStartupScript($script){
+		$this->modx->regClientStartupScript($this->config['chunks_url'] . $script);
+	}
+	public function regClientScript($script){
+		$this->modx->regClientScript($this->config['chunks_url'] . $script);
 	}
 }
