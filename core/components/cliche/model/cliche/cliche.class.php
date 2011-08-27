@@ -127,29 +127,7 @@ class Cliche {
 			$this->_setChunksPath();
 		}
     }
-	
-	/**
-     * Get the output from the specified plugin.
-     *
-     * @access public
-     * @return string The processed output.
-     */
-	public function getOutput($scriptProperties){
-		$modx =& $this->modx;
-		
-		/* Make sure that scriptProperties are really passsed to config (multi instance) */
-		$config = array_merge($this->config, $scriptProperties);
-		
-		$f = $this->config['controllers_path'] . 'web/' . $this->config['controller'] .'.php';
-		
-		if(file_exists($f)){
-			include $f;
-		} else {
-			$output = 'Controller not found in <strong>'. $f .'</strong>';
-		}
-		return $output;
-	}
-	 
+		 
     /**
      * Get a modx configuration option a remove the entry from the config to allow multiple instance call with different parameters.
      *
@@ -253,6 +231,7 @@ class Cliche {
 			$chunk->set('name', $name);
 			$chunk->setContent($o);
 		} else {
+			$this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Chunk : "'.$f.'" not found');
 			return 'Chunk "<strong>'.$f.'</strong>" not found';
 		}
 		return $chunk;
@@ -261,4 +240,31 @@ class Cliche {
 	public function loadProcessor($name){
 		return require_once($this->config['processors_path'].$name.'.php');
 	}
+	
+	/**
+     * Load the appropriate controller
+     * @param string $controller
+     * @return null|clicheController
+     */
+    public function loadController($controller) {
+        if ($this->modx->loadClass('clicheController',$this->config['model_path'].'cliche/request/',true,true)) {
+            $classPath = $this->config['controllers_path'].'web/'.$controller.'.php';
+            $className = $controller.'Controller';
+            if (file_exists($classPath)) {
+                if (!class_exists($className)) {
+                    $className = require_once $classPath;
+                }
+                if (class_exists($className)) {
+                    $this->controller = new $className($this,$this->config);
+                } else {
+                    $this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Could not load controller: '.$className.' at '.$classPath);
+                }
+            } else {
+                $this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Could not load controller file: '.$classPath);
+            }
+        } else {
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Could not load clicheController class.');
+        }
+        return $this->controller;
+    }
 }
