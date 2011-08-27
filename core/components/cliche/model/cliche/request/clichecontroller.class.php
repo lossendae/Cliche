@@ -1,13 +1,13 @@
 <?php
 /**
- * @package quip
+ * @package cliche
  * @subpackage request
  */
 abstract class ClicheController {
     /** @var modX $modx */
     public $modx;
-    /** @var Cliche $quip */
-    public $quip;
+    /** @var Cliche $cliche */
+    public $cliche;
     /** @var array $config */
     public $config = array();
     /** @var array $scriptProperties */
@@ -16,7 +16,7 @@ abstract class ClicheController {
     protected $placeholders = array();
 
     /**
-     * @param Cliche $quip A reference to the Cliche instance
+     * @param Cliche $cliche A reference to the Cliche instance
      * @param array $config
      */
     function __construct(Cliche &$cliche,array $config = array()) {
