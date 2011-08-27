@@ -43,7 +43,7 @@ class AlbumsController extends ClicheController {
             'albumsWrapperTpl' => 'albumwrapper',
             'albumItemTpl' => 'albumitem',
 			
-            'chunkDir' => 'default',
+            'display' => 'default',	
 			
             'idParam' => 'cid',
             'viewParam' => 'view',
@@ -106,14 +106,30 @@ class AlbumsController extends ClicheController {
 			$this->getProperty('idParam') => $obj->id,
 		);			
 		$phs['url'] = $this->modx->makeUrl( $this->modx->resource->get('id'),'',$params);	
-		$phs['reqParams'] = http_build_query($params);	
+		$phs['urlparams'] = http_build_query($params);	
 		
 		$phs['width'] = $this->getProperty('thumbWidth');
 		$phs['height'] = $this->getProperty('thumbHeight');
 		
 		/* The album cover */
 		$phs['image'] = $this->config['images_url'] . $obj->Cover->filename;
-		$phs['thumbnail'] = $this->config['phpthumb'] . urlencode($phs['image']) .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
+		$phs['phpthumb'] = $this->config['phpthumb'] . urlencode($phs['image']);
+		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
+		
+		/* Not used yet */
+		// foreach($phs['options'] as $k => $v){}
+		unset($phs['options']);
+		
+		$cover = $obj->Cover->toArray();
+		foreach($cover['metas'] as $k => $v){
+			$name = strtolower(str_replace(' ','',$v['name']));
+			$cover['cover.'. $name] = $v['value'];
+		}
+		unset($cover['id']);
+		unset($cover['metas']);
+		$phs = array_merge($phs, $cover);	
+		
+		// echo '<pre>'. print_r($phs, true) .'</pre>';
 		
 		$processed = $this->getChunk($this->getProperty('albumItemTpl'), $phs);			
 		return $processed;

@@ -37,7 +37,8 @@ class ItemController extends ClicheController {
             'thumbWidth' => 120,
             'thumbHeight' => 120,			
             'itemTpl' => 'item',
-            'chunkDir' => 'default',
+			
+            'display' => 'default',	
 			
 			'idParam' => 'cid',
 			
@@ -76,8 +77,10 @@ class ItemController extends ClicheController {
 		$phs = $item->toArray(); 
 		$phs['width'] = $this->getProperty('thumbWidth');
 		$phs['height'] = $this->getProperty('thumbHeight');
+		
 		$phs['image'] = $this->config['images_url'] . $item->filename;	
-		$phs['thumbnail'] = $this->config['phpthumb'] . urlencode($phs['image']) .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
+		$phs['phpthumb'] = $this->config['phpthumb'] . urlencode($phs['image']);
+		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
 		
 		$item = $this->getChunk($this->getProperty('itemTpl'), $phs);
 

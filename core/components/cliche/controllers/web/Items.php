@@ -43,7 +43,7 @@ class ItemsController extends ClicheController {
             'itemsWrapperTpl' => 'itemswrapper',
             'itemTpl' => 'items',
 			
-            'chunkDir' => 'default',
+			'display' => 'default',	
 			
             'idParam' => 'cid',
             'viewParam' => 'view',
@@ -51,6 +51,7 @@ class ItemsController extends ClicheController {
 			
 			'loadCSS' => true,
             'css' => 'default',
+            'config' => null,
         ));
     }
 	
@@ -60,6 +61,7 @@ class ItemsController extends ClicheController {
      */
     public function process() {			
 		$this->loadCSS();
+		$this->loadConfig();
 		$output = $this->getItems();	
 		return $output;
 	}
@@ -68,6 +70,16 @@ class ItemsController extends ClicheController {
 	private function loadCSS() {
 		if($this->getProperty('loadCSS'))
 			$this->modx->regClientCSS($this->config['chunks_url'] . $this->getProperty('css') .'.css');
+	}	
+	
+	private function loadConfig() {
+		$config = $this->getProperty('config', null);
+		$modx =& $this->modx;
+		if(!empty($config)){
+			$f = $this->config['chunks_path'] . $this->getProperty('config') .'.php';
+			if(file_exists($f))
+				require_once $f;
+		}			
 	}
 	
 	/**
@@ -96,7 +108,7 @@ class ItemsController extends ClicheController {
 			$data = $row->toArray();
 			$list .= $this->getItem($data, $row);
 			$columnCount++;
-			if($columnCount == $columns){
+			if($columns > 0 && $columnCount == $columns){
 				$list .=  $this->getProperty('columnBreak');
 				$columnCount = 0;
 			}	
@@ -125,7 +137,15 @@ class ItemsController extends ClicheController {
 		
 		/* The album cover */
 		$phs['image'] = $this->config['images_url'] . $obj->filename;
-		$phs['thumbnail'] = $this->config['phpthumb'] . urlencode($phs['image']) .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
+		$phs['phpthumb'] = $this->config['phpthumb'] . urlencode($phs['image']);
+		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
+		
+		$field = $obj->toArray();
+		foreach($field['metas'] as $k => $v){
+			$name = strtolower(str_replace(' ','',$v['name']));
+			$field['meta.'. $name] = $v['value'];
+		}
+		unset($field['metas']);
 		
 		$processed = $this->getChunk($this->getProperty('itemTpl'), $phs);			
 		return $processed;
