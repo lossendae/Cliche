@@ -152,4 +152,15 @@ $xpdo_meta_map['ClicheAlbums']= array (
       'owner' => 'local',
     ),
   ),
+  'aggregates' => 
+  array (
+    'CreatedBy' => 
+    array (
+      'class' => 'modUser',
+      'local' => 'createdby',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
+  ),
 );

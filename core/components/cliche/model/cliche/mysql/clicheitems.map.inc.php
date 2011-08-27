@@ -14,6 +14,7 @@ $xpdo_meta_map['ClicheItems']= array (
     'createdon' => NULL,
     'createdby' => 0,
     'album_id' => 0,
+    'type' => 'image',
     'metas' => '{}',
   ),
   'fieldMeta' => 
@@ -66,6 +67,14 @@ $xpdo_meta_map['ClicheItems']= array (
       'null' => false,
       'default' => 0,
     ),
+    'type' => 
+    array (
+      'dbtype' => 'varchar',
+      'precision' => '50',
+      'phptype' => 'string',
+      'null' => false,
+      'default' => 'image',
+    ),
     'metas' => 
     array (
       'dbtype' => 'text',
@@ -113,6 +122,14 @@ $xpdo_meta_map['ClicheItems']= array (
     array (
       'class' => 'ClicheAlbums',
       'local' => 'album_id',
+      'foreign' => 'id',
+      'cardinality' => 'one',
+      'owner' => 'foreign',
+    ),
+    'CreatedBy' => 
+    array (
+      'class' => 'modUser',
+      'local' => 'createdby',
       'foreign' => 'id',
       'cardinality' => 'one',
       'owner' => 'foreign',
