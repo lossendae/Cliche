@@ -1,0 +1,26 @@
+.cliche {
+    float: left;
+    width: 100%;
+	margin: auto;
+}
+
+.cliche .item 
+{
+    float: left;
+    margin: 10px 10px 0 0 !important;
+    width: auto !important;
+}
+
+.cliche .item  a {
+    border: medium none !important;
+    float: left;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.cliche .item  img {
+    margin: 0 !important;
+	background-color: #FFFFFF;
+    border: 1px solid #E0E0E0;
+    padding: 10px !important;
+}
