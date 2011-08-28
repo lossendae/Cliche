@@ -112,9 +112,6 @@ MODx.AbstractDataView = Ext.extend(MODx.AbstractPanel, {
 		config.items = [{
 			id: this.mainId || 'main-view' + Ext.id()
 			,items: config.view
-			,bodyCssClass:'view-content'
-			,cls:'view-panel'
-			,tbar: config.ui || undefined
 			,bbar: new Ext.PagingToolbar({
 				pageSize: this.limit || 10
 				,store: config.store
@@ -122,6 +119,9 @@ MODx.AbstractDataView = Ext.extend(MODx.AbstractPanel, {
 				,displayMsg: '{0} - {1} of {2}'
 				,emptyMsg: this.emtpyMsg || 'No data to display'         
 			})
+			,bodyCssClass:'view-content'
+			,cls:'view-panel'
+			,tbar: config.ui || undefined
 		}];
     }
 
@@ -212,9 +212,6 @@ MODx.AbstractDataViewWithColumn = Ext.extend(MODx.AbstractDataView, {
 			columnWidth: 1
 			,id: this.mainId || 'view-main' + Ext.id()
 			,items: config.view
-			,bodyCssClass:'view-content'
-			,cls:'view-panel'
-			,tbar: config.ui || undefined
 			,bbar: new Ext.PagingToolbar({
 				pageSize: this.limit || 10
 				,store: config.store
@@ -222,6 +219,9 @@ MODx.AbstractDataViewWithColumn = Ext.extend(MODx.AbstractDataView, {
 				,displayMsg: '{0} - {1} of {2}'
 				,emptyMsg: this.emtpyMsg || 'No data to display'         
 			})
+			,bodyCssClass:'view-content'
+			,cls:'view-panel'
+			,tbar: config.ui || undefined
 		},{
 			width: 250
 			,id: this.colid || 'view-detail' + Ext.id()

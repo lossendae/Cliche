@@ -12,7 +12,7 @@ $dir = dirname(__FILE__).'/';
 
 // Include Ext libs
 include $dir.'ux/Ext.ux.lightbox.js';
-include $dir.'ux/fileuploader.js';
+// include $dir.'ux/fileuploader.js';
 include $dir.'ux/Ext.form.fileuploadfield.js';
 include $dir.'ux/Ext.form.multifileuploadfield.js';
 include $dir.'ux/Ext.ux.xhrupload.js';
