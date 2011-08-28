@@ -1213,14 +1213,14 @@ h2.tools {
   color:#4c5f00;
   float:right;
   font-weight:bold;
-  margin:-10px;
-  padding:10px 35px 10px 15px;
+  margin:0;
+  padding:30px 35px 0 2px;
   text-indent:-999em;
   text-transform:uppercase;
 }
 .upload-success { background-color:#ffffff !important; }
-.upload-success .upload-success-text { display:inline; }
-.upload-success .upload-cancel { display:none; }
+.upload-success .upload-success-text { display:block; }
+.upload-success .upload-spinner, .upload-success .upload-size, .upload-success .upload-cancel, .upload-success .upload-file { display:none; }
 .upload-fail {
   background-color:#ffeff0 !important;
   border-color:#dfb5b7 !important;
@@ -1236,6 +1236,7 @@ h2.tools {
   padding:10px 50px 10px 15px;
   text-transform:uppercase;
 }
+.upload-fail .upload-cancel { display:none; }
 .x-form-file-wrap {
   position:relative;
   padding:1px;
@@ -1257,6 +1258,14 @@ h2.tools {
 .x-form-file-wrap .x-form-file-text {
   color:#777777;
   z-index:3;
+}
+.pw {
+  padding:0;
+  margin:0;
+}
+.pw img {
+  border:1px solid #e0e0e0;
+  display:block;
 }
 .x-panel-tbar-noborder .x-toolbar { border:0 none !important; }
 .x-panel-noborder .x-panel-tbar-noborder .x-toolbar {

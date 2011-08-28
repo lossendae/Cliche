@@ -54,17 +54,20 @@
     color: #4C5F00;
     float: right;
     font-weight: bold;
-    margin: -10px;
-    padding: 10px 35px 10px 15px;
+    margin: 0;
+    padding: 30px 35px 0 2px;
     text-indent: -999em;
     text-transform: uppercase;
 }
 .upload-success {
 	background-color: #fff !important;
 	.upload-success-text{
-		display: inline;	
+		display: block;	
 	}
-	.upload-cancel {
+	.upload-spinner,
+	.upload-size,
+	.upload-cancel,
+	.upload-file {
 		display: none;
 	}
 }
@@ -83,6 +86,10 @@
 		margin: -10px;
 		padding: 10px 50px 10px 15px;
 		text-transform: uppercase;
+	}
+	/* @TODO: To remove later */
+	.upload-cancel {
+		display: none;
 	}
 }
 
@@ -107,5 +114,20 @@
 	.x-form-file-text {
 		color: #777777;
 		z-index: 3;
+	}
+}
+
+.pw { 
+	color: #777777;
+    font-family: tahoma;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 42px;
+    margin: 0;
+    min-height: 42px;
+    padding: 0;
+	img{
+		border: 1px solid #E0E0E0;
+		display: block;
 	}
 }
