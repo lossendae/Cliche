@@ -12,7 +12,7 @@
  *
  *  From Shaun's remarks :
  *
- *  - Moving Gallery from development to live is hard
+ *  - Moving Cliche from development to live is hard
  *  - Managing gallery items isn't always easy (no custom fields on gallery items)
  *  - There's no real easy, intuitive way to create and customize a gallery per resource
  *
@@ -76,12 +76,6 @@ class Cliche {
 			
 			'use_filebased_chunks' => true,			
 			'tpl_suffix' => '.tpl',									
-            
-			/* Uploader properties */
-            'allowedExtensions' => '',
-            'sizeLimit' => 2097152,
-            'replaceOldFile' => false,
-            'requestFileVar' => 'qqfile',
 			
 			//Debug is on for development
 			'debug' => true,
@@ -144,21 +138,6 @@ class Cliche {
 	}
 	
 	/**
-     * Load an helper class to handle file upload via Ajax
-     *
-     * @access public
-     * @return string The JSON response
-     */	
-	public function loadHelper(){
-		if (!$this->modx->loadClass('cliche.helpers.FileUploader',$this->config['model_path'],true,true)) {
-			return 'Could not load helper class FileUploader.';
-		}
-		$uploader = new FileUploader($this);
-		$result = $uploader->handleUpload($this->config['items_path']);
-		return $this->modx->toJSON($result);	
-	}
-	
-	/**
      * Processes the content of a chunk in either of the following ways:
      *
      * Caches the preprocessed chunk content to an array to speed loading
@@ -212,8 +191,25 @@ class Cliche {
 		return $chunk;
 	}
 
-	public function loadProcessor($name){
-		return require_once($this->config['processors_path'].$name.'.php');
+	// public function loadProcessor($name){
+		// return require_once($this->config['processors_path'].$name.'.php');
+	// }
+	
+	/**
+     * Load an helper class to handle file upload via Ajax
+     *
+     * @access public
+     * @return string The JSON response
+     */	
+	public function loadHelper($id){
+		if (!$this->modx->loadClass('cliche.helpers.FileUploader',$this->config['model_path'],true,true)) {
+			$this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] '.$loaded);
+			return 'Could not load helper class FileUploader.';
+		}
+		$uploader = new FileUploader($this, $this->config);
+		$result = $uploader->handleUpload($id);
+		
+		return $result;	
 	}
 	
 	/**
