@@ -15,9 +15,9 @@ MODx.ClicheAlbums = Ext.extend(MODx.AbstractPanel, {
 			xtype: 'my-breadcrumbs'
 			,id: 'cliche-albums-desc'
 			,startingText: { 
-				 text : 'List of all available albums'
+				 text : _('cliche.breadcrumb_album_list_desc')
 				,trail : [{
-					text : 'Album list'
+					text : _('cliche.breadcrumb_root')
 				}]
 			}				
 		},{
@@ -52,6 +52,19 @@ MODx.ClicheAlbums = Ext.extend(MODx.AbstractPanel, {
 				this.getLayout().setActiveItem(i);
 				Ext.getCmp('modx-content').doLayout();
 			}
+			,loadEditWindwow: function(action, btn, data){
+				if(!this.win){
+					this.win = new MODx.ClicheAlbumCreateOrUpdate({
+						modal: true
+						,width: 350
+					});
+				}
+				this.win.show(btn.id);	
+				this.win.reset(action);
+				if(data != undefined){
+					this.win.load(data);
+				}
+			}
 		}]
 	}]
 });
@@ -68,7 +81,7 @@ MODx.ClicheMainPanel = Ext.extend(MODx.MainContainerTabPanel, {
 	,titleClass : 'tools'
 	,cid: 'my-main-tabs'
 	,components: [{
-		title: 'Your Albums'
+		title: _('cliche.main_tab')
 		,xtype: 'cliche-albums'
 	}]
 });

@@ -4,7 +4,7 @@
  * The window container for Cliche TV thumbnail manager
  */
 MODx.ClicheAlbumCreateOrUpdate = Ext.extend(MODx.AbstractWindow , {
-	title: 'Create a new Album'
+	title: _('cliche.create_album_title')
 	,components: [{
 		xtype: 'modx-abstract-formpanel'
 		,id: 'cliche-form-cu-album'
@@ -39,7 +39,8 @@ MODx.ClicheAlbumCreateOrUpdate = Ext.extend(MODx.AbstractWindow , {
 	
 	,buildUI: function(config){
 		config.buttons = [config.cancelBtn,{
-			text: 'Save'
+			text: _('cliche.save_album_btn')
+			,id: 'create-album'
 			,handler: this.save
 			,scope: this
 		}];
@@ -50,7 +51,7 @@ MODx.ClicheAlbumCreateOrUpdate = Ext.extend(MODx.AbstractWindow , {
 			waitMsg: 'Saving, please Wait...'
 			,url     : MODx.ClicheConnectorUrl
 			,params : {
-				action: 'album/create'
+				action: 'album/'+ this.saveAction
 				,ctx: 'mgr'
 			}
 			,success: function( form, action ) {				
@@ -58,7 +59,13 @@ MODx.ClicheAlbumCreateOrUpdate = Ext.extend(MODx.AbstractWindow , {
 				data = response.object
 				msg = response.message
 				if(response.success){
-					Ext.getCmp('cliche-albums-list').activate();					
+					console.log(this.saveAction)
+					if(this.saveAction == 'create'){
+						Ext.getCmp('cliche-albums-list').activate();
+					} else {
+						rec.data = data;
+						Ext.getCmp('cliche-album-view').activate(rec);
+					}										
 				}				
 				this.hide();
 			}
@@ -72,17 +79,23 @@ MODx.ClicheAlbumCreateOrUpdate = Ext.extend(MODx.AbstractWindow , {
 					if (errors.hasOwnProperty(key)) {
 						fld = errors[key];
 						f = form.findField(fld.name);
-						// console.log(fld.name);
-						// console.log(f);
 						if(f){
 							f.markInvalid(fld.msg)
 						}
 					}
 				}
-				// console.log(msg);
 			}
 			,scope: this
 		});
 	}
+	
+	,reset: function(action){
+		Ext.getCmp('cliche-form-cu-album').getForm().reset();
+		this.saveAction = action;
+	}
+	
+	,load: function(data){
+		Ext.getCmp('cliche-form-cu-album').getForm().setValues(data);
+	}
 });
-Ext.reg("cliche-window- create-update", MODx.ClicheAlbumCreateOrUpdate);
+Ext.reg("cliche-window-create-update", MODx.ClicheAlbumCreateOrUpdate);

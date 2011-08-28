@@ -6,9 +6,12 @@ MODx.ClicheAlbumsList = Ext.extend(MODx.AbstractDataView, {
 	fields: ['id','name','description','createdon','createdby','protected','cover_id','image','thumbnail','total']
 	,ident: 'albumident'
 	,viewId : 'album-list-items'
+	,limit: 20
 	,baseParams: { 
 		action: 'album/getList'
 		,ctx: 'mgr'
+		,limit: 20
+		,start: 0
 	}
 	,loadingText: _('cliche.loading')
 	,emptyText: _('cliche.album-list.empty_msg')
@@ -47,82 +50,76 @@ MODx.ClicheAlbumsList = Ext.extend(MODx.AbstractDataView, {
 			,iconCls:'icon-add'
 			,handler: this.onCreate
 			,scope: this
-		}, '->' 
-		, 'View albums : ' 
-		,{
-			xtype: 'combo'		
-			,store: new Ext.data.ArrayStore({
-				fields: ['d', 'v']
-				,data : [[1, 'Public']
-					,[2, 'Private']
-					,[3, 'Thumbnails']
-					,[4, 'Attached to a resource']
-				]
-			})
-			,displayField:'v'
-			,valueField:'d'
-			,typeAhead: true
-			,mode: 'local'
-			,forceSelection: true
-			,triggerAction: 'all'
-			,selectOnFocus:true
-			,autoSelect:true
-			,listWidth: 'auto'
-			,width: 125
-			,grow: true
-			,listeners:{
-				select: function(combo, record, index){
-					listWidth = combo.innerList.dom.offsetWidth;
-					combo.setWidth( listWidth + 32 );
-				}
-				,beforerender: function(combo){
-					combo.setValue(combo.store.getAt(0).data.d); // Ligne finale
-				}
-				,scope: this
-			}
-		}
-		, '	','Sort by : ' 
-		,{
-			xtype: 'combo'		
-			,store: new Ext.data.ArrayStore({
-				fields: ['d', 'v']
-				,data : [[1, 'Creation date']
-					,[2, 'Album title']
-					,[3, 'Total pictures']
-				]
-			})
-			,displayField:'v'
-			,valueField:'d'
-			,typeAhead: true
-			,mode: 'local'
-			,forceSelection: true
-			,triggerAction: 'all'
-			,selectOnFocus:true
-			,autoSelect:true
-			,listWidth: 'auto'
-			,width: 125
-			,grow: true
-			,listeners:{
-				select: function(combo, record, index){
-					listWidth = combo.innerList.dom.offsetWidth;
-					combo.setWidth( listWidth + 32 );
-				}
-				,beforerender: function(combo){
-					combo.setValue(combo.store.getAt(0).data.d); // Ligne finale
-				}
-				,scope: this
-			}
+		// }, '->' 
+		// , 'View albums : ' 
+		// ,{
+			// xtype: 'combo'		
+			// ,store: new Ext.data.ArrayStore({
+				// fields: ['d', 'v']
+				// ,data : [[1, 'Public']
+					// ,[2, 'Private']
+					// ,[3, 'Thumbnails']
+					// ,[4, 'Attached to a resource']
+				// ]
+			// })
+			// ,displayField:'v'
+			// ,valueField:'d'
+			// ,typeAhead: true
+			// ,mode: 'local'
+			// ,forceSelection: true
+			// ,triggerAction: 'all'
+			// ,selectOnFocus:true
+			// ,autoSelect:true
+			// ,listWidth: 'auto'
+			// ,width: 125
+			// ,grow: true
+			// ,listeners:{
+				// select: function(combo, record, index){
+					// listWidth = combo.innerList.dom.offsetWidth;
+					// combo.setWidth( listWidth + 32 );
+				// }
+				// ,beforerender: function(combo){
+					// combo.setValue(combo.store.getAt(0).data.d); // Ligne finale
+				// }
+				// ,scope: this
+			// }
+		// }
+		// , '	','Sort by : ' 
+		// ,{
+			// xtype: 'combo'		
+			// ,store: new Ext.data.ArrayStore({
+				// fields: ['d', 'v']
+				// ,data : [[1, 'Creation date']
+					// ,[2, 'Album title']
+					// ,[3, 'Total pictures']
+				// ]
+			// })
+			// ,displayField:'v'
+			// ,valueField:'d'
+			// ,typeAhead: true
+			// ,mode: 'local'
+			// ,forceSelection: true
+			// ,triggerAction: 'all'
+			// ,selectOnFocus:true
+			// ,autoSelect:true
+			// ,listWidth: 'auto'
+			// ,width: 125
+			// ,grow: true
+			// ,listeners:{
+				// select: function(combo, record, index){
+					// listWidth = combo.innerList.dom.offsetWidth;
+					// combo.setWidth( listWidth + 32 );
+				// }
+				// ,beforerender: function(combo){
+					// combo.setValue(combo.store.getAt(0).data.d); // Ligne finale
+				// }
+				// ,scope: this
+			// }
 		}]
 	}
 	
 	,onCreate: function(btn, e){
-		if(!this.win){
-			this.win = new MODx.ClicheAlbumCreateOrUpdate({
-				modal: true
-				,width: 350
-			});
-		}
-		this.win.show(btn.id);		
+		Ext.getCmp('cliche-albums-mgr-container').loadEditWindwow('create', btn);
 	}
 	
 	,onSelect: function(){

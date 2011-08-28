@@ -8,13 +8,16 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 	,ident: 'albumviewident'
 	,viewId: 'view-mainpanel'
 	,colid: 'view-detailpanel'
+	,limit: 20
 	,baseParams: { 
 		action: 'image/getList'
 		,ctx: 'mgr'
+		,limit: 20
+		,start: 0
 	}
-	,detailsStartingText : _('cliche.view.empty_col_msg')
+	,detailsStartingText : _('cliche.items_empty_msg')
 	,loadingText: _('loading')
-	,emptyText: _('cliche.album-view.empty_msg')
+	,emptyText: _('cliche.items_empty_msg')
 	,mainTpl :	[
 		'<tpl for=".">'
 			,'<div class="thumb-wrapper" id="modx-album-view-thumb-{id}">'
@@ -34,18 +37,18 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 							,'<span class="no-preview">'+_('cliche.no_preview')+'</span>'
 					,'</tpl>'
 					,'<tpl if="cover_id != 0">'
-						,'<a href="{image}" title="Album {name} preview" alt="Album {name} preview" class="lightbox" />'
+						,'<a href="{image}" title="Album {name} preview" alt="'+_('cliche.album_cover_alt_msg')+'" class="lightbox" />'
 							,'<img src="{thumbnail}" alt="{name}" />'
 						,'<a/>'
 					,'</tpl>'
 					,'<h5>{name}</h5>'
 				,'</div>'
 				,'<div class="description">'				
-					,'<h4>'+_('cliche.desc')+'</h4>'
+					,'<h4>'+_('cliche.desc_title')+'</h4>'
 					,'{description:defaultValue("'+_('cliche.no_desc')+'")}'
 				,'</div>'				
 				,'<div class="infos">'
-					,'<h4>Informations</h4>'
+					,'<h4>'+_('cliche.informations_title')+'</h4>'
 					,'<ul>'
 						,'<li>'	
 							,'<span class="infoname">'+_('cliche.created_by')+':</span>'	
@@ -56,7 +59,7 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 							,'<span class="infovalue">{createdon}</span>'	
 						,'</li>'	
 						,'<li>'	
-							,'<span class="infoname">'+_('cliche.total_pics')+':</span>'	
+							,'<span class="infoname">'+_('cliche.view_total_pics')+':</span>'	
 							,'<span class="infovalue">{total}</span>'	
 						,'</li>'		
 					,'</ul>'					
@@ -67,13 +70,19 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 	
 	,buildUI: function(config){		
 		config.ui = [{
-			text: 'Add Photos'
+			text: _('cliche.add_images')
 			,id:'add-pictures'
 			,iconCls:'icon-add'
 			,handler: this.onaddPhoto
 			,scope: this
 		},{
-			text: 'Delete Album'
+			text: _('cliche.update_album')
+			,id:'update-album'
+			,iconCls:'icon-add'
+			,handler: this.onUpdateAlbum
+			,scope: this
+		},{
+			text: _('cliche.delete_album')
 			,id:'delete-album'
 			,iconCls:'icon-delete'
 			,handler: this.onDeleteAlbum
@@ -86,10 +95,14 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 		Ext.getCmp('cliche-panel-uploader').activate(this.album);
 	}
 	
+	,onUpdateAlbum: function(btn, e){
+		Ext.getCmp('cliche-albums-mgr-container').loadEditWindwow('update', btn, this.album);
+	}
+	
 	,onDeleteAlbum: function(btn, e){
 		MODx.msg.confirm({
 			title: 'Remove album'
-			,text: 'All the picture in this album are going to be erased as well. This is irreversible!'
+			,text: _('cliche.delete_album_msg')
 			,cls: 'custom-window'
 			,url: this.url			   
 			,params: {
@@ -136,16 +149,29 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 	,activate: function(rec){
 		if(rec != undefined){
 			Ext.getCmp(this.viewId).store.setBaseParam('album', rec.id);
-			this.album = rec.data;
+			this.updateAlbumData(rec);
 		} 
 		this.run();
+		
+		/* Set panel as active */
 		Ext.getCmp('cliche-albums-mgr-container').setActiveItem(1);			
 		
+		/* update album informations */
 		Ext.getCmp(this.colid).updateDetail(this.album);
+		
+		/* update breadcrumbs */
+		this.updateBreadcrumbs(_('cliche.breadcrumbs_album_msg') + this.album.name);
+	}
+		
+	,updateAlbumData: function(rec){
+		this.album = rec.data;
+	}
+	
+	,updateBreadcrumbs: function(msg){
 		Ext.getCmp('cliche-albums-desc').updateDetail({
-			text: 'List of all items contained in the album '+ this.album.name
+			text: msg
 			,trail: [{
-				text : 'Album list'
+				text : _('cliche.breadcrumb_root')
 				,cmp: 'cliche-albums-list'
 				,isLink: true				
 				,className: 'last'
@@ -158,7 +184,9 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 	}
 	
 	,onSelect: function(rec){
-		rec.data.album = this.album.name;
+		rec.data.album_name = this.album.name;
+		rec.data.album_id = this.album.id;
+		rec.data.album_cover_id = this.album.cover_id;
 		Ext.getCmp('cliche-picture-view').activate(rec);
 	}
 });
