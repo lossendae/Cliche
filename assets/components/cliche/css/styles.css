@@ -1260,8 +1260,14 @@ h2.tools {
   z-index:3;
 }
 .pw {
-  padding:0;
+  color:#777777;
+  font-family:tahoma;
+  font-size:18px;
+  font-weight:bold;
+  line-height:42px;
   margin:0;
+  min-height:42px;
+  padding:0;
 }
 .pw img {
   border:1px solid #e0e0e0;
