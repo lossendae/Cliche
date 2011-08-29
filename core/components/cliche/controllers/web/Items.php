@@ -52,11 +52,12 @@ class ItemsController extends ClicheController {
 			'loadCSS' => true,
             'css' => 'default',
             'config' => null,
+            'browse' => false,
         ));
     }
 	
 	/**
-     * Process and load The album list
+     * Process and load an album sets of items
      * @return string
      */
     public function process() {			
@@ -65,32 +66,21 @@ class ItemsController extends ClicheController {
 		$output = $this->getItems();	
 		return $output;
 	}
-	
 		
-	private function loadCSS() {
-		if($this->getProperty('loadCSS'))
-			$this->modx->regClientCSS($this->config['chunks_url'] . $this->getProperty('css') .'.css');
-	}	
-	
-	private function loadConfig() {
-		$config = $this->getProperty('config', null);
-		$modx =& $this->modx;
-		if(!empty($config)){
-			$f = $this->config['chunks_path'] . $this->getProperty('config') .'.php';
-			if(file_exists($f))
-				require_once $f;
-		}			
-	}
-	
 	/**
-     * Process and load The album list
+     * Get the requested items list
      * @return string
      */
 	private function getItems(){
-		$request = $this->modx->request->getParameters();
-		$id = $this->modx->getOption($this->getProperty('idParam'), $request, $this->getProperty('id', null));
+		if(!$this->getProperty('browse')){
+			$id = $this->getProperty('id');
+		} else {
+			$request = $this->modx->request->getParameters();
+			$id = $this->modx->getOption($this->getProperty('idParam'), $request, $this->getProperty('id', $this->getProperties(), null));
+		}
+		
 		if(empty($id)){
-			return $id;
+			return 'Album not specified';
 		}	
 		
 		$list = '';
@@ -101,9 +91,10 @@ class ItemsController extends ClicheController {
 		$c->where(array(
 			'album_id' => $id,
 		));				
-		// $c->sortBy($sort,$dir);
-		// $c->limit($limit,$start);
 		$rows = $this->modx->getCollectionGraph('ClicheItems', '{ "Album":{} }',$c);
+		
+		if(!$rows) return $this->modx->lexicon('cliche.album_not_found');
+		
 		foreach($rows as $row){
 			$data = $row->toArray();
 			$list .= $this->getItem($data, $row);
@@ -120,7 +111,7 @@ class ItemsController extends ClicheController {
 	}
 	
 	/**
-     * Process and load The album cover
+     * Create the item placholders
      * @return string
      */
 	private function getItem($phs, $obj){		

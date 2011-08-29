@@ -51,6 +51,7 @@ class AlbumsController extends ClicheController {
 			
             'loadCSS' => true,
             'css' => 'default',
+			'config' => null,
         ));
     }
 	
@@ -58,18 +59,11 @@ class AlbumsController extends ClicheController {
      * Process and load The album list
      * @return string
      */
-    public function process() {	
-		// return $this->config['chunks_path'] . $this->getProperty('albumsWrapperTpl') . $this->config['tpl_suffix'];
-		// return '<pre>'. print_r($this->getProperties(), true) .'</pre>';
-		
+    public function process() {			
 		$this->loadCSS();
+		$this->loadConfig();
 		$output = $this->getSets();		
 		return $output;
-	}
-	
-	private function loadCSS() {
-		if($this->getProperty('loadCSS'))
-			$this->modx->regClientCSS($this->config['chunks_url'] . $this->getProperty('css') .'.css');
 	}
 	
 	/**
@@ -81,6 +75,9 @@ class AlbumsController extends ClicheController {
 		$columns = $this->getProperty('columns');
 		$columnCount = 0;
 		$rows = $this->modx->getCollectionGraph('ClicheAlbums', '{ "Cover":{} }');
+		
+		if(!$rows) return $this->modx->lexicon('cliche.no_albums');
+		
 		foreach($rows as $row){
 			$data = $row->toArray();
 			$list .= $this->getItem($data, $row);

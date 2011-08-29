@@ -44,36 +44,41 @@ class ItemController extends ClicheController {
 			
 			'loadCSS' => true,
             'css' => 'default',
+			'config' => null,
+			'browse' => false,
         ));
     }
 	
 	/**
-     * Process and load The album list
+     * Process and load an album item
      * @return string
      */
     public function process() {	
 		$this->loadCSS();
+		$this->loadConfig();
 		$output = $this->getItem();		
 		return $output;
 	}
-	
-	private function loadCSS() {
-		if($this->getProperty('loadCSS'))
-			$this->modx->regClientCSS($this->config['chunks_url'] . $this->getProperty('css') .'.css');
-	}
-	
+		
 	/**
-     * Process and load The album list
+     * Get the requested item
      * @return string
      */
-	private function getItem(){		
-		$request = $this->modx->request->getParameters();
-		$id = $this->modx->getOption($this->getProperty('idParam'), $request, $this->getProperty('id', null));
+	private function getItem(){			
+		if(!$this->getProperty('browse')){
+			$id = $this->getProperty('id');
+		} else {
+			$request = $this->modx->request->getParameters();
+			$id = $this->modx->getOption($this->getProperty('idParam'), $request, $this->getProperty('id', $this->getProperties(), null));
+		}
 		if(empty($id)){
 			return 'No item specified';
 		}	
 		
 		$item = $this->modx->getObject('ClicheItems', $id);	
+		
+		if(!$item) return $this->modx->lexicon('cliche.item_not_found');
+		
 		$phs = $item->toArray(); 
 		$phs['width'] = $this->getProperty('thumbWidth');
 		$phs['height'] = $this->getProperty('thumbHeight');

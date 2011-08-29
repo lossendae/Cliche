@@ -1,5 +1,5 @@
 Changelog for Cliche.
 
-Cliche 0.1
+Cliche 0.1b
 ====================================
 - Initial release

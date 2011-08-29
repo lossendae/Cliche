@@ -5,8 +5,6 @@
  * @package cliche
  * @subpackage controllers
  */
- 
-/* Less file for development */
 $modx->regClientCSS($cliche->config['css_url'] .'styles.css');
 
 /* Properties */

@@ -3,9 +3,9 @@ $name = $scriptProperties['name'];
 $description = $scriptProperties['description'];
 
 /* @TODO - remove that */
-$manager = $modx->getManager();
-$manager->createObjectContainer('ClicheItems');
-$manager->createObjectContainer('ClicheAlbums');
+// $manager = $modx->getManager();
+// $manager->createObjectContainer('ClicheItems');
+// $manager->createObjectContainer('ClicheAlbums');
 
 /* Is this name already taken ? */
 $alreadyExist = $modx->getObject('ClicheAlbums',array(

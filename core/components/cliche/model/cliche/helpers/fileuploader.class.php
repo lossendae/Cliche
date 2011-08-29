@@ -420,14 +420,12 @@ class FileUploader extends Import {
      */
     public function unpack($target) {
         if (!$this->modx->loadClass('compression.xPDOZip',$this->modx->getOption('core_path').'xpdo/',true,true)) {
-			/* @TODO */
-            return $this->modx->lexicon('cliche.xpdozip_err_nf');
+            return $this->modx->lexicon('cliche.xpdozip_not_found');
         }
         /* unpack zip file */
         $archive = new xPDOZip($this->modx, $this->target . $this->file->getName());
         if (!$archive) {
-			/* @TODO */
-            return $this->modx->lexicon('cliche.zip_err_unpack');
+            return $this->modx->lexicon('cliche.zip_error_unpack');
         }
         $archive->unpack($target);
         $archive->close();

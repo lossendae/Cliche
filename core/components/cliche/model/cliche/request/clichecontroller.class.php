@@ -31,6 +31,21 @@ abstract class ClicheController {
 		$this->_setChunksPath();		
         return $this->process();
     }
+	
+	protected function loadConfig() {
+		$config = $this->getProperty('config', null);
+		$modx =& $this->modx;
+		if(!empty($config)){
+			$f = $this->config['chunks_path'] . $this->getProperty('config') .'.php';
+			if(file_exists($f))
+				require_once $f;
+		}			
+	}
+	
+	protected function loadCSS() {
+		if($this->getProperty('loadCSS'))
+			$this->modx->regClientCSS($this->config['chunks_url'] . $this->getProperty('css') .'.css');
+	}	
 
     abstract public function initialize();
     abstract public function process();
@@ -112,7 +127,6 @@ abstract class ClicheController {
         return $this->placeholders;
     }
 
-
     /**
      * @param string $processor
      * @param array $scriptProperties
@@ -156,10 +170,60 @@ abstract class ClicheController {
 		
 		$this->config = array_merge($this->config, $config);	
 		$this->cliche->config = $this->config;	
-	}
+	}	
 	
-	public function getChunk($name, $properties = array()){
-		return $this->cliche->getChunk($name, $properties);
+	/**
+     * Processes the content of a chunk in either of the following ways:
+     *
+     * Caches the preprocessed chunk content to an array to speed loading
+     * times, especially when looping through collections.
+     *
+     * @access public
+     * @param string $name The name of the chunk to process
+     * @param array $properties (optional) An array of properties
+     * @return string The processed content string
+     */
+    public function getChunk($name, $properties = array()) {
+		$chunk = null;
+        /* first check internal cache */
+        if (!isset($this->chunks[$name])) {
+			if (!$this->config['use_filebased_chunks']) {
+				$objectName = $this->config['chunks_prefix'] . ucfirst($name) . 'Tpl';
+                $chunk = $this->modx->getObject('modChunk',array('name' => $objectName));
+            }
+			if (empty($chunk)) {	
+				$chunk = $this->_getTplChunk($name);
+				if(!is_object($chunk)) return $chunk;
+			}				
+			$this->chunks[$name] = $chunk->getContent();
+        } else { /* load chunk from cache */
+            $o = $this->chunks[$name];
+            $chunk = $this->modx->newObject('modChunk');
+            $chunk->setContent($o);
+        }
+        $chunk->setCacheable(false);
+        return $chunk->process($properties);
+    }
+	
+	/**
+     * Returns a modChunk object from a template file.
+     *
+     * @access private
+     * @param string $name The name of the Chunk. Will parse to name.chunk.tpl
+     * @return modChunk/string Returns the modChunk object if found, otherwise an error message with the chunk name
+     */
+	private function _getTplChunk($name){
+		$f = $this->config['chunks_path'] . strtolower($name) . $this->config['tpl_suffix'];
+		if (file_exists($f)) {
+			$o = file_get_contents($f);
+			$chunk = $this->modx->newObject('modChunk');
+			$chunk->set('name', $name);
+			$chunk->setContent($o);
+		} else {
+			$this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Chunk : "'.$f.'" not found');
+			return 'Chunk "<strong>'.$f.'</strong>" not found';
+		}
+		return $chunk;
 	}
 	
 	public function regClientStartupScript($script){
