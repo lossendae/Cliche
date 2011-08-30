@@ -795,8 +795,6 @@ h2.tools {
   background-image:none;
   padding-right:1px;
 }
-.edit16-white { background:url("../images/edit16-white.png") no-repeat scroll 0 3px transparent !important; }
-.eye16 { background:url("../images/view-off.png") no-repeat scroll 0 3px transparent !important; }
 .green_btn {
   background:#b5cf74;
   background:-moz-linear-gradient(center top,#d3e3ad 0%,#b5cf74 100%) repeat scroll 0 0 transparent;
@@ -817,6 +815,10 @@ h2.tools {
 .x-btn-text-icon .x-btn-icon-small-left .x-btn-text { padding-left:22px; }
 .icon-add { background:url("../images/add.png") no-repeat scroll 0 3px transparent !important; }
 .icon-delete { background:url("../images/delete.png") no-repeat scroll 0 3px transparent !important; }
+.edit16-white { background:url("../images/edit16-white.png") no-repeat scroll 0 3px transparent !important; }
+.eye16 { background:url("../images/view-off.png") no-repeat scroll 0 3px transparent !important; }
+.icon-browse { background:url("../images/browse16.png") no-repeat scroll 0 3px transparent !important; }
+.icon-upload { background:url("../images/up16.png") no-repeat scroll 0 3px transparent !important; }
 .customsearchfield.desc {
   color:#575757;
   font-weight:bold;
@@ -1178,9 +1180,27 @@ h2.tools {
   line-height:15px;
   list-style:none outside none;
   margin:2px 0 0;
-  padding:10px;
+  position:relative;
 }
 .upload-list li:last-child { margin-bottom:15px; }
+.upload-list li .inner-content { padding:10px; }
+.upload-list li .upload-content {
+  overflow:hidden;
+  position:relative;
+  z-index:12;
+}
+.upload-list li .upload-progress {
+  padding:10px 0;
+  position:absolute;
+  top:0;
+  width:0;
+  z-index:2;
+}
+.upload-list li.active { border:1px solid #a1af2b; }
+.upload-list li.active .upload-progress {
+  background-color:#eaefc2;
+  border-right:2px solid #a1af2b;
+}
 .upload-file, .upload-spinner, .upload-size, .upload-cancel, .upload-failed-text, .upload-success-text { margin-right:7px; }
 .upload-file {
   color:#4d535f;
@@ -1272,6 +1292,11 @@ h2.tools {
 .pw img {
   border:1px solid #e0e0e0;
   display:block;
+}
+.upload-ready-msg {
+  color:gray;
+  font:11px tahoma, arial, helvetica, sans-serif;
+  text-align:center;
 }
 .x-panel-tbar-noborder .x-toolbar { border:0 none !important; }
 .x-panel-noborder .x-panel-tbar-noborder .x-toolbar {
