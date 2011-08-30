@@ -19,7 +19,7 @@ $_lang['cliche.zip_error_unpack'] = 'Error while unpacking';
 $_lang['cliche.xpdozip_not_found'] = 'xPDOZip could not be loaded';
 
 /* Processors error messages - to move into mgr lexicon */
-$_lang['cliche.error_album_not_created'] = 'Album could not be not created';
+$_lang['cliche.error_album_not_created'] = 'Album could not be created';
 $_lang['cliche.error_album_create_name_already_taken'] = 'The album name already exists. Choose another name';
 $_lang['cliche.error_album_delete_cancelled'] = 'Error - The album could not be removed. Operation aborted, please contact the webmaster';
 $_lang['cliche.error_album_delete_no_id'] = 'Error - The album id was either false or not supplied';
