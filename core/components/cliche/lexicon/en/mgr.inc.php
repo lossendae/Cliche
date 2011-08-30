@@ -6,11 +6,6 @@
  * @subpackage lexicon
  */
  
-/* TOP MENU */
-
-$_lang['cliche'] = 'Cliche';
-$_lang['cliche.menu_desc'] = 'A dynamic Image Gallery for MODx Revolution.';
-
 /* CARD - ALBUMS LIST */
 
 //buttons
@@ -22,8 +17,11 @@ $_lang['cliche.album_desc_label'] = 'Quick description';
 $_lang['cliche.create_album_title'] = 'Your album';
 $_lang['cliche.save_album_btn'] = 'Save';
 
+//Error messages from the backend
+
+
 //view
-$_lang['cliche.album-list.empty_msg'] = '<h4>There are no albums created yet</h4><p>Create your first album by clicking the button below</p>';
+$_lang['cliche.album-list.empty_msg'] = '<h4>There are no albums created yet</h4><p>Create your first album using the button above, then click the newly created item to view its content.<br/>Use the breadcrumbs to navigate back and forth in the albums (The current green element is not clickable)</p>';
 $_lang['cliche.list.empty_col_msg'] = '<div class="empty-msg">Select an album from the main column to view its description</div>';
 $_lang['cliche.main_total_pics'] = '{total} Pictures';
 
@@ -73,6 +71,9 @@ $_lang['cliche.start_upload'] = 'Start Upload';
 
 //msg
 $_lang['cliche.breadcrumbs_upload_pictures_msg'] = 'Upload pictures'; 
+$_lang['cliche.upload_in_progress'] = 'Upload in progress...'; 
+$_lang['cliche.upload_items_for'] = 'Upload Items for the album '; 
+$_lang['cliche.upload_successful'] = 'Files uploaded successfully'; 
 
 //NOT USED YET
 $_lang['cliche.global_progressbar_loading_item'] = 'Loading item'; 
