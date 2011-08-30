@@ -5,7 +5,7 @@
  * @package cliche
  * @subpackage lexicon
  */
- 
+
 /* CARD - ALBUMS LIST */
 
 //buttons
@@ -59,10 +59,10 @@ $_lang['cliche.breadcrumbs_item_msg'] = 'Viewing picture : ';
 /* CARD - UPLOAD ITEMS */
 
 //view
-$_lang['cliche.upload_desc'] = '<h4>Select files from your computer</h4><p>You can select several files at a time by holding the shift key.</p>';
+$_lang['cliche.upload_desc'] = '<h4>Select files from your computer</h4><p>You can select several files at a time by holding the shift key.<br />Zip files are supported.</p>';
 $_lang['cliche.upload_ready_msg'] = 'Files ready to be uploaded :';
 $_lang['cliche.upload_cancel_msg'] = 'Cancel';
-$_lang['cliche.upload_success_msg'] = 'Image uploaded sucessfully'; 
+$_lang['cliche.upload_success_msg'] = 'Image uploaded sucessfully';
 $_lang['cliche.upload_fail_msg'] = 'The image could not be saved';
 
 //buttons
@@ -70,14 +70,14 @@ $_lang['cliche.browse'] = 'Browse...';
 $_lang['cliche.start_upload'] = 'Start Upload';
 
 //msg
-$_lang['cliche.breadcrumbs_upload_pictures_msg'] = 'Upload pictures'; 
-$_lang['cliche.upload_in_progress'] = 'Upload in progress...'; 
-$_lang['cliche.upload_items_for'] = 'Upload Items for the album '; 
-$_lang['cliche.upload_successful'] = 'Files uploaded successfully'; 
+$_lang['cliche.breadcrumbs_upload_pictures_msg'] = 'Upload pictures';
+$_lang['cliche.upload_in_progress'] = 'Upload in progress...';
+$_lang['cliche.upload_items_for'] = 'Upload Items for the album ';
+$_lang['cliche.upload_successful'] = 'Files uploaded successfully';
 
 //NOT USED YET
-$_lang['cliche.global_progressbar_loading_item'] = 'Loading item'; 
-$_lang['cliche.item_progressbar'] = '% completed...'; 
+$_lang['cliche.global_progressbar_loading_item'] = 'Loading item';
+$_lang['cliche.item_progressbar'] = '% completed...';
 
 
 /* MGR - COMMONS */
