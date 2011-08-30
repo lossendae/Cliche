@@ -76,9 +76,10 @@ Ext.ux.form.MultiFileUploadField = Ext.extend(Ext.form.TextField,  {
         var btnCfg = Ext.applyIf(this.buttonCfg || {}, {
             text: this.buttonText
         });
+		this.buttonID = 'upload-btn-' + this.getFileInputId();
         this.button = new Ext.Button(Ext.apply(btnCfg, {
             renderTo: this.wrap,
-			id: 'upload-btn',
+			id: this.buttonID,
             cls: 'x-form-file-btn' + (btnCfg.iconCls ? ' x-btn-icon' : '')
         }));			
 
@@ -98,8 +99,8 @@ Ext.ux.form.MultiFileUploadField = Ext.extend(Ext.form.TextField,  {
 			type: 'file',
 			size: 1
 		};	
-		if(typeof(Ext.getCmp('upload-btn')) === "object"){
-			this.fileInput = this.wrap.createChild(params, 'upload-btn');
+		if(typeof(Ext.getCmp(this.buttonID)) === "object"){
+			this.fileInput = this.wrap.createChild(params, this.buttonID);
 		} else {
 			this.fileInput = this.wrap.createChild(params);
 		}	
