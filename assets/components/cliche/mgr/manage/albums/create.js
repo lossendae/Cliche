@@ -59,7 +59,6 @@ MODx.ClicheAlbumCreateOrUpdate = Ext.extend(MODx.AbstractWindow , {
 				data = response.object
 				msg = response.message
 				if(response.success){
-					console.log(this.saveAction)
 					if(this.saveAction == 'create'){
 						Ext.getCmp('cliche-albums-list').activate();
 					} else {

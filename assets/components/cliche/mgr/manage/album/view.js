@@ -161,6 +161,9 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 		
 		/* update breadcrumbs */
 		this.updateBreadcrumbs(_('cliche.breadcrumbs_album_msg') + this.album.name);
+		setTimeout(function(){ 
+			Ext.getCmp('modx-content').doLayout();
+		}, 500); 
 	}
 		
 	,updateAlbumData: function(rec){

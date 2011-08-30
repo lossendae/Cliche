@@ -12,16 +12,20 @@ MODx.FileUploadList = Ext.extend(Ext.Panel, {
 	,startingText: _('cliche.upload_desc')
 	,startingMarkup: ['<div class="empty-msg">{text}</div>']
 	,tpl: [
-		'<p>'+_('cliche.upload_ready_msg')+'</p>'
+		'<p class="upload-ready-msg">'+_('cliche.upload_ready_msg')+'</p>'
 		,'<ul class="upload-list">'
 			,'<tpl for="list">'
 				,'<li id="item-{idx}">'	
-					,'<span class="upload-file">{name}</span>'	
-					,'<span class="upload-spinner hidden"></span>'	
-					,'<span class="upload-size">{size}</span>'	
-					,'<a class="upload-cancel" href="#">'+_('cliche.upload_cancel_msg')+'</a>'	
-					,'<span class="upload-failed-text">'+_('cliche.upload_fail_msg')+'</span>'
-					,'<span class="upload-success-text">'+_('cliche.upload_success_msg')+'</span>'
+					,'<div class="inner-content upload-content">'	
+						,'<span class="upload-file">{name}</span>'	
+						,'<span class="upload-spinner hidden"></span>'	
+						,'<span class="upload-size">{size}</span>'	
+						/* @TODO Not active yet */
+						// ,'<a class="upload-cancel" href="#">'+_('cliche.upload_cancel_msg')+'</a>'	
+						,'<span class="upload-failed-text">'+_('cliche.upload_fail_msg')+'</span>'
+						,'<span class="upload-success-text">'+_('cliche.upload_success_msg')+'</span>'
+					,'</div>'	
+					,'<div class="inner-content upload-progress">&nbsp;</div>'		
 				,'</li>'
 			,'</tpl>'
 		,'</ul>'
@@ -102,6 +106,7 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 	,border: false
 	
 	//Init some required parameters
+	,containerWidth: null
 	,album: null
 	,handler: null
 	,uploadbtn: null
@@ -134,7 +139,7 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 			,id:'uploadformfield'
 			,buttonText: _('cliche.browse')
 			,buttonCfg:{
-				iconCls: 'browse16'
+				iconCls: 'icon-browse'
 			}
 			,buttonOnly: true
 			,allowMultiple: true
@@ -153,7 +158,7 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 			,id:'uploadfield'
 			,buttonText: _('cliche.browse')
 			,buttonCfg:{
-				iconCls: 'browse16'
+				iconCls: 'icon-browse'
 			}
 			,buttonOnly: true
 			,allowMultiple: true
@@ -170,7 +175,7 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 			xtype: 'button'
 			,text: _('cliche.start_upload')
 			,id: 'start-upload-btn'
-			,iconCls: 'up16'
+			,iconCls: 'icon-upload'
 			,disabled: true
 			,handler: this.onStartUpload
 			,scope: this
@@ -263,18 +268,22 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 		currElSize = Ext.getCmp('fileupload-list').getHeight();
 		//Add the content
 		Ext.getCmp('fileupload-list').updateList(data);
-		//And update the window size
-		// newElSize = Ext.getCmp('fileupload-list').getHeight();
-		// winSize = Ext.getCmp('win-uploader').getHeight();
-		// Ext.getCmp('win-uploader').setHeight((winSize - currElSize) + newElSize);
 	}
 	
 	/**
 	 * This method and the following should be in a single methiod.
 	 */
-	,onStartUpload: function(btn, e){		
-		Ext.select('.upload-list li#item-'+this.current).addClass('active');
+	,onStartUpload: function(btn, e){	
+		//Prevent user to use breadcrumbs while uploading
+		this.deactivateBreadcrumbs();
+		//Set active item
+		current = Ext.select('.upload-list li#item-'+this.current);
+		current.addClass('active');
+		//Set container width for progress bar
+		this.containerWidth = current.elements[0].offsetWidth - 4;	
+		Ext.select('.upload-list li#item-'+this.current+' .upload-progress').setWidth(0);
 		this.queue = Ext.select('.upload-list li').elements.length - 1;
+		//Pass file to upload handler
 		files = this.getFiles();
 		if(typeof(files) == "object"){
 			this.handler(files[this.current], this.current);
@@ -288,10 +297,11 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 	 * @param {Number} [idx] The elements id that has been uploaded
 	 */
 	,getNextFile: function(idx){
-		// curr = Ext.select('.upload-list li#item-'+idx);
-		// curr.removeClass('active').addClass('upload-success');
 		if(this.current <= this.queue){
+			//Set next item active
 			Ext.select('.upload-list li#item-'+this.current).addClass('active');
+			Ext.select('.upload-list li#item-'+this.current+' .upload-progress').setWidth(0);
+			//Pass next file to uploa handler
 			files = this.getFiles();
 			if(typeof(files) == "object"){
 				this.handler(files[this.current], this.current);
@@ -299,17 +309,12 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 				console.log('Error');
 			}	
 		} else {					
-			//Reset the upload field
-			// Ext.getCmp('fileupload-list').reset();
-			Ext.getCmp(this.uploadbtn).reset();
-			this.current = 0;
 			//Disable the upload button
-			// Ext.getCmp('start-upload-btn').disable();
+			Ext.getCmp(this.uploadbtn).reset();
+			Ext.getCmp('start-upload-btn').disable();
+			this.current = 0;
 			//Show success message
-			//@TODO - Add a time out success message or a message on return to album
-			/* Go Back to album */
-			/* TODO */
-			// Ext.getCmp('cliche-album-view').activate();
+			this.updateBreadcrumbs(_('cliche.upload_successful'));
 		}
 	}
 		
@@ -330,24 +335,27 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 			}
 			,listeners:{
 				uploadprogress:function(event){
-					// console.log(event);
+					if(this.containerWidth != null){
+						percent = event.loaded * 100 / event.totalSize;
+						w = this.containerWidth * percent / 100;
+						Ext.select('.upload-list li#item-'+this.current+' .upload-progress').setWidth(w);
+					}
 				}
 				,onComplete: function(file, xhr, e){
-					/* TODO */
+					Ext.select('.upload-list li#item-'+this.current+' .upload-progress').setWidth(this.containerWidth);					
 					r = Ext.util.JSON.decode(xhr.responseText);
-					// console.log(r);
-					// curr = Ext.select('.upload-list li#item-'+idx);
-					// curr.removeClass('active').addClass('upload-success');
+					current = Ext.select('.upload-list li#item-'+this.current);
+					content = Ext.select('.upload-list li#item-'+this.current+' .upload-content');
 					if(!r.success){						
-						Ext.select('.upload-list li#item-'+this.current).removeClass('active');
-						Ext.select('.upload-list li#item-'+this.current).addClass('upload-fail');
-						Ext.select('.upload-list li#item-'+this.current).createChild('<div class="what_happened">'+ r.message +'</div>');
+						current.removeClass('active').addClass('upload-fail');						
+						content.createChild('<div class="what_happened">'+ r.message +'</div>');
 					} else {
-						Ext.select('.upload-list li#item-'+this.current).addClass('upload-success');
-						Ext.select('.upload-list li#item-'+this.current).createChild('<div class="pw">'+ r.message +'</div>');
+						current.removeClass('active').addClass('upload-success');
+						content.createChild('<div class="pw">'+ r.message +'</div>');
 					}
 					this.current = this.current + 1;					
-					this.getNextFile(idx);
+					this.getNextFile(idx);	
+					Ext.getCmp('modx-content').doLayout();
 				}
 				,scope: this
 			}			
@@ -388,13 +396,18 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 	
 	,activate: function(rec){
 		/* @TODO - message d'erreur si l'id n'est pas fournie */
-		
+		Ext.getCmp('fileupload-list').reset();
 		if(rec != undefined){
 			this.album = rec.id;
 			this.records = rec;
 		} 	
+		this.updateBreadcrumbs(_('cliche.upload_items_for') + this.records.name);
+		Ext.getCmp('cliche-albums-mgr-container').setActiveItem(2);	
+	}
+	
+	,updateBreadcrumbs: function(msg){
 		Ext.getCmp('cliche-albums-desc').updateDetail({
-			text: 'Upload picture for the album '+ this.records.name
+			text: msg
 			,trail: [{
 				text : _('cliche.breadcrumb_root')
 				,cmp: 'cliche-albums-list'
@@ -410,7 +423,10 @@ MODx.ClichePanelUploader = Ext.extend(MODx.AbstractPanel, {
 				,className: 'active'
 			}]
 		});
-		Ext.getCmp('cliche-albums-mgr-container').setActiveItem(2);	
+	}
+	
+	,deactivateBreadcrumbs: function(){
+		Ext.getCmp('cliche-albums-desc').updateDetail({text: _('cliche.upload_in_progress')});
 	}
 });
 Ext.reg("cliche-panel-uploader", MODx.ClichePanelUploader);
