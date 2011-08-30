@@ -23,14 +23,14 @@ if(!empty($id)){
 	/* Delete the album */
 	if($album->remove()){
 		$response['success'] = true;
-		$response['msg'] = 'Album et Photos supprimée avec succès';
+		$response['msg'] = $modx->lexicon('cliche.album_deleted_successfully');
 	} else {
 		$response['success'] = false;
-		$response['msg'] = 'Erreur lors de la suppression de l\'album - Opération annulée';
+		$response['msg'] = $modx->lexicon('cliche.error_album_delete_cancelled');
 	}
 } else {
 	$response['success'] = false;
-	$response['msg'] = 'Aucun id ou id érroné';
+	$response['msg'] = $modx->lexicon('cliche.error_album_delete_no_id');
 }
 
 return $modx->toJSON($response);

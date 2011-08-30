@@ -14,5 +14,5 @@ if($album->save()){
 	$data['thumbnail'] = $modx->cliche->config['phpthumb'] . urlencode($data['image']) .'&h=80&w=90&zc=1';
 	$data['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($data['image']);
 	
-	return $modx->error->success('Album updated succesfully', $data);
+	return $modx->error->success($modx->lexicon('cliche.album_udpated_succesfully'), $data);
 }

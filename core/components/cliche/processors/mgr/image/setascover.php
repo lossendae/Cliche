@@ -18,7 +18,7 @@ if($album->save()){
 	$data['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($data['image']);
 	
 	$response['success'] = true;
-	$response['msg'] = 'Image set as album cover successfully';
+	$response['msg'] = $modx->lexicon('cliche.item_set_as_cover_succesfully');
 	$response['data'] = $data;
 }
 

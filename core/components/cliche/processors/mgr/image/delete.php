@@ -48,14 +48,14 @@ if(!empty($id)){
 		$photo->save();
 
 		$response['success'] = true;
-		$response['msg'] = '<div class="confirm"><p>Photo supprimée...<br/>Retour sur la page de l\'album <em>*name*</em></p></div>';
+		$response['msg'] = $modx->lexicon('cliche.item_deleted_succesfully');
 	} else {
 		$response['success'] = false;
-		$response['msg'] = 'La photo n\'a pas pû être supprimée. Veuillez contcter le webmaster';
+		$response['msg'] = $modx->lexicon('cliche.error_delete_item_aborted');
 	}
 } else {
 	$response['success'] = false;
-	$response['msg'] = 'Whatever you do, you\'re always wrong!';
+	$response['msg'] = $modx->lexicon('cliche.error_delete_item_no_id');
 }
 
 return $modx->toJSON($response);
