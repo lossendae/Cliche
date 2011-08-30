@@ -112,6 +112,7 @@ class AlbumsController extends ClicheController {
 		$phs['image'] = $this->config['images_url'] . $obj->Cover->filename;
 		$phs['phpthumb'] = $this->config['phpthumb'] . urlencode($phs['image']);
 		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
+		$phs['albumname'] = $obj->name;	
 		
 		/* Not used yet */
 		// foreach($phs['options'] as $k => $v){}

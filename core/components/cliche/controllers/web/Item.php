@@ -83,8 +83,8 @@ class ItemController extends ClicheController {
 		$phs['width'] = $this->getProperty('thumbWidth');
 		$phs['height'] = $this->getProperty('thumbHeight');
 		
-		$phs['image'] = $this->config['images_url'] . $item->filename;	
-		$phs['phpthumb'] = $this->config['phpthumb'] . urlencode($phs['image']);
+		$phs['image'] = $this->config['images_url'] . urlencode($item->filename);	
+		$phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
 		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
 		
 		$item = $this->getChunk($this->getProperty('itemTpl'), $phs);
