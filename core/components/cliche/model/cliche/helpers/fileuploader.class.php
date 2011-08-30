@@ -173,7 +173,11 @@ class FileUploader extends Import {
 				}					
 			} else {
 				$data['name'] = $pathinfo['filename'];
-				$data['filename'] = $this->config['album_id'] .'/'. $pathinfo['filename'] .'.'. $extension;			
+				$data['filename'] = $this->config['album_id'] .'/'. $pathinfo['filename'] .'.'. $extension;	
+				//Remove space from file name
+				$filename = str_replace(' ','_',$data['filename']);
+				rename ($file, str_replace(' ','_',$file));
+				$data['filename'] = $filename;
 				$result = $this->saveItem($data);
 				if(!$result){
 					return $this->_response(implode(',',$this->errors));
@@ -297,7 +301,7 @@ class FileUploader extends Import {
     public function extract($pathToZip, $fileName) {
 		$target = $this->target . $fileName;
 		/* Create the temp directory */
-		if (!mkdir($target, 0, true)) {
+		if (!mkdir($target, 0777, true)) {
 			$this->errors[] = 'Could not create temp directory';
 			return false;
 		}
