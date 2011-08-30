@@ -74,7 +74,7 @@ MODx.ClichePictureView = Ext.extend(MODx.AbstractPanel, {
 		},{
 			text: _('cliche.set_as_album_cover')
 			,id:'set-as-cover'
-			,iconCls:'icon-save'
+			,iconCls:'icon-image'
 			,handler: this.onSetAsCover
 			,scope: this
 		}]
