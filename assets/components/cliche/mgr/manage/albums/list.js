@@ -33,8 +33,14 @@ MODx.ClicheAlbumsList = Ext.extend(MODx.AbstractDataView, {
 	]
 	
 	,run: function() {
-		view = this.viewId || 'view-items';
-		Ext.getCmp(view).store.load();
+		var view = this.viewId || 'view-items';
+		Ext.getCmp(view).store.load({
+			callback: function(rec, options, success){				
+				setTimeout(function(){ 
+					Ext.getCmp('modx-content').doLayout();
+				}, 500);
+			}
+		});
     }
 	
 	,formatData: function(data) {

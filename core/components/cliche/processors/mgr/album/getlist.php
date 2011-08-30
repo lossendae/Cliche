@@ -21,7 +21,7 @@ if($rows){
 		$album['createdon'] = date('j M Y',strtotime($album['createdon']));
 		if($row->cover_id != 0){
 			$album['image'] = $modx->cliche->config['images_url'] . $row->Cover->filename;
-			$album['thumbnail'] = $modx->cliche->config['phpthumb'] . urlencode($album['image']) .'&h=80&w=90&zc=1';
+			$album['thumbnail'] = $modx->cliche->config['phpthumb'] . urlencode($album['image']) .'&h=90&w=100&zc=1';
 			$album['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($album['image']);
 		}
 		$albums[] = $album;

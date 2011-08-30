@@ -119,12 +119,7 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 			,animEl: btn.id
         });
 	}
-	
-	,run: function() {
-		view = this.viewId || 'view-items';
-		Ext.getCmp(view).store.load();
-    }
-	
+		
 	,showDetails : function(data){
 		var detailEl = Ext.getCmp(this.colid);			
 		detailEl.updateDetail(data);
@@ -145,18 +140,32 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 	,reset: function(el){
 		Ext.getCmp(el).reset();
 	}
+		
+	,run: function() {
+		var view = this.viewId || 'view-items';
+		Ext.getCmp(view).store.load({
+			callback: function(rec, options, success){
+				var data = this.reader.jsonData.album;
+				if(data != null){
+					Ext.getCmp('cliche-album-view').album = data;
+				}
+				Ext.getCmp('cliche-album-view').updateAlbumData();
+			}
+		});
+    }
 	
-	,activate: function(rec){
+	,activate: function(rec){		
 		if(rec != undefined){
 			Ext.getCmp(this.viewId).store.setBaseParam('album', rec.id);
-			this.updateAlbumData(rec);
-		} 
+			this.album = rec.data;
+		} 		
 		this.run();
-		
+
 		/* Set panel as active */
-		Ext.getCmp('cliche-albums-mgr-container').setActiveItem(1);			
+		Ext.getCmp('cliche-albums-mgr-container').setActiveItem(1);		
+	}
 		
-		/* update album informations */
+	,updateAlbumData: function(){		
 		Ext.getCmp(this.colid).updateDetail(this.album);
 		
 		/* update breadcrumbs */
@@ -164,10 +173,6 @@ MODx.ClicheAlbumView = Ext.extend(MODx.AbstractDataViewWithColumn, {
 		setTimeout(function(){ 
 			Ext.getCmp('modx-content').doLayout();
 		}, 500); 
-	}
-		
-	,updateAlbumData: function(rec){
-		this.album = rec.data;
 	}
 	
 	,updateBreadcrumbs: function(msg){

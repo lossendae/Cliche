@@ -119,9 +119,6 @@ MODx.ClichePictureView = Ext.extend(MODx.AbstractPanel, {
 					pnl.updateBreadcrumbs(_('cliche.breadcrumbs_item_msg') + name);
 				}, 3000); 
 				Ext.getCmp('set-as-cover').hide();
-				/* Update album on parent panel */
-				rec.data = result.data
-				Ext.getCmp('cliche-album-view').updateAlbumData(rec);
 			}
 			,scope:this
 			,animEl: btn.id
