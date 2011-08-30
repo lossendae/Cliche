@@ -21,7 +21,7 @@ $_lang['cliche.save_album_btn'] = 'Enregistrer';
 
 
 //view
-$_lang['cliche.album-list.empty_msg'] = '<h4>Aucun album créé actuellement</h4><p>Créez votre premier album avec le bouton ci-dessus, sélectionnez ensuite l\'album créé pour voir et éditer son contenu.<br/>UTilisez le fil d\'arianne pour naviguer au sein des albums (votre position est indiqué par l\'élément vert non cliquable)</p>';
+$_lang['cliche.album-list.empty_msg'] = '<h4>Aucun album créé actuellement</h4><p>Créez votre premier album avec le bouton ci-dessus, sélectionnez ensuite l\'album créé pour voir et éditer son contenu.<br/>Utilisez le fil d\'arianne pour naviguer au sein des albums (votre position est indiquée par l\'élément vert non cliquable)</p>';
 $_lang['cliche.list.empty_col_msg'] = '<div class="empty-msg">Sélectionnez un album depuis la colonne principale pour afficher sa description</div>';
 $_lang['cliche.main_total_pics'] = '{total} images';
 
@@ -60,7 +60,7 @@ $_lang['cliche.breadcrumbs_item_msg'] = 'Affichage de l\'image : ';
 
 //view
 $_lang['cliche.upload_desc'] = '<h4>Sélectionnez des fichiers depuis votre ordinateur</h4><p>Vous pouvez sélectionner plusieurs fichiers en maintenant la touche shift.<br />Les fichiers Zip sont supportés.</p>';
-$_lang['cliche.upload_ready_msg'] = 'Fichier(s) prêts à être uploadé(s) :';
+$_lang['cliche.upload_ready_msg'] = 'Fichier(s) prêt(s) à être uploadé(s) :';
 $_lang['cliche.upload_cancel_msg'] = 'Annuler';
 $_lang['cliche.upload_success_msg'] = 'Fichier(s) uploadé(s) avec succès';
 $_lang['cliche.upload_fail_msg'] = 'Le fichier n\'a pu être enregistré';
@@ -70,7 +70,7 @@ $_lang['cliche.browse'] = 'Ouvrir…';
 $_lang['cliche.start_upload'] = 'Commencer l\'upload';
 
 //msg
-$_lang['cliche.breadcrumbs_upload_pictures_msg'] = 'Uploader les fichiers';
+$_lang['cliche.breadcrumbs_upload_pictures_msg'] = 'Uploader des fichiers';
 $_lang['cliche.upload_in_progress'] = 'Upload en cours…';
 $_lang['cliche.upload_items_for'] = 'Uploader des éléments pour l\'album ';
 $_lang['cliche.upload_successful'] = 'Fichier(s) uploadé(s) avec succès';
