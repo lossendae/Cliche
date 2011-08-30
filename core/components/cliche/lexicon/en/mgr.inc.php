@@ -5,7 +5,7 @@
  * @package cliche
  * @subpackage lexicon
  */
- 
+
 /* CARD - ALBUMS LIST */
 
 //buttons
@@ -26,7 +26,7 @@ $_lang['cliche.list.empty_col_msg'] = '<div class="empty-msg">Select an album fr
 $_lang['cliche.main_total_pics'] = '{total} Pictures';
 
 //msg
-$_lang['cliche.breadcrumb_album_list_desc'] = 'Lists of all the albums available';
+$_lang['cliche.breadcrumb_album_list_desc'] = 'List of all the albums available';
 
 
 /* CARD - ITEMS LIST */
@@ -37,54 +37,54 @@ $_lang['cliche.items_empty_col_msg'] = '<div class="empty-msg">Select a picture 
 $_lang['cliche.album_cover_alt_msg'] = '{name} preview';
 $_lang['cliche.view_total_pics'] = 'Total Pictures';
 //buttons
-$_lang['cliche.add_images'] = 'Add Photos';
+$_lang['cliche.add_images'] = 'Add Items';
 $_lang['cliche.update_album'] = 'Update album';
 $_lang['cliche.delete_album'] = 'Delete album';
 
 //msg
-$_lang['cliche.delete_album_msg'] = 'All photos in this albSum will also be deleted. This operation is irreversible.';
+$_lang['cliche.delete_album_msg'] = 'All items in this album will also be deleted. This operation is irreversible.';
 $_lang['cliche.breadcrumbs_album_msg'] = 'List of all items in the album : ';
 
 /* CARD - SINGLE ITEM */
 
 //buttons
-$_lang['cliche.delete_image'] = 'Delete image';
+$_lang['cliche.delete_image'] = 'Delete item';
 $_lang['cliche.set_as_album_cover'] = 'Set as Album cover';
 
 //msg
-$_lang['cliche.delete_image_title'] = 'Remove picture';
-$_lang['cliche.delete_image_msg'] = 'Are you sure you want to delete this image ? This operation is irreversible.';
+$_lang['cliche.delete_image_title'] = 'Remove item';
+$_lang['cliche.delete_image_msg'] = 'Are you sure you want to delete this item ? This operation is irreversible.';
 $_lang['cliche.breadcrumbs_item_msg'] = 'Viewing picture : ';
 
 /* CARD - UPLOAD ITEMS */
 
 //view
-$_lang['cliche.upload_desc'] = '<h4>Select files from your computer</h4><p>You can select several files at a time by holding the shift key.</p>';
+$_lang['cliche.upload_desc'] = '<h4>Select files from your computer</h4><p>You can select several files at a time by holding the shift key.<br />Zip files are supported.</p>';
 $_lang['cliche.upload_ready_msg'] = 'Files ready to be uploaded :';
 $_lang['cliche.upload_cancel_msg'] = 'Cancel';
-$_lang['cliche.upload_success_msg'] = 'Image uploaded sucessfully'; 
-$_lang['cliche.upload_fail_msg'] = 'The image could not be saved';
+$_lang['cliche.upload_success_msg'] = 'File sucessfully uploaded';
+$_lang['cliche.upload_fail_msg'] = 'The file could not be saved';
 
 //buttons
 $_lang['cliche.browse'] = 'Browse...';
 $_lang['cliche.start_upload'] = 'Start Upload';
 
 //msg
-$_lang['cliche.breadcrumbs_upload_pictures_msg'] = 'Upload pictures'; 
-$_lang['cliche.upload_in_progress'] = 'Upload in progress...'; 
-$_lang['cliche.upload_items_for'] = 'Upload Items for the album '; 
-$_lang['cliche.upload_successful'] = 'Files uploaded successfully'; 
+$_lang['cliche.breadcrumbs_upload_pictures_msg'] = 'Upload files';
+$_lang['cliche.upload_in_progress'] = 'Upload in progress...';
+$_lang['cliche.upload_items_for'] = 'Upload Items for the album ';
+$_lang['cliche.upload_successful'] = 'Files uploaded successfully';
 
 //NOT USED YET
-$_lang['cliche.global_progressbar_loading_item'] = 'Loading item'; 
-$_lang['cliche.item_progressbar'] = '% completed...'; 
+$_lang['cliche.global_progressbar_loading_item'] = 'Loading item';
+$_lang['cliche.item_progressbar'] = '% completed...';
 
 
 /* MGR - COMMONS */
 //tabs
 $_lang['cliche.main_tab'] = 'Manage your albums';
 //Breadcrumbs
-$_lang['cliche.breadcrumb_root'] = 'Album list';
+$_lang['cliche.breadcrumb_root'] = 'Albums list';
 //buttons
 $_lang['cliche.close_btn'] = 'Cancel';
 //misc
