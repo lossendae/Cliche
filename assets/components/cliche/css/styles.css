@@ -492,6 +492,48 @@ h2.tools {
 .x-small-editor .x-form-field-wrap .x-form-arrow-trigger { background:url("../images/trigger.png") no-repeat scroll left center transparent; }
 .x-small-editor .x-form-field-wrap .x-form-trigger.x-form-trigger-over { background-position:center center; }
 .x-small-editor .x-form-field-wrap .x-form-trigger.x-form-trigger-click { background-position:right center; }
+.inline-button {
+  background:#9fcb57;
+  background:-moz-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%) repeat scroll 0 0 transparent;
+  background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#d7e9a4),color-stop(100%,#9fcb57));
+  background:-webkit-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
+  background:-o-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
+  background:-ms-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#d7e9a4,endColorstr=#9fcb57,GradientType=0);
+  background:linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
+  text-shadow:0 1px 0 #d7e9a4;
+  -moz-border-radius:2px;
+  -webkit-border-radius:2px;
+  -o-border-radius:2px;
+  -ms-border-radius:2px;
+  -khtml-border-radius:2px;
+  border-radius:2px;
+  border:1px solid #85a948;
+  border-radius:2px 2px 2px 2px;
+  color:#556f14;
+  display:inline-block;
+  font-family:helvetica, arial, freesans, clean, sans-serif;
+  font-size:11px;
+  font-weight:bold;
+  margin:5px 0 1px;
+  padding:8px 12px;
+  text-decoration:none;
+  color:#5d7731 !important;
+  -moz-box-shadow:0 1px 1px rgba(0,0,0,0.2);
+  -webkit-box-shadow:0 1px 1px rgba(0,0,0,0.2);
+  -o-box-shadow:0 1px 1px rgba(0,0,0,0.2);
+  box-shadow:0 1px 1px rgba(0,0,0,0.2);
+}
+.inline-button:hover {
+  background:#9fcb57;
+  background:-moz-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%) repeat scroll 0 0 transparent;
+  background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e6efd1),color-stop(100%,#9fcb57));
+  background:-webkit-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
+  background:-o-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
+  background:-ms-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
+  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6efd1,endColorstr=#9fcb57,GradientType=0);
+  background:linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
+}
 .actions {
   bottom:8px;
   margin:0;
@@ -571,9 +613,9 @@ h2.tools {
   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#fee1a0,endColorstr=#fec95b,GradientType=0);
   background:linear-gradient(center bottom,#fec95b 0%,#fee1a0 100%);
 }
-#modAB .ext-ie .x-btn, .main-wrapper .ext-ie .x-btn, .custom-window .ext-ie .x-btn { padding:3px !important; }
-#modAB .ext-ie8 .x-btn, .main-wrapper .ext-ie8 .x-btn, .custom-window .ext-ie8 .x-btn { padding:1px !important; }
-#modAB .x-btn, .main-wrapper .x-btn, .custom-window .x-btn {
+#modAB .ext-ie .x-btn, .main-wrapper .ext-ie .x-btn, .scoped .ext-ie .x-btn, .custom-window .ext-ie .x-btn { padding:3px !important; }
+#modAB .ext-ie8 .x-btn, .main-wrapper .ext-ie8 .x-btn, .scoped .ext-ie8 .x-btn, .custom-window .ext-ie8 .x-btn { padding:1px !important; }
+#modAB .x-btn, .main-wrapper .x-btn, .scoped .x-btn, .custom-window .x-btn {
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   -o-border-radius:3px;
@@ -603,7 +645,7 @@ h2.tools {
   position:relative;
   cursor:pointer;
 }
-#modAB .x-btn button, .main-wrapper .x-btn button, .custom-window .x-btn button {
+#modAB .x-btn button, .main-wrapper .x-btn button, .scoped .x-btn button, .custom-window .x-btn button {
   color:#53595f;
   font:bold 11px tahoma, verdana, helvetica, sans-serif;
   height:22px !important;
@@ -611,11 +653,11 @@ h2.tools {
   padding:3px 8px 0;
   text-shadow:0 1px 0 #fcfcfc;
 }
-#modAB .x-btn em, .main-wrapper .x-btn em, .custom-window .x-btn em {
+#modAB .x-btn em, .main-wrapper .x-btn em, .scoped .x-btn em, .custom-window .x-btn em {
   font-style:normal;
   font-weight:normal;
 }
-#modAB .x-btn.dark, .main-wrapper .x-btn.dark, .custom-window .x-btn.dark {
+#modAB .x-btn.dark, .main-wrapper .x-btn.dark, .scoped .x-btn.dark, .custom-window .x-btn.dark {
   background:#5f5f5f;
   background:-moz-linear-gradient(center bottom,#5f5f5f 0%,#afafaf 100%) repeat scroll 0 0 transparent;
   background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#afafaf),color-stop(100%,#5f5f5f));
@@ -626,11 +668,11 @@ h2.tools {
   background:linear-gradient(center bottom,#5f5f5f 0%,#afafaf 100%);
   border-color:#808080 #5e5e5e #404040;
 }
-#modAB .x-btn.dark button, .main-wrapper .x-btn.dark button, .custom-window .x-btn.dark button {
+#modAB .x-btn.dark button, .main-wrapper .x-btn.dark button, .scoped .x-btn.dark button, .custom-window .x-btn.dark button {
   color:#fcfcfc;
   text-shadow:0 1px 0 #111111;
 }
-#modAB .x-btn-icon, .main-wrapper .x-btn-icon, .custom-window .x-btn-icon {
+#modAB .x-btn-icon, .main-wrapper .x-btn-icon, .scoped .x-btn-icon, .custom-window .x-btn-icon {
   background:#dedede;
   background:-moz-linear-gradient(center bottom,#dedede 0%,#ffffff 100%) repeat scroll 0 0 transparent;
   background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#dedede));
@@ -642,7 +684,7 @@ h2.tools {
   padding:1px 2px;
   border:1px solid #cccccc;
 }
-#modAB .x-html-editor-tb .x-btn, .main-wrapper .x-html-editor-tb .x-btn, .custom-window .x-html-editor-tb .x-btn {
+#modAB .x-html-editor-tb .x-btn, .main-wrapper .x-html-editor-tb .x-btn, .scoped .x-html-editor-tb .x-btn, .custom-window .x-html-editor-tb .x-btn {
   -moz-box-shadow:none;
   -webkit-box-shadow:none;
   -o-box-shadow:none;
@@ -652,8 +694,8 @@ h2.tools {
   background-color:transparent;
   margin:0;
 }
-#modAB .x-html-editor-tb .x-btn-over, .main-wrapper .x-html-editor-tb .x-btn-over, .custom-window .x-html-editor-tb .x-btn-over { border:0 none; }
-#modAB .x-btn-over, .main-wrapper .x-btn-over, .custom-window .x-btn-over {
+#modAB .x-html-editor-tb .x-btn-over, .main-wrapper .x-html-editor-tb .x-btn-over, .scoped .x-html-editor-tb .x-btn-over, .custom-window .x-html-editor-tb .x-btn-over { border:0 none; }
+#modAB .x-btn-over, .main-wrapper .x-btn-over, .scoped .x-btn-over, .custom-window .x-btn-over {
   background:#dfdfdf;
   background:-moz-linear-gradient(center bottom,#dfdfdf 0%,#ffffff 100%) repeat scroll 0 0 transparent;
   background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#dfdfdf));
@@ -663,11 +705,11 @@ h2.tools {
   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#dfdfdf,GradientType=0);
   background:linear-gradient(center bottom,#dfdfdf 0%,#ffffff 100%);
 }
-#modAB .x-btn-over button, .main-wrapper .x-btn-over button, .custom-window .x-btn-over button {
+#modAB .x-btn-over button, .main-wrapper .x-btn-over button, .scoped .x-btn-over button, .custom-window .x-btn-over button {
   color:#5b7a98;
   text-shadow:0 1px 0 #ffffff;
 }
-#modAB .x-btn-over.dark, .main-wrapper .x-btn-over.dark, .custom-window .x-btn-over.dark {
+#modAB .x-btn-over.dark, .main-wrapper .x-btn-over.dark, .scoped .x-btn-over.dark, .custom-window .x-btn-over.dark {
   background:#5f5f5f;
   background:-moz-linear-gradient(center bottom,#5f5f5f 0%,#c0c0c0 100%) repeat scroll 0 0 transparent;
   background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#c0c0c0),color-stop(100%,#5f5f5f));
@@ -678,8 +720,8 @@ h2.tools {
   background:linear-gradient(center bottom,#5f5f5f 0%,#c0c0c0 100%);
   border-color:#808080 #5e5e5e #404040;
 }
-#modAB .x-btn-over.dark button, .main-wrapper .x-btn-over.dark button, .custom-window .x-btn-over.dark button { color:#ffffff; }
-#modAB .x-btn-over.x-btn-icon, .main-wrapper .x-btn-over.x-btn-icon, .custom-window .x-btn-over.x-btn-icon {
+#modAB .x-btn-over.dark button, .main-wrapper .x-btn-over.dark button, .scoped .x-btn-over.dark button, .custom-window .x-btn-over.dark button { color:#ffffff; }
+#modAB .x-btn-over.x-btn-icon, .main-wrapper .x-btn-over.x-btn-icon, .scoped .x-btn-over.x-btn-icon, .custom-window .x-btn-over.x-btn-icon {
   background:#dfdfdf;
   background:-moz-linear-gradient(center bottom,#dfdfdf 0%,#ffffff 100%) repeat scroll 0 0 transparent;
   background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#dfdfdf));
@@ -689,7 +731,7 @@ h2.tools {
   filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#ffffff,endColorstr=#dfdfdf,GradientType=0);
   background:linear-gradient(center bottom,#dfdfdf 0%,#ffffff 100%);
 }
-#modAB .x-btn-click, .main-wrapper .x-btn-click, .custom-window .x-btn-click {
+#modAB .x-btn-click, .main-wrapper .x-btn-click, .scoped .x-btn-click, .custom-window .x-btn-click {
   -moz-box-shadow:0 0 3px #aaaaaa inset;
   -webkit-box-shadow:0 0 3px #aaaaaa inset;
   -o-box-shadow:0 0 3px #aaaaaa inset;
@@ -698,7 +740,7 @@ h2.tools {
   background-image:none;
   margin:0 2px 0 0;
 }
-#modAB .x-btn-click.dark, .main-wrapper .x-btn-click.dark, .custom-window .x-btn-click.dark {
+#modAB .x-btn-click.dark, .main-wrapper .x-btn-click.dark, .scoped .x-btn-click.dark, .custom-window .x-btn-click.dark {
   -moz-box-shadow:0 0 3px #707070 inset;
   -webkit-box-shadow:0 0 3px #707070 inset;
   -o-box-shadow:0 0 3px #707070 inset;
@@ -706,7 +748,7 @@ h2.tools {
   background-color:#afafaf;
   background-image:none;
 }
-#modAB .x-btn-group, .main-wrapper .x-btn-group, .custom-window .x-btn-group {
+#modAB .x-btn-group, .main-wrapper .x-btn-group, .scoped .x-btn-group, .custom-window .x-btn-group {
   -moz-border-radius:3px;
   -webkit-border-radius:3px;
   -o-border-radius:3px;
@@ -717,7 +759,7 @@ h2.tools {
   padding:0;
   margin-right:2px;
 }
-#modAB .x-btn-group .x-btn, .main-wrapper .x-btn-group .x-btn, .custom-window .x-btn-group .x-btn {
+#modAB .x-btn-group .x-btn, .main-wrapper .x-btn-group .x-btn, .scoped .x-btn-group .x-btn, .custom-window .x-btn-group .x-btn {
   -moz-box-shadow:rgba(0,0,0,0) 0 0 1px;
   -webkit-box-shadow:rgba(0,0,0,0) 0 0 1px;
   -o-box-shadow:rgba(0,0,0,0) 0 0 1px;
@@ -726,12 +768,12 @@ h2.tools {
   background-image:none;
   background-color:transparent;
 }
-#modAB .x-btn-group .x-btn button, .main-wrapper .x-btn-group .x-btn button, .custom-window .x-btn-group .x-btn button {
+#modAB .x-btn-group .x-btn button, .main-wrapper .x-btn-group .x-btn button, .scoped .x-btn-group .x-btn button, .custom-window .x-btn-group .x-btn button {
   color:#868b8f;
   height:auto !important;
   text-shadow:0 1px 0 #ffffff;
 }
-#modAB .x-btn-group .x-btn-over, .main-wrapper .x-btn-group .x-btn-over, .custom-window .x-btn-group .x-btn-over {
+#modAB .x-btn-group .x-btn-over, .main-wrapper .x-btn-group .x-btn-over, .scoped .x-btn-group .x-btn-over, .custom-window .x-btn-group .x-btn-over {
   background:#dfdfdf;
   background:-moz-linear-gradient(center bottom,#dfdfdf 0%,#ffffff 100%) repeat scroll 0 0 transparent;
   background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#ffffff),color-stop(100%,#dfdfdf));
@@ -742,38 +784,38 @@ h2.tools {
   background:linear-gradient(center bottom,#dfdfdf 0%,#ffffff 100%);
   border:1px solid #dbe0e4;
 }
-#modAB .x-btn-group .x-btn-over button, .main-wrapper .x-btn-group .x-btn-over button, .custom-window .x-btn-group .x-btn-over button {
+#modAB .x-btn-group .x-btn-over button, .main-wrapper .x-btn-group .x-btn-over button, .scoped .x-btn-group .x-btn-over button, .custom-window .x-btn-group .x-btn-over button {
   color:#5b7a98;
   text-shadow:0 1px 0 #ffffff;
 }
-#modAB .x-btn-group .x-btn-click, .main-wrapper .x-btn-group .x-btn-click, .custom-window .x-btn-group .x-btn-click {
+#modAB .x-btn-group .x-btn-click, .main-wrapper .x-btn-group .x-btn-click, .scoped .x-btn-group .x-btn-click, .custom-window .x-btn-group .x-btn-click {
   box-shadow:0 0 3px #aaaaaa inset;
   background-color:#ffffff;
   background-image:none;
   margin:0 2px 0 0;
 }
-#modAB .x-btn-tl, #modAB .x-btn-tr, #modAB .x-btn-tc, #modAB .x-btn-ml, #modAB .x-btn-mr, #modAB .x-btn-mc, #modAB .x-btn-bl, #modAB .x-btn-br, #modAB .x-btn-bc, .main-wrapper .x-btn-tl, .main-wrapper .x-btn-tr, .main-wrapper .x-btn-tc, .main-wrapper .x-btn-ml, .main-wrapper .x-btn-mr, .main-wrapper .x-btn-mc, .main-wrapper .x-btn-bl, .main-wrapper .x-btn-br, .main-wrapper .x-btn-bc, .custom-window .x-btn-tl, .custom-window .x-btn-tr, .custom-window .x-btn-tc, .custom-window .x-btn-ml, .custom-window .x-btn-mr, .custom-window .x-btn-mc, .custom-window .x-btn-bl, .custom-window .x-btn-br, .custom-window .x-btn-bc {
+#modAB .x-btn-tl, #modAB .x-btn-tr, #modAB .x-btn-tc, #modAB .x-btn-ml, #modAB .x-btn-mr, #modAB .x-btn-mc, #modAB .x-btn-bl, #modAB .x-btn-br, #modAB .x-btn-bc, .main-wrapper .x-btn-tl, .main-wrapper .x-btn-tr, .main-wrapper .x-btn-tc, .main-wrapper .x-btn-ml, .main-wrapper .x-btn-mr, .main-wrapper .x-btn-mc, .main-wrapper .x-btn-bl, .main-wrapper .x-btn-br, .main-wrapper .x-btn-bc, .scoped .x-btn-tl, .scoped .x-btn-tr, .scoped .x-btn-tc, .scoped .x-btn-ml, .scoped .x-btn-mr, .scoped .x-btn-mc, .scoped .x-btn-bl, .scoped .x-btn-br, .scoped .x-btn-bc, .custom-window .x-btn-tl, .custom-window .x-btn-tr, .custom-window .x-btn-tc, .custom-window .x-btn-ml, .custom-window .x-btn-mr, .custom-window .x-btn-mc, .custom-window .x-btn-bl, .custom-window .x-btn-br, .custom-window .x-btn-bc {
   background-image:none;
   height:0;
 }
-#modAB .x-btn-click .x-btn-text, #modAB .x-btn-menu-active .x-btn-text, #modAB .x-btn-pressed .x-btn-text, .main-wrapper .x-btn-click .x-btn-text, .main-wrapper .x-btn-menu-active .x-btn-text, .main-wrapper .x-btn-pressed .x-btn-text, .custom-window .x-btn-click .x-btn-text, .custom-window .x-btn-menu-active .x-btn-text, .custom-window .x-btn-pressed .x-btn-text { color:#73797f; }
-#modAB .x-btn-disabled *, .main-wrapper .x-btn-disabled *, .custom-window .x-btn-disabled * { color:gray !important; }
-#modAB .x-btn-group-bwrap, .main-wrapper .x-btn-group-bwrap, .custom-window .x-btn-group-bwrap { padding:1px 0 0; }
-#modAB .x-btn-group-header, .main-wrapper .x-btn-group-header, .custom-window .x-btn-group-header {
+#modAB .x-btn-click .x-btn-text, #modAB .x-btn-menu-active .x-btn-text, #modAB .x-btn-pressed .x-btn-text, .main-wrapper .x-btn-click .x-btn-text, .main-wrapper .x-btn-menu-active .x-btn-text, .main-wrapper .x-btn-pressed .x-btn-text, .scoped .x-btn-click .x-btn-text, .scoped .x-btn-menu-active .x-btn-text, .scoped .x-btn-pressed .x-btn-text, .custom-window .x-btn-click .x-btn-text, .custom-window .x-btn-menu-active .x-btn-text, .custom-window .x-btn-pressed .x-btn-text { color:#73797f; }
+#modAB .x-btn-disabled *, .main-wrapper .x-btn-disabled *, .scoped .x-btn-disabled *, .custom-window .x-btn-disabled * { color:gray !important; }
+#modAB .x-btn-group-bwrap, .main-wrapper .x-btn-group-bwrap, .scoped .x-btn-group-bwrap, .custom-window .x-btn-group-bwrap { padding:1px 0 0; }
+#modAB .x-btn-group-header, .main-wrapper .x-btn-group-header, .scoped .x-btn-group-header, .custom-window .x-btn-group-header {
   background-color:#dbe0e4;
   color:#73797f;
   text-shadow:0 1px 0 #fafafa;
 }
-#modAB .x-btn-group-tl, #modAB .x-btn-group-tr, .main-wrapper .x-btn-group-tl, .main-wrapper .x-btn-group-tr, .custom-window .x-btn-group-tl, .custom-window .x-btn-group-tr {
+#modAB .x-btn-group-tl, #modAB .x-btn-group-tr, .main-wrapper .x-btn-group-tl, .main-wrapper .x-btn-group-tr, .scoped .x-btn-group-tl, .scoped .x-btn-group-tr, .custom-window .x-btn-group-tl, .custom-window .x-btn-group-tr {
   padding:0;
   background-image:none;
 }
-#modAB .x-btn-group-tc, #modAB .x-btn-group-bc, #modAB .x-btn-group-bl, #modAB .x-btn-group-br, .main-wrapper .x-btn-group-tc, .main-wrapper .x-btn-group-bc, .main-wrapper .x-btn-group-bl, .main-wrapper .x-btn-group-br, .custom-window .x-btn-group-tc, .custom-window .x-btn-group-bc, .custom-window .x-btn-group-bl, .custom-window .x-btn-group-br { background-image:none; }
-#modAB .x-btn-group-ml, .main-wrapper .x-btn-group-ml, .custom-window .x-btn-group-ml {
+#modAB .x-btn-group-tc, #modAB .x-btn-group-bc, #modAB .x-btn-group-bl, #modAB .x-btn-group-br, .main-wrapper .x-btn-group-tc, .main-wrapper .x-btn-group-bc, .main-wrapper .x-btn-group-bl, .main-wrapper .x-btn-group-br, .scoped .x-btn-group-tc, .scoped .x-btn-group-bc, .scoped .x-btn-group-bl, .scoped .x-btn-group-br, .custom-window .x-btn-group-tc, .custom-window .x-btn-group-bc, .custom-window .x-btn-group-bl, .custom-window .x-btn-group-br { background-image:none; }
+#modAB .x-btn-group-ml, .main-wrapper .x-btn-group-ml, .scoped .x-btn-group-ml, .custom-window .x-btn-group-ml {
   background-image:none;
   padding-left:1px;
 }
-#modAB .x-btn-group-mr, .main-wrapper .x-btn-group-mr, .custom-window .x-btn-group-mr {
+#modAB .x-btn-group-mr, .main-wrapper .x-btn-group-mr, .scoped .x-btn-group-mr, .custom-window .x-btn-group-mr {
   background-image:none;
   padding-right:1px;
 }
@@ -890,10 +932,10 @@ h2.tools {
   text-shadow:0 1px 0 #ffffff;
 }
 .custom-window {
-  -moz-box-shadow:#999999;
-  -webkit-box-shadow:#999999;
-  -o-box-shadow:#999999;
-  box-shadow:#999999;
+  -moz-box-shadow:0 1px 5px #999999;
+  -webkit-box-shadow:0 1px 5px #999999;
+  -o-box-shadow:0 1px 5px #999999;
+  box-shadow:0 1px 5px #999999;
   border:1px solid #c0c0c0;
   padding:0;
   overflow:hidden;
@@ -906,6 +948,7 @@ h2.tools {
   border:0 none;
   background-color:transparent;
 }
+.custom-window .panel-desc { padding:0 0 20px; }
 .custom-window .x-panel-mc { border:0 none; }
 .custom-window .x-panel-ml { border:0 none; }
 .custom-window .x-panel-bl.x-panel-nofooter, .custom-window .x-panel-tl {
@@ -1275,6 +1318,7 @@ h2.tools {
   text-transform:uppercase;
 }
 .upload-fail .upload-cancel { display:none; }
+.active .upload-button, .upload-fail .upload-button, .upload-success .upload-button { display:none; }
 .x-form-file-wrap {
   position:relative;
   background:none repeat scroll 0 0 transparent !important;
@@ -1312,11 +1356,14 @@ h2.tools {
   margin:0;
   min-height:42px;
   padding:0;
+  text-align:center;
 }
 .pw img {
   border:1px solid #e0e0e0;
   display:block;
+  float:left;
 }
+.pw .inline-button { line-height:22px; }
 .x-panel-tbar-noborder .x-toolbar { border:0 none !important; }
 .x-panel-noborder .x-panel-tbar-noborder .x-toolbar {
   background-color:transparent;
