@@ -35,6 +35,11 @@ class Cliche {
      * @var array A collection of properties to adjust Cliche behaviour.
      */
     public $config = array();
+ /**
+     * @access public
+     * @var phpThumbFactory A reference to the phpThumb object.
+     */
+    public $phpThumb = null;
 
     /**
      * The Cliche Constructor.
@@ -62,16 +67,20 @@ class Cliche {
             
             'assets_path' => $assets_path,            
             'images_path' => $assets_path.'albums/',
+            'cache_path' => $assets_path.'cache/',
 			'plugins_path' => $assets_path.'plugins/',
 			
 			'assets_url' => $assets_url,
 			'images_url' => $assets_url.'albums/',
+            'cache_url' => $assets_url.'cache/',
             'css_url' => $assets_url.'css/',
 			'plugins_url' => $assets_url.'plugins/',
 			
             'connector_url' => $assets_url.'connector.php',
 			
-			'phpthumb' => $assets_url.'connector.php?action=web/phpthumb&src=',					
+			'mgr_thumb_mask' => 'mgr-thumb-95x80.jpg',
+			'phpthumb' => $assets_url.'connector.php?action=web/phpthumb&src=',
+			'thumb' => $assets_url.'connector.php?action=web/thumb',
 			'chunks_prefix' => 'Cliche',
 			
 			'use_filebased_chunks' => true,			
@@ -120,20 +129,34 @@ class Cliche {
     }
 	
 	/**
-     * Load an helper class to handle file upload via Ajax
+     * Load an helper class to load phpThumb Class
      *
      * @access public
      * @return string The JSON response
      */	
+	public function loadPhpThumb($src, $options = array()){
+        if (!$this->modx->loadClass('cliche.helpers.phpthumb.ThumbLib',$this->config['model_path'],true,true)) {
+			$this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche phpThumb] Could not load PhpThumbFactory');
+		}
+		$this->phpThumb = PhpThumbFactory::create( $src, $options );
+        return $this->phpThumb;
+	}
+
+	/**
+     * Load an helper class to handle file upload via Ajax
+     *
+     * @access public
+     * @return string The JSON response
+     */
 	public function loadHelper($id){
 		if (!$this->modx->loadClass('cliche.helpers.FileUploader',$this->config['model_path'],true,true)) {
-			$this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] '.$loaded);
+			$this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Could not load upload helper');
 			return 'Could not load helper class FileUploader.';
 		}
 		$uploader = new FileUploader($this, $this->config);
 		$result = $uploader->handleUpload($id);
-		
-		return $result;	
+
+		return $result;
 	}
 	
 	/**
