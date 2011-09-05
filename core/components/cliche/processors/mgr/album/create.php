@@ -3,9 +3,9 @@ $name = $scriptProperties['name'];
 $description = $scriptProperties['description'];
 
 /* @TODO - remove that */
-$manager = $modx->getManager();
-$manager->createObjectContainer('ClicheItems');
-$manager->createObjectContainer('ClicheAlbums');
+//$manager = $modx->getManager();
+//$manager->createObjectContainer('ClicheItems');
+//$manager->createObjectContainer('ClicheAlbums');
 
 /* Is this name already taken ? */
 $alreadyExist = $modx->getObject('ClicheAlbums',array(
@@ -23,8 +23,6 @@ if($alreadyExist){
 $newAlbum = $modx->newObject('ClicheAlbums');
 $newAlbum->set('name', $name);
 $newAlbum->set('description', $description);
-$newAlbum->set('createdon', 'now');
-$newAlbum->set('createdby', $modx->user->get('id'));
 if($newAlbum->save()){
 	return $modx->error->success($modx->lexicon('cliche.album_created_succesfully'), $newAlbum);
 }

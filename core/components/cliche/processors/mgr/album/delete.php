@@ -2,23 +2,22 @@
 $id = $scriptProperties['id'];
 
 if(!empty($id)){
-
-	$album = $modx->getObjectGraph('ClicheAlbums', '{ "Items":{} }', $id);
+	$album = $modx->getObject('ClicheAlbums', $id);
 	
 	/* Delete the picture of the album */
-	if($album->Items){
-		foreach($album->Items as $pics){
-		$file = $modx->cliche->config['images_path'].$pics->filename;
-			if(file_exists($file)){
-				unlink($file);	
-			}
-		}
-	}
+//	if($album->Items){
+//		foreach($album->Items as $pics){
+//		$file = $modx->cliche->config['images_path'].$pics->filename;
+//			if(file_exists($file)){
+//				unlink($file);
+//			}
+//		}
+//	}
 	
 	/* Remove the directory */
-	if(is_dir($modx->cliche->config['images_path'].$album->id)){
-		rmdir($modx->cliche->config['images_path'].$album->id);
-	}
+//	if(is_dir($modx->cliche->config['images_path'].$album->id)){
+//		rmdir($modx->cliche->config['images_path'].$album->id);
+//	}
 	
 	/* Delete the album */
 	if($album->remove()){

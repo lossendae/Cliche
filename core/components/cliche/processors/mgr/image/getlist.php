@@ -16,16 +16,16 @@ $count = $modx->getCount('ClicheItems', $c);
 $c->sortBy($sort,$dir);
 $c->limit($limit, $start);
 
-$rows = $modx->getCollectionGraph('ClicheItems', '{ "CreatedBy": {}, "Album": { "Cover": {} } }',$c);
+$rows = $modx->getCollectionGraph('ClicheItems', '{ "CreatedBy": {} }',$c);
 if($rows){
 	foreach($rows as $row){
 		$pic = $row->toArray();
 		$pic['createdby'] = $row->CreatedBy->get('username');
 		$pic['createdon'] = date('j M Y',strtotime($pic['createdon']));
-		$pic['image'] = $modx->cliche->config['images_url'].$row->filename;	
-		$pic['thumbnail'] = $modx->cliche->config['phpthumb'].urlencode($pic['image']).'&h=80&w=95&zc=1';	
+		$pic['image'] = $row->get('filename');
+		$pic['thumbnail'] = $row->get('manager_thumbnail');
 		$pic['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($pic['image']);
-		
+
 		$pics[] = $pic;	
 	}
 	unset($rows);
@@ -36,8 +36,8 @@ if($rows){
 	$album['createdby'] = $owner->CreatedBy->get('username');
 	$album['createdon'] = date('j M Y',strtotime($album['createdon']));
 	if($album['cover_id'] != 0){			
-		$album['image'] = $modx->cliche->config['images_url'] . $owner->Cover->filename;
-		$album['thumbnail'] = $modx->cliche->config['phpthumb'] . urlencode($album['image']) .'&h=80&w=95&zc=1';
+		$album['image'] = $owner->Cover->get('image');
+		$album['thumbnail'] = $owner->Cover->get('manager_thumbnail');
 		$album['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($album['image']);
 	}
 	
