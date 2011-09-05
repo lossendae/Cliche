@@ -54,16 +54,15 @@ class ItemsController extends ClicheController {
             'config' => null,
             'browse' => false,
         ));
+        $this->fireEvent('load');
     }
 	
 	/**
      * Process and load an album sets of items
      * @return string
      */
-    public function process() {			
-		$this->loadCSS();
-		$this->loadConfig();
-		$output = $this->getItems();	
+    public function process() {
+		$output = $this->getItems();
 		return $output;
 	}
 		
@@ -111,8 +110,10 @@ class ItemsController extends ClicheController {
 	}
 	
 	/**
-     * Create the item placholders
-     * @return string
+     * Create the item placeholders
+     * @param array $phs the current line placeholders
+     * @param object $obj the xPDO object
+     * @return string The processed content
      */
 	private function getItem($phs, $obj){		
 		/* Handle url + additionnal field where only the req params are sended back for custom url scheme */
@@ -129,8 +130,23 @@ class ItemsController extends ClicheController {
 		/* The album cover */
 		$phs['image'] = $this->config['images_url'] . $obj->filename;
 		$phs['phpthumb'] = $this->config['phpthumb'] . urlencode($phs['image']);
-		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
-		
+
+        $fileName = str_replace(' ', '_', $obj->get('name'));
+        $mask = $fileName .'-'. $phs['width'] .'x'. $phs['height'] .'-zc.png';
+        $file = $obj->getCacheDir() . $mask;
+        if(!file_exists($file)){
+            $thumb = $obj->loadThumbClass( $this->config['images_path'] . $obj->filename, array(
+                'resizeUp' => true,
+                'jpegQuality' => 90,
+             ));
+            $thumb->adaptiveResize($phs['width'], $phs['height']);
+            $thumb->save($file, 'png');
+        }
+        $phs['thumbnail'] = $obj->getCacheDir(false) . $mask;
+
+
+//		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';
+
 		$field = $obj->toArray();
 		foreach($field['metas'] as $k => $v){
 			$name = strtolower(str_replace(' ','',$v['name']));
