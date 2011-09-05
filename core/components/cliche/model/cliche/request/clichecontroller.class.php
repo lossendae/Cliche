@@ -8,6 +8,8 @@ abstract class ClicheController {
     public $modx;
     /** @var Cliche $cliche */
     public $cliche;
+    /** @var Plugin $plugin */
+    public $plugin;
     /** @var array $config */
     public $config = array();
     /** @var array $scriptProperties */
@@ -25,23 +27,59 @@ abstract class ClicheController {
         $this->config = array_merge($this->config,$config);
     }
 
+    /**
+     * Run the current instance of the controller
+     * @param array $scriptProperties
+     * @return string The processed content
+     */
     public function run($scriptProperties) {
-        $this->setProperties($scriptProperties);		
-        $this->initialize();    
-		$this->_setChunksPath();		
+        $this->setProperties($scriptProperties);
+        $this->loadPlugin();
+        $this->initialize();        
+        $chunksPath = $this->getProperty('chunks_path', null);
+        $useFileBasedChunks = $this->getProperty('use_filebased_chunks', true);
+        if(!empty($chunksPath) && !$useFileBasedChunks){
+            $this->_setDefaultChunksPath();
+        }
+        $this->loadCSS();
         return $this->process();
     }
-	
-	protected function loadConfig() {
-		$config = $this->getProperty('config', null);
-		$modx =& $this->modx;
-		if(!empty($config)){
-			$f = $this->config['chunks_path'] . $this->getProperty('config') .'.php';
-			if(file_exists($f))
-				require_once $f;
-		}			
-	}
-	
+
+    /**
+     * Load a class plugin if specified in scriptProperties
+     * @return void
+     */
+    public function loadPlugin(){
+        $plugin = ucfirst($this->getProperty('plugin', null));
+        if(!empty($plugin)){
+            $dir = strtolower($plugin);
+            if (!$this->modx->loadClass($dir.'.'. $dir, $this->config['plugins_path'],true,true)) {
+                $this->modx->log(modX::LOG_LEVEL_ERROR, '[Cliche] Could not load '.$plugin.' plugin in: '. $this->config['plugins_path'] . $dir .'/'. $dir .'.class.php');
+            }
+            $this->plugin = new $plugin($this->modx);
+        }
+    }
+
+    /**
+     * Set the default options for this module
+     * @param string $event The event name
+     * @param mixes $args Optional arguments to pass to the plugin class
+     * @return mixed/void if $args is not supplied else the processed $args
+     */
+    public function fireEvent($event, $args = null){
+        if(isset($this->plugin) && is_object($this->plugin)){
+            if(empty($args)){
+                $this->plugin->notify($event, $this);
+            } else {
+                return $this->plugin->handle($event, $args, $this);
+            }
+        }
+    }
+
+    /**
+     * Load a css file in the header if specified in properties
+     * @return void
+     */
 	protected function loadCSS() {
 		if($this->getProperty('loadCSS'))
 			$this->modx->regClientCSS($this->config['chunks_url'] . $this->getProperty('css') .'.css');
@@ -150,13 +188,11 @@ abstract class ClicheController {
     }
 	
 	/**
-     * _setChunksPath.
-     *
      * Convert string params to path for use in file based chunks
      *
 	 * @access private
      */
-	private function _setChunksPath(){			
+	private function _setDefaultChunksPath(){
 		$config = str_replace(array(
 			'{base_path}',
 			'{assets_path}',
@@ -225,11 +261,27 @@ abstract class ClicheController {
 		}
 		return $chunk;
 	}
-	
+
+    /**
+     * An helper method to load javascript in the header according to the instance chunks path
+     * @param string $script
+     * @return void
+     */
 	public function regClientStartupScript($script){
 		$this->modx->regClientStartupScript($this->config['chunks_url'] . $script);
 	}
+
+    /**
+     * An helper method to load javascript before the closing body tag according to the instance chunks path
+     * @param string $script
+     * @return void
+     */
 	public function regClientScript($script){
 		$this->modx->regClientScript($this->config['chunks_url'] . $script);
 	}
+}
+interface ClichePlugin {
+    public function notify( $event, &$obj );
+
+    public function handle( $event, $args, &$obj );
 }
