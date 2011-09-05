@@ -132,8 +132,12 @@ MODx.AbstractTemplatePanel = Ext.extend(Ext.Panel, {
 	
 	,listeners: {
 		'render': function(tp){
-			text = { text: this.startingText }
-			this.startingMarkup.overwrite(this.body, text);
+            if(typeof(this.startingText) == "object"){
+                data = this.startingText;
+            } else {
+                data = { text: this.startingText }
+            }
+			this.startingMarkup.overwrite(this.body, data);
 		}
 	}
 });

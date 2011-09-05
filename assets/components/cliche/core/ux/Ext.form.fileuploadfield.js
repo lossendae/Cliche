@@ -119,10 +119,9 @@ Ext.ux.form.FileUploadField = Ext.extend(Ext.form.TextField,  {
 			cls: 'x-form-file',
 			tag: 'input',
 			type: 'file',
-			multiple: 'multiple',
 			size: 1
 		}
-		if(this.isMultiple()){
+		if(this.allowMultiple){
 			params.multiple = 'multiple';
 		}			
         this.fileInput = this.wrap.createChild(params);

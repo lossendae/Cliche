@@ -7,6 +7,7 @@ Ext.ns('MODx');
 MODx.AbstractWindow = Ext.extend(Ext.Window, {
 	cls: 'custom-window'
 	,modal: true
+	,shadow: false
 	,animate: true
 	,border: false
 	,closeAction: 'hide'
