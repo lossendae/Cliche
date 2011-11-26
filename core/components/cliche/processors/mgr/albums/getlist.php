@@ -1,10 +1,16 @@
 <?php
 $start = $scriptProperties['start'];
 $limit = $scriptProperties['limit'];
-$sort = 'ClicheAlbums.'.$scriptProperties['sort'];
-$dir = $scriptProperties['dir'];
+$sort = $modx->getOption('sort', $scriptProperties, 'ClicheAlbums.name');
+$dir = $modx->getOption('dir', $scriptProperties, 'ASC');
+
+$type = $modx->getOption('type', $scriptProperties, 'default');
 
 $c = $modx->newQuery('ClicheAlbums');
+
+$c->where(array(
+    'ClicheAlbums.type' => $type,
+));
 
 /* paginate result */
 $count = $modx->getCount('ClicheAlbums', $c);
@@ -22,8 +28,7 @@ if($rows){
 		if($row->cover_id != 0){
 			$album['image'] = $modx->cliche->config['images_url'] . $row->Cover->get('filename');
 			$album['thumbnail'] = $row->Cover->get('manager_thumbnail');
-//			$album['thumbnail'] = $modx->cliche->config['phpthumb'] . urlencode($album['image']) .'&h=90&w=100&zc=1';
-			$album['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($album['image']);
+//			$album['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($album['image']);
 		}
 		$albums[] = $album;
 	}

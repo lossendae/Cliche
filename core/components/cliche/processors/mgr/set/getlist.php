@@ -2,8 +2,8 @@
 $start = $scriptProperties['start'];
 $limit = $scriptProperties['limit'];
 $albumId = $scriptProperties['album'];
-$sort = 'ClicheItems.'.$scriptProperties['sort'];
-$dir = $scriptProperties['dir'];
+$sort = $modx->getOption('sort', $scriptProperties, 'ClicheItems.createdon');
+$dir = $modx->getOption('dir', $scriptProperties, 'ASC');
 
 $c = $modx->newQuery('ClicheItems');
 $c->where(array(
@@ -22,7 +22,7 @@ if($rows){
 		$pic = $row->toArray();
 		$pic['createdby'] = $row->CreatedBy->get('username');
 		$pic['createdon'] = date('j M Y',strtotime($pic['createdon']));
-		$pic['image'] = $row->get('filename');
+		$pic['image'] = $row->get('image');
 		$pic['thumbnail'] = $row->get('manager_thumbnail');
 		$pic['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($pic['image']);
 
