@@ -78,13 +78,15 @@ class Cliche {
 			
             'connector_url' => $assets_url.'connector.php',
 			
-			'mgr_thumb_mask' => 'mgr-thumb-95x80.jpg',
+			'mgr_thumb_mask' => 'mgr-thumb-95x135.jpg',
 			'phpthumb' => $assets_url.'connector.php?action=web/phpthumb&src=',
 			'thumb' => $assets_url.'connector.php?action=web/thumb',
 			'chunks_prefix' => 'Cliche',
 			
 			'use_filebased_chunks' => true,			
-			'tpl_suffix' => '.tpl',									
+			'tpl_suffix' => '.tpl',	
+				
+			'request_file_var' => 'name',
 			
 			//Debug is on for development
 			'debug' => true,
@@ -109,22 +111,6 @@ class Cliche {
             } else {
                 $this->modx->user = $user;
             }
-        }
-    }
-
-    /**
-     * Initializes Cliche into different contexts.
-     *
-     * @access public
-     * @param string $ctx The context to load. Defaults to web.
-     */
-    public function initialize($ctx = 'web') {
-		if ($ctx == 'mgr'){
-			if (!$this->modx->loadClass('cliche.request.ClicheControllerRequest',$this->config['model_path'],true,true)) {
-				return 'Could not load controller request handler.';
-			}
-			$this->request = new ClicheControllerRequest($this);
-			return $this->request->handleRequest();
         }
     }
 	

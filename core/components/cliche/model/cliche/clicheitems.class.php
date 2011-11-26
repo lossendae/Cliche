@@ -8,10 +8,12 @@ class ClicheItems extends xPDOSimpleObject {
         switch ($k) {
             case 'manager_thumbnail':
                 $assetsUrl = $this->xpdo->cliche->config['cache_url'];
+				$assetsPath = $this->xpdo->cliche->config['cache_path'] . $this->get('album_id') .'/'. $this->get('id') .'/';
                 $cacheDir = $assetsUrl . $this->get('album_id') .'/'. $this->get('id') .'/';
                 $cacheFilename = $this->xpdo->cliche->config['mgr_thumb_mask'];
                 $cacheFile = $cacheDir . $cacheFilename;
-                /* @TODO : verify if the file exist and if not create it (in case of manager thumb mask as been changed) */
+                $checkFile = $assetsPath . $cacheFilename;
+				if(!file_exists($checkFile)){ $this->addManagerCacheFiles(); }
                 $value = $cacheFile;
                 break;
             case 'image':
@@ -212,7 +214,7 @@ class ClicheItems extends xPDOSimpleObject {
         /* Load the phpThumb class */
         $options = array('jpegQuality' => 90);
         $thumb = $this->xpdo->cliche->loadPhpThumb($original, $options);
-        $thumb->adaptiveResize(95, 80);
+        $thumb->adaptiveResize(135, 95);
         $thumb->save($cacheFile, 'jpg');
     }
 
