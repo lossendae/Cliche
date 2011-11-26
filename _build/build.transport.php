@@ -14,8 +14,8 @@ set_time_limit(0);
 /* define package */
 define('PKG_NAME','Cliche');
 define('PKG_NAMESPACE',strtolower(PKG_NAME));
-define('PKG_VERSION','0.1');
-define('PKG_RELEASE','b');
+define('PKG_VERSION','0.2');
+define('PKG_RELEASE','a');
 
 function getSnippetContent($path, $name, $debug = false) {
 	$name = ($debug) ? 'debug.'. $name .'.php' : $name .'.php';
