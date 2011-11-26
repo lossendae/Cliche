@@ -53,15 +53,14 @@ class AlbumsController extends ClicheController {
             'css' => 'default',
 			'config' => null,
         ));
+        $this->fireEvent('load');
     }
 	
 	/**
      * Process and load The album list
      * @return string
      */
-    public function process() {			
-		$this->loadCSS();
-		$this->loadConfig();
+    public function process() {
 		$output = $this->getSets();		
 		return $output;
 	}
@@ -110,12 +109,23 @@ class AlbumsController extends ClicheController {
 		
 		/* The album cover */
 		$phs['image'] = $this->config['images_url'] . $obj->Cover->filename;
-		$phs['phpthumb'] = $this->config['phpthumb'] . urlencode($phs['image']);
-		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
-		$phs['albumname'] = $obj->name;	
-		
+		$phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
+		$phs['albumname'] = $obj->name;
+
+        $fileName = str_replace(' ', '_', $obj->get('name'));
+        $mask = $fileName .'-'. $phs['width'] .'x'. $phs['height'] .'-zc.png';
+        $file = $obj->Cover->getCacheDir() . $mask;
+        if(!file_exists($file)){
+            $thumb = $obj->Cover->loadThumbClass( $this->config['images_path'] . $obj->Cover->filename, array(
+                'resizeUp' => true,
+                'jpegQuality' => 90,
+             ));
+            $thumb->adaptiveResize($phs['width'], $phs['height']);
+            $thumb->save($file, 'png');
+        }
+        $phs['thumbnail'] = $obj->Cover->getCacheDir(false) . $mask;
+
 		/* Not used yet */
-		// foreach($phs['options'] as $k => $v){}
 		unset($phs['options']);
 		
 		$cover = $obj->Cover->toArray();
@@ -126,9 +136,7 @@ class AlbumsController extends ClicheController {
 		unset($cover['id']);
 		unset($cover['metas']);
 		$phs = array_merge($phs, $cover);	
-		
-		// echo '<pre>'. print_r($phs, true) .'</pre>';
-		
+
 		$processed = $this->getChunk($this->getProperty('albumItemTpl'), $phs);			
 		return $processed;
 	}

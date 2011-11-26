@@ -129,7 +129,7 @@ class ItemsController extends ClicheController {
 		
 		/* The album cover */
 		$phs['image'] = $this->config['images_url'] . $obj->filename;
-		$phs['phpthumb'] = $this->config['phpthumb'] . urlencode($phs['image']);
+		$phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
 
         $fileName = str_replace(' ', '_', $obj->get('name'));
         $mask = $fileName .'-'. $phs['width'] .'x'. $phs['height'] .'-zc.png';
@@ -143,9 +143,6 @@ class ItemsController extends ClicheController {
             $thumb->save($file, 'png');
         }
         $phs['thumbnail'] = $obj->getCacheDir(false) . $mask;
-
-
-//		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';
 
 		$field = $obj->toArray();
 		foreach($field['metas'] as $k => $v){

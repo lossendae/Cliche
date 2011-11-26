@@ -47,6 +47,7 @@ class ItemController extends ClicheController {
 			'config' => null,
 			'browse' => false,
         ));
+        $this->fireEvent('load');
     }
 	
 	/**
@@ -54,9 +55,7 @@ class ItemController extends ClicheController {
      * @return string
      */
     public function process() {	
-		$this->loadCSS();
-		$this->loadConfig();
-		$output = $this->getItem();		
+		$output = $this->getItem();
 		return $output;
 	}
 		
@@ -79,14 +78,26 @@ class ItemController extends ClicheController {
 		
 		if(!$item) return $this->modx->lexicon('cliche.item_not_found');
 		
-		$phs = $item->toArray(); 
+		$phs = $item->toArray();
+
 		$phs['width'] = $this->getProperty('thumbWidth');
 		$phs['height'] = $this->getProperty('thumbHeight');
-		
-		$phs['image'] = $this->config['images_url'] . urlencode($item->filename);	
+		$phs['image'] = $this->config['images_url'] . $item->filename;
 		$phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
-		$phs['thumbnail'] = $phs['phpthumb'] .'&h='. $phs['height'] .'&w='. $phs['width'] .'&zc=1';	
-		
+        
+        $fileName = str_replace(' ', '_', $item->get('name'));
+        $mask = $fileName .'-'. $phs['width'] .'x'. $phs['height'] .'-zc.png';
+        $file = $item->getCacheDir() . $mask;
+        if(!file_exists($file)){
+            $thumb = $item->loadThumbClass( $this->config['images_path'] . $item->filename, array(
+                'resizeUp' => true,
+                'jpegQuality' => 90,
+             ));
+            $thumb->adaptiveResize($phs['width'], $phs['height']);
+            $thumb->save($file, 'png');
+        }
+        $phs['thumbnail'] = $item->getCacheDir(false) . $mask;
+
 		$item = $this->getChunk($this->getProperty('itemTpl'), $phs);
 
 		return $item;
