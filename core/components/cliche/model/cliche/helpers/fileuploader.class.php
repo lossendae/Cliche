@@ -92,6 +92,7 @@ class FileUploader extends Import {
         $response = array();
         $response['success'] = $success;
         $response['message'] = $message;		
+        $response['t'] = $_SERVER["CONTENT_TYPE"];		
         return $this->modx->toJSON($response);
     }
 	
@@ -102,17 +103,23 @@ class FileUploader extends Import {
      * @return array The script response for the requested action.
      */
     protected function _setUploaderHandler(){
-        if (isset($_GET['qqfile'])) {
+		if (isset($_SERVER["HTTP_CONTENT_TYPE"]))
+			$contentType = $_SERVER["HTTP_CONTENT_TYPE"];
+
+		if (isset($_SERVER["CONTENT_TYPE"]))
+			$contentType = $_SERVER["CONTENT_TYPE"];
+			
+        if (strpos($contentType, "application/octet-stream") !== false) {
             if (!$this->modx->loadClass('cliche.helpers.UploadFileXhr',$this->config['model_path'],true,true)) {
                 $this->errors[] = 'Could not load helper class UploadFileXhr';
             }	
-            $requestParameter = $this->modx->getOption('requestFileVar', $this->config, 'qqfile');
+            $requestParameter = $this->modx->getOption('request_file_var', $this->config, 'name');
             $this->file = new UploadFileXhr($requestParameter);
-        } elseif (isset($_FILES['uploadformfield-file'])) {
+        } else {
             if (!$this->modx->loadClass('cliche.helpers.UploadFileForm',$this->config['model_path'],true,true)) {
                 $this->errors[] = 'Could not load helper class UploadFileForm.'. $this->config['model_path'];
             }
-            $this->file = new UploadFileForm('uploadformfield-file');
+            $this->file = new UploadFileForm('name');
         } 
     }	    
 		
