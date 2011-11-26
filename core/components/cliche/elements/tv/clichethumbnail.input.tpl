@@ -18,10 +18,11 @@ Ext.onReady(function() {
 		,items: [{
 			xtype: 'cliche-thumbnail-tv'
 			,id: 'clichethumbnail-pw-{$tv->id}'
-			,tvId: '{$tv->id}'
+			,tv: '{$tv->id}'
 			,resourceId: '{$resourceId}'
 		}]
 		{if $itemjson},data: {$itemjson}{/if}
+		{if $configjson},config: {$configjson}{/if}
 	{literal}
 	});
 	{/literal}

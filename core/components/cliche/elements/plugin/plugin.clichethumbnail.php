@@ -40,14 +40,10 @@ switch ($modx->event->name) {
 
         /* Window */
 		$modx->regClientStartupScript($cliche->config['assets_url'].'mgr/clichethumbnail/thumb/window.js');
+		$modx->regClientStartupScript($cliche->config['assets_url'].'mgr/clichethumbnail/thumb/main.js');
 		$modx->regClientStartupScript($cliche->config['assets_url'].'mgr/clichethumbnail/thumb/cropper.js');
 		$modx->regClientStartupScript($cliche->config['assets_url'].'mgr/clichethumbnail/thumb/uploader.js');
 		$modx->regClientStartupScript($cliche->config['assets_url'].'mgr/clichethumbnail/thumb/album.js');
-
-        /* @TODO / Browse other albums to copy existing image from them to thumbnail album */
-//        $modx->regClientStartupScript($cliche->config['assets_url'].'mgr/clichethumbnail/browse/albums.js');
-//        $modx->regClientStartupScript($cliche->config['assets_url'].'mgr/clichethumbnail/browse/album.js');
-//        $modx->regClientStartupScript($cliche->config['assets_url'].'mgr/clichethumbnail/browse/picture.js');
         break;
 }
 return;
