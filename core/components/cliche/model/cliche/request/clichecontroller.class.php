@@ -35,10 +35,11 @@ abstract class ClicheController {
     public function run($scriptProperties) {
         $this->setProperties($scriptProperties);
         $this->loadPlugin();
-        $this->initialize();        
-        $chunksPath = $this->getProperty('chunks_path', null);
+        $this->initialize();
+        /* chunks_path is not overridable by script properties - better for multi instance call */
+        $chunksPath = $this->config['chunks_path'];
         $useFileBasedChunks = $this->getProperty('use_filebased_chunks', true);
-        if(!empty($chunksPath) && !$useFileBasedChunks){
+        if(empty($chunksPath) && $useFileBasedChunks){
             $this->_setDefaultChunksPath();
         }
         $this->loadCSS();
@@ -223,7 +224,8 @@ abstract class ClicheController {
 		$chunk = null;
         /* first check internal cache */
         if (!isset($this->chunks[$name])) {
-			if (!$this->config['use_filebased_chunks']) {
+            $useFileBasedChunks = $this->getProperty('use_filebased_chunks', true);
+			if (!$useFileBasedChunks) {
 				$objectName = $this->config['chunks_prefix'] . ucfirst($name) . 'Tpl';
                 $chunk = $this->modx->getObject('modChunk',array('name' => $objectName));
             }
