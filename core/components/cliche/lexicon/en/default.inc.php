@@ -29,7 +29,7 @@ $_lang['cliche.error_delete_item_no_id'] = 'Error - The item id was either false
 
 /* Processors success messages - to move into mgr lexicon */
 $_lang['cliche.album_created_succesfully'] = 'Album created successfully';
-$_lang['cliche.album_udpated_succesfully'] = 'Album created successfully';
+$_lang['cliche.album_udpated_succesfully'] = 'Album updated successfully';
 $_lang['cliche.album_deleted_successfully'] = 'Album and items deleted successfully';
 $_lang['cliche.item_deleted_succesfully'] = 'Item removed successfully';
 $_lang['cliche.item_set_as_cover_succesfully'] = 'Image set as album cover successfully';

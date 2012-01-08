@@ -7,8 +7,9 @@
  */
 /* TOP MENU */
 
-$_lang['cliche'] = 'Cliche';
-$_lang['cliche.menu_desc'] = 'Une galerie d\'images dynamique pour MODx Revolution.';
+$_lang['cliche'] = 'Cliche, gestionnaire d\'albums';
+$_lang['cliche.menu'] = 'Cliche';
+$_lang['cliche.menu_desc'] = 'Un gestionnaire de média pour MODX Revolution.';
 
 $_lang['cliche.no_albums'] = '[Cliche] Aucun album créé pour le moment<br/>';
 $_lang['cliche.album_not_found'] = '[Cliche] Album non trouvé<br/>';
@@ -25,7 +26,6 @@ $_lang['cliche.error_album_delete_cancelled'] = 'Erreur - L\'album n\'a pu être
 $_lang['cliche.error_album_delete_no_id'] = 'Erreur - ID d\'album eronné ou non indiqué';
 $_lang['cliche.error_delete_item_aborted'] = 'Erreur - L\'entrée n\'a pu être supprimée - Opération interrompue, veuillez contacter votre administrateur';
 $_lang['cliche.error_delete_item_no_id'] = 'Erreur - ID d\'entrée eronné ou non indiqué';
-
 
 /* Processors success messages - to move into mgr lexicon */
 $_lang['cliche.album_created_succesfully'] = 'Album créé avec succès';
