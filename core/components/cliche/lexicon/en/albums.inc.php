@@ -27,7 +27,7 @@ $_lang['cliche.list.empty_col_msg'] = '<div class="empty-msg">Select an album fr
 $_lang['cliche.main_total_pics'] = '{total} Pictures';
 
 //msg
-$_lang['cliche.breadcrumb_album_list_desc'] = 'Album List.<br/>Select an album to view its contents.';
+$_lang['cliche.breadcrumb_album_list_desc'] = 'Albums List.<br/>Select an album to view its content.';
 
 
 /* CARD - ITEMS LIST */
@@ -97,7 +97,7 @@ $_lang['cliche.item_progressbar'] = '% completed...';
 //tabs
 $_lang['cliche.main_tab'] = 'Manage your albums';
 //Breadcrumbs
-$_lang['cliche.breadcrumb_root'] = 'Album list';
+$_lang['cliche.breadcrumb_root'] = 'Albums list';
 //buttons
 $_lang['cliche.close_btn'] = 'Cancel';
 //misc
