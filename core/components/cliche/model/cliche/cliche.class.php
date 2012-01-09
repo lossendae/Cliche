@@ -78,7 +78,7 @@ class Cliche {
 			
             'connector_url' => $assets_url.'connector.php',
 			
-			'mgr_thumb_mask' => 'mgr-thumb-95x135.jpg',
+			'mgr_thumb_mask' => 'mgr-thumb-75x103.jpg',
 			'phpthumb' => $assets_url.'connector.php?action=web/phpthumb&src=',
 			'thumb' => $assets_url.'connector.php?action=web/thumb',
 			'chunks_prefix' => 'Cliche',
@@ -141,7 +141,6 @@ class Cliche {
 		}
 		$uploader = new FileUploader($this, $this->config);
 		$result = $uploader->handleUpload($id);
-
 		return $result;
 	}
 	

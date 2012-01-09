@@ -44,8 +44,6 @@ class ClicheItems extends xPDOSimpleObject {
 
     public function getImage($params){
         $original = $this->xpdo->cliche->config['images_path'] . $this->get('filename');
-//        $ext = pathinfo($original, PATHINFO_EXTENSION);
-//        $ext = strtolower($ext);
 
         if(array_key_exists('mask', $params)){
             $name = str_replace(' ', '_', $params['mask']);
@@ -155,7 +153,6 @@ class ClicheItems extends xPDOSimpleObject {
         /* Update album infos */
         if($saved && $isNew){
             $this->updateAlbum();
-            $this->addManagerCacheFiles();
         }        
         return $saved;
     }
@@ -208,13 +205,11 @@ class ClicheItems extends xPDOSimpleObject {
         $original = $this->xpdo->cliche->config['images_path'] . $this->get('filename');
         $cacheFilename = $this->xpdo->cliche->config['mgr_thumb_mask'];
         $cacheFile = $cacheDir .'/'. $cacheFilename;
-//        $ext = pathinfo($original, PATHINFO_EXTENSION);
-//        $ext = strtolower($ext);
 
         /* Load the phpThumb class */
         $options = array('jpegQuality' => 90);
         $thumb = $this->xpdo->cliche->loadPhpThumb($original, $options);
-        $thumb->adaptiveResize(135, 95);
+        $thumb->adaptiveResize(103, 75);
         $thumb->save($cacheFile, 'jpg');
     }
 

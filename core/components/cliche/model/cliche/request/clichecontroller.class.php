@@ -3,6 +3,27 @@
  * @package cliche
  * @subpackage request
  */
+abstract class ClichePlugin {
+    /** @var modX $modx */
+    public $modx;
+    /** @var $view */
+    public $obj;
+
+    /**
+     * @param Cliche $cliche A reference to the Cliche instance
+     * @param array $config
+     */
+    function __construct(&$obj) {
+        $this->obj =& $obj;
+        $this->modx =& $obj->modx;
+    }
+	
+	abstract public function notify( $event, $args );
+}
+/**
+ * @package cliche
+ * @subpackage request
+ */
 abstract class ClicheController {
     /** @var modX $modx */
     public $modx;
@@ -33,9 +54,9 @@ abstract class ClicheController {
      * @return string The processed content
      */
     public function run($scriptProperties) {
-        $this->setProperties($scriptProperties);
-        $this->loadPlugin();
-        $this->initialize();
+        $this->setProperties($scriptProperties);		
+        $this->loadPlugin();   
+		$this->initialize();
         /* chunks_path is not overridable by script properties - better for multi instance call */
         $chunksPath = $this->config['chunks_path'];
         $useFileBasedChunks = $this->getProperty('use_filebased_chunks', true);
@@ -53,11 +74,11 @@ abstract class ClicheController {
     public function loadPlugin(){
         $plugin = ucfirst($this->getProperty('plugin', null));
         if(!empty($plugin)){
-            $dir = strtolower($plugin);
+            $dir = $config['plugins_path'] . $this->getProperty('chunk_dirname');
             if (!$this->modx->loadClass($dir.'.'. $dir, $this->config['plugins_path'],true,true)) {
-                $this->modx->log(modX::LOG_LEVEL_ERROR, '[Cliche] Could not load '.$plugin.' plugin in: '. $this->config['plugins_path'] . $dir .'/'. $dir .'.class.php');
+                $this->modx->log(modX::LOG_LEVEL_ERROR, '[Cliche] Could not load '.$plugin.' plugin in: '. $this->config['plugins_path'] . $dir .'/'. $plugin .'.class.php');
             }
-            $this->plugin = new $plugin($this->modx);
+            $this->plugin = new $plugin($this);
         }
     }
 
@@ -67,12 +88,10 @@ abstract class ClicheController {
      * @param mixes $args Optional arguments to pass to the plugin class
      * @return mixed/void if $args is not supplied else the processed $args
      */
-    public function fireEvent($event, $args = null){
+    public function fireEvent($event, $args = null){	
         if(isset($this->plugin) && is_object($this->plugin)){
             if(empty($args)){
-                $this->plugin->notify($event, $this);
-            } else {
-                return $this->plugin->handle($event, $args, $this);
+                $this->plugin->notify( $event, $args );
             }
         }
     }
@@ -202,8 +221,8 @@ abstract class ClicheController {
 			$this->modx->getOption('assets_path'),
 		), $this->config);
 		
-		$config['chunks_path'] = $config['plugins_path'] . $this->getProperty('display') . '/';
-		$config['chunks_url'] = $config['plugins_url'] . $this->getProperty('display') . '/';
+		$config['chunks_path'] = $config['plugins_path'] . $this->getProperty('chunk_dirname') . '/';
+		$config['chunks_url'] = $config['plugins_url'] . $this->getProperty('chunk_dirname') . '/';
 		
 		$this->config = array_merge($this->config, $config);	
 		$this->cliche->config = $this->config;	
@@ -263,27 +282,4 @@ abstract class ClicheController {
 		}
 		return $chunk;
 	}
-
-    /**
-     * An helper method to load javascript in the header according to the instance chunks path
-     * @param string $script
-     * @return void
-     */
-	public function regClientStartupScript($script){
-		$this->modx->regClientStartupScript($this->config['chunks_url'] . $script);
-	}
-
-    /**
-     * An helper method to load javascript before the closing body tag according to the instance chunks path
-     * @param string $script
-     * @return void
-     */
-	public function regClientScript($script){
-		$this->modx->regClientScript($this->config['chunks_url'] . $script);
-	}
-}
-interface ClichePlugin {
-    public function notify( $event, &$obj );
-
-    public function handle( $event, $args, &$obj );
 }

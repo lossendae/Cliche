@@ -72,7 +72,7 @@ Ext.extend(MODx.ClicheAlbumsListView,MODx.DataView,{
     }
 
     ,formatData: function(data) {
-        data.shortName = Ext.util.Format.ellipsis(data.name, 12);
+        data.shortName = Ext.util.Format.ellipsis(data.name, 16);
         this.lookup['album-list-thumb-'+data.id] = data;
         return data;
     }

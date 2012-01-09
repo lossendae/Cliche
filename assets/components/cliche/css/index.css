@@ -1,21 +1,41 @@
+/* To add to modx css's */
+.modx-template-detail .selected h5 {
+	word-wrap: break-word;
+}
 h2{ font-weight: bold; }
-
-.crumb_wrapper {
-    border-top: 0 none;
-    margin-top: 0;
+/* For Trendy manager theme
+.panel-desc p {
+	background-color: #FAFAFA;
+    border: 1px solid #D5D5D5 !important;
+}*/
+.thumb-wrapper,
+.thumb-wrapper.selected {
+	padding: 15px;
+	width: 105px;
+}
+.thumb-wrapper .thumb {
+	border: 1px solid #CCCCCC;
+	height: 75px;
+	width: auto;
 }
 .thumb-wrapper .total_pics {
     color: #999999;
     font-size: 9px;
     text-transform: uppercase;
 }
-.body-wrapper{
-	margin-top:10px;
+.thumb-wrapper .thumb img {
+	-moz-border-radius: 0 0 0 0;
+	-webkit-border-radius: 0 0 0 0;
+	border-radius: 0 0 0 0;
+	height: 75px;
+    width: 103px;
 }
-
+.body-wrapper{ margin-top:10px; }
 .empty-text-wrapper {
+    font-style: italic;
+    font-weight: normal;
+    padding: 15px;
     text-align: center;
-	padding: 15px;
 }
 
 /* button icons */
@@ -40,16 +60,18 @@ h2{ font-weight: bold; }
 .x-btn-text-icon .x-btn-icon-small-left .x-btn-text{	padding-left: 26px !important; }
 
 /* Album desc */
-.album_desc { 
+.album-desc { 
 	min-height: 50px;
     position: relative;
 }
-.album_desc img{
+.album-desc img{
 	border: 1px solid #CCCCCC;
+	max-height: 50px;
 	position: absolute;
     width: 65px;
 }
-.album_desc .no-preview{
+.album-desc .no-preview{
+	background-color: #FAFAFA;
 	border: 1px solid #CCCCCC;
     color: #AAAAAA;
     font-size: 8px;
@@ -61,25 +83,39 @@ h2{ font-weight: bold; }
     width: 65px;
 }
 .album_name{
-	font-size: 18px;
+    color: #666666;
+    font-size: 11px;
     margin-left: 80px;
 }
-.album_name span{
-	display: block;
-    font-size: 11px;
+.album_name h3{
+	color: #555555;
+    font-size: 18px;
+    margin-bottom: 0;   
 }
-.album_desc .inline-button{
-	display: block;
-    position: absolute;
-    right: 0;
-    top: 8px;
-}
-.album_desc .icon-add-white{
+.album_name h3 span{ color: #888888; }
+.album_name strong{ color: #555555; }
+.album-desc .icon-add-white{
 	background-position: 0 0 !important;
     float: left;
     height: 16px;
     margin: -2px 8px 0 0;
     width: 16px;
+}
+.album_meta{
+	border-left: 1px solid #E5E5E5;
+    color: #666;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.1;
+    padding: 16px 20px 25px;
+    position: absolute;
+    right: -15px;
+    text-align: center;
+    top: -15px;
+}
+.album_meta span{
+	display: block;
+	color: #888;
 }
 
 /* Upload list */
@@ -190,10 +226,10 @@ h2{ font-weight: bold; }
 }
 .upload-fail .upload-cancel { display:none; }
 .active .upload-button, .upload-fail .upload-button, .upload-success .upload-button { display:none; }
-.what_happened{
+.what_happened {
 	color: #8F0000;
     padding-top: 4px;
- }
+}
  
  /* Misc */
  .empty-msg {
@@ -202,7 +238,6 @@ h2{ font-weight: bold; }
     padding: 40px 0;
     text-align: center;
 }
-
 .empty-msg h4{
     font-size: 18px;
     margin-bottom: 10px;
@@ -238,7 +273,6 @@ h2{ font-weight: bold; }
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6efd1,endColorstr=#9fcb57,GradientType=0);
 	background:linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
 }
-
 .modx-template-detail .selected .lightbox img {
     border: 1px solid #AAAAAA;
     -moz-border-radius: 0;
@@ -247,3 +281,38 @@ h2{ font-weight: bold; }
     height: auto;
     max-width: 90px;
 }
+
+/* Custom splitbuttons */
+.splitbuttons{
+	border: 1px solid #CCCCCC;
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+	display: inline-block;
+	overflow: hidden;
+}
+.splitbuttons li{
+    border-color: transparent #CCCCCC transparent transparent;
+    border-radius: 0 0 0 0;
+    -moz-border-radius: 0 0 0 0;
+    -webkit-border-radius: 0 0 0 0;
+    border-style: none solid none none;
+    border-width: 0 1px 0 0;
+    float: left;
+    padding: 0;
+}
+.splitbuttons li:last-child{
+	border:0 none;
+}
+.splitbuttons button{
+	background-color: transparent;
+    border: 0 none;
+    display: inline-block;
+    height: 32px;
+    text-indent: -999em;
+    width: 36px;
+	cursor: pointer;
+}
+.splitbuttons .edit button{ background:url("../images/item_options.png") no-repeat scroll center center transparent !important; }
+.splitbuttons .set-as-cover button{ background:url("../images/set_as_cover.png") no-repeat scroll center center transparent !important; }
+.splitbuttons .delete button{ background:url("../images/delete-item.png") no-repeat scroll center center transparent !important; }

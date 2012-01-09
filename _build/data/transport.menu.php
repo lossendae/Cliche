@@ -20,7 +20,7 @@ $action->fromArray(array(
 $menu= $modx->newObject('modMenu');
 $menu->fromArray(array(
     'parent' => 'components',
-    'text' => 'cliche.menu',
+    'text' => 'cliche',
     'description' => 'cliche.menu_desc',
     'icon' => 'images/icons/plugin.gif',
     'menuindex' => '0',

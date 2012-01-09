@@ -109,9 +109,10 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
             ,runtimes: 'html5,flash'
             ,browse_button: Ext.getCmp('default-browse-btn').getEl().dom.id
             ,container: 'default-uploader'
+            ,drop_element: 'default-upload-list'
             ,multipart: true
 			,flash_swf_url : MODx.ClicheAssetsUrl + 'reload/libs/plupload.flash.swf'
-			/* Disabled for now, It's not possible to really anticipate the behaviour of those filters with the lack of events listeners in the plugin */
+			/* Disabled for now, It's not possible to really anticipate the behaviour of those filters with the lack of event listeners in the plugin */
             // ,filters : [
 				// {title : "Image files", extensions : "jpg,gif,png,JPG,GIF,PNG"}
 				// ,{title : "Zip files", extensions : "zip,ZIP"}

@@ -27,7 +27,7 @@
  * @package cliche
  * @subpackage controllers
  */
-class ItemsController extends ClicheController {
+class AlbumController extends ClicheController {
 	/**
      * Initialize this controller, setting up default properties
      * @return void
@@ -40,19 +40,18 @@ class ItemsController extends ClicheController {
             'columns' => 3,
             'columnBreak' => '<br style="clear: both;">',
 			
-            'itemsWrapperTpl' => 'itemswrapper',
-            'itemTpl' => 'items',
-			
-			'display' => 'default',	
+            'albumWrapperTpl' => 'albumwrapper',
+            'itemTpl' => 'item',
 			
             'idParam' => 'cid',
             'viewParam' => 'view',
-            'viewParamName' => 'item',
+            'viewParamName' => 'image',
 			
 			'loadCSS' => true,
             'css' => 'default',
             'config' => null,
-            'browse' => false,
+            'browse' => true,
+			'chunk_dirname' => 'default',
         ));
         $this->fireEvent('load');
     }
@@ -105,7 +104,7 @@ class ItemsController extends ClicheController {
 		}
 		$phs = $row->Album->toArray();
 		$phs['items'] = $list;
-		$items = $this->getChunk($this->getProperty('itemsWrapperTpl'), $phs);
+		$items = $this->getChunk($this->getProperty('albumWrapperTpl'), $phs);
 		return $items;
 	}
 	
@@ -155,4 +154,4 @@ class ItemsController extends ClicheController {
 		return $processed;
 	}
 }
-return 'ItemsController';
+return 'AlbumController';

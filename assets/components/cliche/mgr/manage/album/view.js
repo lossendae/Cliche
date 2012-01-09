@@ -14,7 +14,7 @@ MODx.ClicheDefaultAlbumView = function(config) {
         url: MODx.ClicheConnectorUrl
         ,fields: ['id','name','description','createdon','createdby','protected','album_id','image','thumbnail','phpthumb','metas']
         ,baseParams: {
-            action: 'set/getList'
+            action: 'album/getList'
 			,ctx: 'mgr'
 			,limit: 12
 			,start: 0
@@ -54,6 +54,9 @@ Ext.extend(MODx.ClicheDefaultAlbumView,MODx.DataView,{
         if(selNode && selNode.length > 0){
             selNode = selNode[0];
             var data = this.lookup[selNode.id];
+			var album = Ext.getCmp('cliche-album-default').album;
+			//Show set as cover button if necessary
+			data.is_cover = (data.id == album.cover_id) ? true : false;
             if (data) { Ext.getCmp('cliche-album-item-details').updateDetail(data); }
         }
     }
@@ -70,7 +73,6 @@ Ext.extend(MODx.ClicheDefaultAlbumView,MODx.DataView,{
 				+'<div class="thumb">'
 					+'<img src="{thumbnail}" title="{name}" alt="{name}" />'
 				+'</div>'
-				+'<span class="name">{shortName}</span>'
 			+'</div>'
 		+'</tpl>', {
 			compiled: true
@@ -134,6 +136,12 @@ MODx.panel.ClicheAlbumDefault = function(config) {
 					,scope: this				
 				}]
 			}
+		},'->',{
+			text: _('cliche.add_photo')
+			,cls: 'green'
+			,iconCls: 'icon-add-white'
+			,handler: this.onaddPhoto
+			,scope: this
 		}]
 		,border: false
 		,autoHeight: true
@@ -172,7 +180,13 @@ MODx.panel.ClicheAlbumDefault = function(config) {
 							+'<img src="{image}" alt="{name}" />'
 						+'</a>'
 						+'<h5>{name}</h5>'
-						+'<button class="inline-button" onclick="Ext.getCmp(\'modx-package-browser-view\').activate(\'{id}\'); return false;"/>'+_('cliche.edit_item')+'</button>'
+						+'<ul class="splitbuttons">'
+							+'<li class="inline-button edit"><button ext:qtip="'+_('cliche.edit_item')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').editImage(\'{id}\'); return false;">'+_('cliche.edit_item')+'</button></li>'
+							+'<tpl if="!is_cover">'								
+								+'<li class="inline-button set-as-cover"><button ext:qtip="Set as album cover" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').setAsCover(\'{id}\'); return false;">Set as cover</button></li>'
+							+'</tpl>'
+							+'<li class="inline-button delete"><button ext:qtip="Delete image: {name}" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').deleteImage(\'{id}\'); return false;">Delete</button></li>'
+						+'</ul>'
 					+'</div>'
 					+'<div class="description">'
 						+'<h4>'+_('cliche.desc_title')+'</h4>'
@@ -201,8 +215,8 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 	activate: function(rec){
 		if(rec != undefined){
 			this.album = rec;
-			this.view.store.setBaseParam('album', rec.id);
-		}
+		}		
+		this.view.store.setBaseParam('album', this.album.id);
 		this.view.run();
 		Ext.getCmp('card-container').getLayout().setActiveItem(this.id);
 		Ext.getCmp('cliche-album-item-details').reset();
@@ -243,6 +257,47 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 				},scope:this}
 			}
 			,animEl: btn.id
+        });
+	}
+	
+	,setAsCover: function(id){
+		MODx.msg.confirm({
+			title: 'Album cover'
+			// ,text: _('cliche.delete_album_msg')
+			,text: 'Do you want to set this image as your album cover ?'
+			,url: MODx.ClicheConnectorUrl			   
+			,params: {
+				action: 'image/setascover'
+				,id: id
+				,album: this.album.id
+				,ctx: 'mgr'
+			}
+			,listeners: {
+				'success':{fn:function(r) {
+					this.activate(r.data);
+				},scope:this}
+			}
+			,animEl: this.id
+        });
+	}
+	
+	,deleteImage: function(id){
+		MODx.msg.confirm({
+			title: 'Delete image'
+			// ,text: _('cliche.delete_album_msg')
+			,text: 'Are you sur you want to delete this image ?'
+			,url: MODx.ClicheConnectorUrl			   
+			,params: {
+				action: 'image/delete'
+				,id: id
+				,ctx: 'mgr'
+			}
+			,listeners: {
+				'success':{fn:function(r) {
+					this.activate(r.data);
+				},scope:this}
+			}
+			,animEl: this.id
         });
 	}
 });

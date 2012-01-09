@@ -1,7 +1,8 @@
-<div class="cliche">
-	<div class="item">
-		<a title="[[+name]]" class="zoom" href="[[+image]]">
+<dl class="item">
+	<dt class="album-icon">
+		<a title="[[+name]]" href="[[+url]]">
 			<img width="[[+width]]" height="[[+height]]" title="[[+name]]" alt="[[+description]]" class="attachment-thumbnail" src="[[+thumbnail]]"/>
-		</a>		
-	</div>
-</div>
+		</a>
+	</dt>
+</dl>
+<!-- End .item -->

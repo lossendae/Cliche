@@ -23,7 +23,7 @@ Ext.onReady(function() {
 
 		$panels = array();
 		
-		$this->addJavascript($this->cliche->config['assets_url'].'mgr/manage/set/view.js');
+		$this->addJavascript($this->cliche->config['assets_url'].'mgr/manage/album/view.js');
 		
 		$panels[] = 'cliche-album-default';
 		
@@ -36,6 +36,7 @@ Ext.onReady(function() {
 		
 		$panels[] = 'cliche-item-default-upload-panel';
 		
+		//Will need some refactoring to allow dynamic custom panel loading
 		$this->addHtml('<script type="text/javascript">function getPanels(){ return '.$this->modx->toJSON($panels).'; }</script>');
 
 

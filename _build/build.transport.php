@@ -14,8 +14,8 @@ set_time_limit(0);
 /* define package */
 define('PKG_NAME','Cliche');
 define('PKG_NAMESPACE',strtolower(PKG_NAME));
-define('PKG_VERSION','0.2');
-define('PKG_RELEASE','a');
+define('PKG_VERSION','1.0');
+define('PKG_RELEASE','beta1');
 
 function getSnippetContent($path, $name, $debug = false) {
 	$name = ($debug) ? 'debug.'. $name .'.php' : $name .'.php';
@@ -38,7 +38,7 @@ $sources= array (
     'core' => $root.'core/components/'.PKG_NAMESPACE,
     'snippets' => $root.'core/components/'.PKG_NAMESPACE.'/elements/snippets/',
     'assets' => $root.'assets/components/'.PKG_NAMESPACE,
-	'tpl' => $root . 'assets/templates/freshpick/',
+	// 'tpl' => $root . 'assets/templates/freshpick/',
 	'lexicon' => $root . 'core/components/'.PKG_NAMESPACE.'/lexicon/',
     'docs' => $root.'core/components/'.PKG_NAMESPACE.'/docs/',
     'model' => $root.'core/components/'.PKG_NAMESPACE.'/model/',

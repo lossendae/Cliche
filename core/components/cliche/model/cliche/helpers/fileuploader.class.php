@@ -207,16 +207,15 @@ class FileUploader extends Import {
 					return $this->_response('Upload from zip file - '. $this->count .' picture created successfully', true);
 				}					
 			} else {
-				$data['name'] = $this->pathinfo['filename'];
 				$data['filename'] = $this->config['album_id'] .'/'. $this->pathinfo['filename'] .'.'. $extension;	
 				
 				/* Single file properties */	
 				$returnThumb = $this->modx->getOption('return_thumb', $this->config, true);
                 
-                /* Remove space from name */
-                rename ($file, str_replace(' ','_',$file));
-                $filename = str_replace(' ','_',$data['filename']);										
-                $data['filename'] = $filename;
+                /* Remove unwanted characters form filename */
+				$name = $this->sanitizeName($this->pathinfo['filename']);
+				$data['name'] = $name;
+				$data['filename'] = str_replace($this->pathinfo['filename'], $name, $data['filename']);
 				
 				/* Save item */
 				$result = $this->_saveItem($data, $returnThumb);
@@ -233,6 +232,20 @@ class FileUploader extends Import {
 		}
 		return $this->_response('File could not be uploaded');
     }
+	
+	public function sanitizeName($name, $rename = true){    
+		$name = str_replace(' ','_',$name);
+		
+		$allowedChars = "[^0-9a-zA-z()_-]";
+		$name = preg_replace("/$allowedChars/","",$name);		
+
+		$name =  filter_var($name, FILTER_SANITIZE_STRING);										
+        $name = filter_var($name, FILTER_SANITIZE_URL);        
+		if($rename){
+			rename($this->target . $this->pathinfo['filename'] .'.'. $this->pathinfo['extension'], $this->target . $name .'.'. $this->pathinfo['extension']);
+		}
+		return $name;
+	}
 	
 	/**
      * Run the import script.
@@ -257,15 +270,13 @@ class FileUploader extends Import {
 		$item->fromArray($data);
 		if($item->save()){
 			/* @TODO : This might not be useful in the end */
-			if(!$returnThumb){
+			if($returnThumb){
 				$this->message = array(
 					'image' => $item->get('image'),
 					'thumbnail' => '<img height="40" width="45" src="'. $item->get('manager_thumbnail') .'?t='. strtotime('now') .'" />',
 					'id' => $item->get('id'),
 					'timestamp' => strtotime('now'),
 				);
-			} else {				
-				$this->message = '<img height="40" width="45" src="'. $item->get('manager_thumbnail') .'?t='. strtotime('now') .'" />';
 			}
 			$this->config['item_id'] = $item->get('id');
 			return true;
@@ -358,9 +369,10 @@ class FileUploader extends Import {
 
         /* create item */
 		$data = array();
+		
 		$data['name'] = str_replace('.'.$fileExtension, '', $fileName);
-		$data['filename'] = $this->config['album_id'] .'/'. $this->pathinfo['filename'] .'.'. $this->pathinfo['filename'];
-		$result = $this->_saveItem($data);
+		$data['filename'] = $this->config['album_id'] .'/'. $this->pathinfo['filename'] .'.'. $fileExtension;
+		$result = $this->_saveItem($data, false);
 		if(!$result){
 			$this->errors[] = 'Could not save image "'. $fileName .'" in database';
 			@unlink($filePathName);

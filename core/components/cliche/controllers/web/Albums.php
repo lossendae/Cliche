@@ -41,17 +41,16 @@ class AlbumsController extends ClicheController {
             'columnBreak' => '<br style="clear: both;">',
 			
             'albumsWrapperTpl' => 'albumwrapper',
-            'albumItemTpl' => 'albumitem',
-			
-            'display' => 'default',	
+            'albumItemTpl' => 'albumcover',
 			
             'idParam' => 'cid',
             'viewParam' => 'view',
-            'viewParamName' => 'set',
+            'viewParamName' => 'album',
 			
             'loadCSS' => true,
             'css' => 'default',
 			'config' => null,
+			'chunk_dirname' => 'default',
         ));
         $this->fireEvent('load');
     }
@@ -61,7 +60,7 @@ class AlbumsController extends ClicheController {
      * @return string
      */
     public function process() {
-		$output = $this->getSets();		
+		$output = $this->getSets();	
 		return $output;
 	}
 	

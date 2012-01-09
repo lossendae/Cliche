@@ -27,7 +27,7 @@
  * @package cliche
  * @subpackage controllers
  */
-class ItemController extends ClicheController {
+class ImageController extends ClicheController {
 	/**
      * Initialize this controller, setting up default properties
      * @return void
@@ -36,7 +36,7 @@ class ItemController extends ClicheController {
         $this->setDefaultProperties(array(
             'thumbWidth' => 120,
             'thumbHeight' => 120,			
-            'itemTpl' => 'item',
+            'imageTpl' => 'image',
 			
             'display' => 'default',	
 			
@@ -45,7 +45,8 @@ class ItemController extends ClicheController {
 			'loadCSS' => true,
             'css' => 'default',
 			'config' => null,
-			'browse' => false,
+			'browse' => true,
+			'chunk_dirname' => 'default',
         ));
         $this->fireEvent('load');
     }
@@ -98,9 +99,9 @@ class ItemController extends ClicheController {
         }
         $phs['thumbnail'] = $item->getCacheDir(false) . $mask;
 
-		$item = $this->getChunk($this->getProperty('itemTpl'), $phs);
+		$item = $this->getChunk($this->getProperty('imageTpl'), $phs);
 
 		return $item;
 	}
 }
-return 'ItemController';
+return 'ImageController';

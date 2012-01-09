@@ -1,8 +1,7 @@
-<dl class="item">
-	<dt class="album-icon">
-		<a title="[[+name]]" href="[[+url]]">
+<div class="cliche">
+	<div class="item">
+		<a title="[[+name]]" class="zoom" href="[[+image]]">
 			<img width="[[+width]]" height="[[+height]]" title="[[+name]]" alt="[[+description]]" class="attachment-thumbnail" src="[[+thumbnail]]"/>
-		</a>
-	</dt>
-</dl>
-<!-- End .item -->
+		</a>		
+	</div>
+</div>
