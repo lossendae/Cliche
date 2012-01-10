@@ -112,7 +112,7 @@ MODx.panel.ClicheAlbumDefault = function(config) {
 		,layout: 'column'
 		,tbar: [{
 			xtype: 'button'
-			,text: 'Back to albums list' //@TODO lexicon
+			,text: _('cliche.back_to_album_list')
 			,iconCls:'icon-back'
 			,handler: function(){
 				Ext.getCmp('album-list').activate();
@@ -183,9 +183,9 @@ MODx.panel.ClicheAlbumDefault = function(config) {
 						+'<ul class="splitbuttons">'
 							+'<li class="inline-button edit"><button ext:qtip="'+_('cliche.edit_item')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').editImage(\'{id}\'); return false;">'+_('cliche.edit_item')+'</button></li>'
 							+'<tpl if="!is_cover">'								
-								+'<li class="inline-button set-as-cover"><button ext:qtip="Set as album cover" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').setAsCover(\'{id}\'); return false;">Set as cover</button></li>'
+								+'<li class="inline-button set-as-cover"><button ext:qtip="'+_('cliche.set_as_album_cover')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').setAsCover(\'{id}\'); return false;">'+_('cliche.set_as_album_cover')+'</button></li>'
 							+'</tpl>'
-							+'<li class="inline-button delete"><button ext:qtip="Delete image: {name}" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').deleteImage(\'{id}\'); return false;">Delete</button></li>'
+							+'<li class="inline-button delete"><button ext:qtip="'+_('cliche.delete_image')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').deleteImage(\'{id}\'); return false;">'+_('cliche.delete_image')+'</button></li>'
 						+'</ul>'
 					+'</div>'
 					+'<div class="description">'
@@ -238,12 +238,12 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 	}
 	
 	,onUpdateAlbum: function(btn, e){
-		Ext.getCmp('cliche-main-panel').loadCreateUpdateWindow('Udpate Album', 'update', btn, this.id, this.album);	
+		Ext.getCmp('cliche-main-panel').loadCreateUpdateWindow(_('cliche.update_album'), 'update', btn, this.id, this.album);	
 	}
 	
 	,onDeleteAlbum: function(btn, e){
 		MODx.msg.confirm({
-			title: 'Remove album'
+			title: _('cliche.delete_album')
 			,text: _('cliche.delete_album_msg')
 			,url: MODx.ClicheConnectorUrl			   
 			,params: {
@@ -262,9 +262,8 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 	
 	,setAsCover: function(id){
 		MODx.msg.confirm({
-			title: 'Album cover'
-			// ,text: _('cliche.delete_album_msg')
-			,text: 'Do you want to set this image as your album cover ?'
+			title: _('cliche.set_as_album_cover')
+			,text: _('cliche.set_as_album_cover_msg')
 			,url: MODx.ClicheConnectorUrl			   
 			,params: {
 				action: 'image/setascover'
@@ -283,9 +282,8 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 	
 	,deleteImage: function(id){
 		MODx.msg.confirm({
-			title: 'Delete image'
-			// ,text: _('cliche.delete_album_msg')
-			,text: 'Are you sur you want to delete this image ?'
+			title: _('cliche.delete_image')
+			,text: _('cliche.delete_image_msg')
 			,url: MODx.ClicheConnectorUrl			   
 			,params: {
 				action: 'image/delete'

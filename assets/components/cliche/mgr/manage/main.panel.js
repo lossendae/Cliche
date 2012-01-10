@@ -16,7 +16,7 @@ MODx.panel.cliche = function(config) {
         ,unstyled: true
         ,defaults: { collapsible: false ,autoHeight: true }
         ,items: [{
-            html: '<h2>Cliche</h2>'
+            html: '<h2>'+ _('cliche.title') +'</h2>'
             ,border: false
             ,cls: 'tools modx-page-header'
         },{
@@ -153,7 +153,7 @@ MODx.window.ClicheAlbumsWindow = function(config) {
 Ext.extend(MODx.window.ClicheAlbumsWindow,Ext.Window,{
 	save: function(b,t){	
 		Ext.getCmp(this.formId).getForm().submit({
-			waitMsg: 'Saving, please Wait...'
+			waitMsg: _('cliche.saving_msg')
 			,url     : MODx.ClicheConnectorUrl
 			,params : {
 				action: 'album/'+ this.saveAction

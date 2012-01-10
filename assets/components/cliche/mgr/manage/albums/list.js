@@ -153,51 +153,54 @@ MODx.panel.ClicheAlbumsList = function(config) {
 			,id: 'create-album-btn'
 			,handler: this.loadWindow
 			,scope: this
-		}, '->'
-        , '<span class="customsearchfield desc">Viewing</span>' ,{
-			text: 'Default'
-			,id: 'cliche-filter-album-type'
-            ,param: 'type'
-			,activeItem: 0
-			,menu: {
-				plain: true
-				,defaults: {
-					handler: this.onItemClick
-					,scope: this
-				}
-				,items: [{
-					text: 'Default'
-                    ,filter: 'default'
-				},{
-					text: 'Cliche Thumbnail TV'
-                    ,filter: 'TV'
-				}]
-			}
-        }
-		, '	','Albums sorted by : '
-		,{
-            text: 'Title'
-			,id: 'cliche-filter-album'
-            ,param: 'sortby'
-			,activeItem: 0
-			,menu: {
-				plain: true
-				,defaults: {
-					handler: this.onSortByItemClick
-					,scope: this
-				}
-				,items: [{
-					text: 'Name'
-                    ,filter: 'name'
-				},{
-					text: 'Creation date'
-                    ,filter: 'createdon'
-				},{
-					text: 'Author'
-                    ,filter: 'createdby'
-				}]
-			}
-		}]
+		}
+		/* Not active in first bêta - Wait for the first TV */
+		// , '->'
+        // , '<span class="customsearchfield desc">Viewing</span>' ,{
+			// text: 'Default'
+			// ,id: 'cliche-filter-album-type'
+            // ,param: 'type'
+			// ,activeItem: 0
+			// ,menu: {
+				// plain: true
+				// ,defaults: {
+					// handler: this.onItemClick
+					// ,scope: this
+				// }
+				// ,items: [{
+					// text: 'Default'
+                    // ,filter: 'default'
+				// },{
+					// text: 'Cliche Thumbnail TV'
+                    // ,filter: 'TV'
+				// }]
+			// }
+        // }
+		// , '	','Albums sorted by : '
+		// ,{
+            // text: 'Title'
+			// ,id: 'cliche-filter-album'
+            // ,param: 'sortby'
+			// ,activeItem: 0
+			// ,menu: {
+				// plain: true
+				// ,defaults: {
+					// handler: this.onSortByItemClick
+					// ,scope: this
+				// }
+				// ,items: [{
+					// text: 'Name'
+                    // ,filter: 'name'
+				// },{
+					// text: 'Creation date'
+                    // ,filter: 'createdon'
+				// },{
+					// text: 'Author'
+                    // ,filter: 'createdby'
+				// }]
+			// }
+		// }
+		]
 		,border: false
 		,autoHeight: true
 		,items:[{
@@ -228,4 +231,4 @@ Ext.extend(MODx.panel.ClicheAlbumsList,MODx.Panel,{
 		Ext.getCmp('cliche-main-panel').loadCreateUpdateWindow('Create a new Album', 'create', btn, 'album-list');	
 	}
 });
-Ext.reg('cliche-albums-list',MODx.panel.ClicheAlbumsList);
+Ext.reg('cliche-albums-list', MODx.panel.ClicheAlbumsList);
