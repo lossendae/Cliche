@@ -72,7 +72,7 @@ class ImageController extends ClicheController {
 			$id = $this->modx->getOption($this->getProperty('idParam'), $request, $this->getProperty('id', $this->getProperties(), null));
 		}
 		if(empty($id)){
-			return 'No item specified';
+			return $this->modx->lexicon('cliche.item_not_specified');
 		}	
 		
 		$item = $this->modx->getObject('ClicheItems', $id);	

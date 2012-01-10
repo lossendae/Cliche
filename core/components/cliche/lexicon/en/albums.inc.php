@@ -8,6 +8,11 @@
  
 /* CARD - ALBUMS LIST */
 
+$_lang['cliche.title'] = 'Cliche';
+$_lang['cliche.saving_msg'] = 'Saving, please Wait...';
+$_lang['cliche.back_to_album_list'] = 'Back to albums list';
+$_lang['cliche.back_to_album'] = 'Back to album';
+
 //buttons
 $_lang['cliche.add_album_btn'] = 'Create a new album';
 
@@ -63,7 +68,9 @@ $_lang['cliche.breadcrumbs_album_msg'] = '<div class="album-desc"><tpl if="cover
 //buttons
 $_lang['cliche.edit_item'] = 'Edit image';
 $_lang['cliche.delete_image'] = 'Delete image';
+$_lang['cliche.delete_image_msg'] = 'Are you sur you want to delete this image ?';
 $_lang['cliche.set_as_album_cover'] = 'Set as Album cover';
+$_lang['cliche.set_as_album_cover_msg'] = 'Do you want to set this image as your album cover ?';
 $_lang['cliche.add_photo'] = 'Add Images';
 
 //msg
@@ -77,8 +84,6 @@ $_lang['cliche.breadcrumbs_item_msg'] = 'Viewing Image : ';
 $_lang['cliche.upload_desc'] = '<h4>Select files from your computer</h4><p>You can select several files at a time by holding the shift key.</p>';
 $_lang['cliche.upload_ready_msg'] = 'Files ready to be uploaded :';
 $_lang['cliche.upload_cancel_msg'] = 'Cancel';
-$_lang['cliche.upload_success_msg'] = 'Image uploaded sucessfully'; 
-$_lang['cliche.upload_fail_msg'] = 'The image could not be saved';
 
 //buttons
 $_lang['cliche.browse'] = 'Browse...';

@@ -57,7 +57,7 @@ class FileUploader extends Import {
         
         if ($postSize < $this->config['sizeLimit'] || $uploadSize < $this->config['sizeLimit']){
             $size = max(1, $this->config['sizeLimit'] / 1024 / 1024) . 'M';  
-			$response = $this->_response('increase post_max_size and upload_max_filesize to '. $size .' '. $postSize .' '.$uploadSize);
+			$response = $this->_response($this->modx->lexicon('cliche.increase_post_max_size') . $size .' '. $postSize .' '.$uploadSize);
             die($response);    
         }        
     }
@@ -92,7 +92,8 @@ class FileUploader extends Import {
         $response = array();
         $response['success'] = $success;
         $response['message'] = $message;		
-        $response['t'] = $_SERVER["CONTENT_TYPE"];		
+        // $response['t'] = $this->contentType;		
+        // $response['z'] = $_GET;		
         return $this->modx->toJSON($response);
     }
 	
@@ -104,20 +105,20 @@ class FileUploader extends Import {
      */
     protected function _setUploaderHandler(){
 		if (isset($_SERVER["HTTP_CONTENT_TYPE"]))
-			$contentType = $_SERVER["HTTP_CONTENT_TYPE"];
+			$this->contentType = $_SERVER["HTTP_CONTENT_TYPE"];
 
 		if (isset($_SERVER["CONTENT_TYPE"]))
-			$contentType = $_SERVER["CONTENT_TYPE"];
+			$this->contentType = $_SERVER["CONTENT_TYPE"];
 			
-        if (strpos($contentType, "application/octet-stream") !== false) {
+        if (strpos($this->contentType, "application/octet-stream") !== false) {
             if (!$this->modx->loadClass('cliche.helpers.UploadFileXhr',$this->config['model_path'],true,true)) {
-                $this->errors[] = 'Could not load helper class UploadFileXhr';
+                $this->errors[] = $this->modx->lexicon('cliche.uploadxhr_error');
             }	
             $requestParameter = $this->modx->getOption('request_file_var', $this->config, 'name');
             $this->file = new UploadFileXhr($requestParameter);
         } else {
             if (!$this->modx->loadClass('cliche.helpers.UploadFileForm',$this->config['model_path'],true,true)) {
-                $this->errors[] = 'Could not load helper class UploadFileForm.'. $this->config['model_path'];
+                $this->errors[] = $this->modx->lexicon('cliche.uploadfileform_error') . $this->config['model_path'];
             }
             $this->file = new UploadFileForm('name');
         } 
@@ -136,7 +137,7 @@ class FileUploader extends Import {
 
 		/* if the album ID is not supplied */
 		if(is_null($album_id)){
-			return $this->_response('Album id not specified');
+			return $this->_response($this->modx->lexicon('cliche.album_id_error'));
 		}
 		$this->config['album_id'] = $album_id;
 		
@@ -148,31 +149,31 @@ class FileUploader extends Import {
 		/* if directory doesn't exist, create it */
         if (!file_exists($this->target) || !is_dir($this->target)) {
             if (!$cacheManager->writeTree($this->target)) {
-               $this->modx->log(xPDO::LOG_LEVEL_ERROR,'[Cliche] Could not create directory: '. $this->target);
-               return $this->_response('Could not create the target directory in : '. $this->target);
+               $this->modx->log(xPDO::LOG_LEVEL_ERROR, $this->modx->lexicon('cliche.target_dir_error') . $this->target);
+               return $this->_response($this->modx->lexicon('cliche.target_dir_error') . $this->target);
             }
         }
 		
 		/* make sure directory is readable/writable */
         if (!is_readable($this->target) || !is_writable($this->target)) {
-            $this->modx->log(xPDO::LOG_LEVEL_ERROR,'[Cliche] Could not write to directory: '. $this->target);
-            return $this->_response('Could not write to directory: '. $this->target);
+            $this->modx->log(xPDO::LOG_LEVEL_ERROR, $this->modx->lexicon('cliche.target_dir_write_error') . $this->target);
+            return $this->_response($this->modx->lexicon('cliche.target_dir_write_error') . $this->target);
         }
         
 		/* if no file was uploaded */
         if (!$this->file){
-            return $this->_response('No file were uploaded');
+            return $this->_response($this->modx->lexicon('cliche.no_file_error'));
         }
 		
         $size = $this->file->getSize();        
 		/* if the file as no dimensions */
         if ($size == 0) {
-            return $this->_response('File appears to be empty in size :'. $size);
+            return $this->_response($this->modx->lexicon('cliche.empty_file_error') . $size);
         }
         
 		/* if the file size exceeds server settings */
         if ($size > $this->config['sizeLimit']) {
-            return $this->_response('File is too large');
+            return $this->_response($this->modx->lexicon('cliche.file_too_large_error'));
         } else {
 			$size = ($size < 1024) ? $size .' bytes' : round(($size * 10)/1024)/10 .' KB';
 		}
@@ -186,14 +187,14 @@ class FileUploader extends Import {
 		/* If the file to upload has a forbidden file extension - Double check (JS should have an extension control system too) */
         if(is_array($allowedExtensions) && !in_array(strtolower($extension), $allowedExtensions)){
             $these = implode(', ', $allowedExtensions);
-            return $this->_response('Invalid file extension, only the extensions "'. $these .'" are accepted');
+            return $this->_response($this->modx->lexicon('cliche.invalid_extensions_error') .'"'. $these .'"');
         }		
 		$file = $this->target . $fileName . '.' . $extension;
         
 		/* Check if exist */
         $exist = str_replace(' ','_',$file);
 		if (file_exists($exist) && !$replaceOldFile) {
-			return $this->_response('File already exist');
+			return $this->_response($this->modx->lexicon('cliche.already_exist_error'));
 		}
 
 		/* Upload the file */
@@ -204,7 +205,10 @@ class FileUploader extends Import {
 				if(!$result){
 					return $this->_response(implode(',',$this->errors));
 				} else {
-					return $this->_response('Upload from zip file - '. $this->count .' picture created successfully', true);
+					return $this->_response(array(
+						'message' => $this->modx->lexicon('cliche.upload_zip_success', array('count' => $this->count)),
+						'thumbnail' => '<img src="'. $this->config['assets_url'] .'images/zip-success.png" alt="Zip upload success"/>',
+					), true);
 				}					
 			} else {
 				$data['filename'] = $this->config['album_id'] .'/'. $this->pathinfo['filename'] .'.'. $extension;	
@@ -230,7 +234,7 @@ class FileUploader extends Import {
 		if( file_exists($file) ){
 			@unlink($file);
 		}
-		return $this->_response('File could not be uploaded');
+		return $this->_response($this->modx->lexicon('cliche.misc_error'));
     }
 	
 	public function sanitizeName($name, $rename = true){    
@@ -276,6 +280,7 @@ class FileUploader extends Import {
 					'thumbnail' => '<img height="40" width="45" src="'. $item->get('manager_thumbnail') .'?t='. strtotime('now') .'" />',
 					'id' => $item->get('id'),
 					'timestamp' => strtotime('now'),
+					'message' => $this->modx->lexicon('cliche.image_upload_success_msg'),
 				);
 			}
 			$this->config['item_id'] = $item->get('id');
@@ -307,7 +312,7 @@ class FileUploader extends Import {
 		$target = $this->target . $fileName;
 		/* Create the temp directory */
 		if (!mkdir($target, 0777, true)) {
-			$this->errors[] = 'Could not create temp directory';
+			$this->errors[] = $this->modx->lexicon('cliche.create_temp_dir_error');
 			return false;
 		}
         $unpacked = $this->unpack($target);
@@ -374,7 +379,7 @@ class FileUploader extends Import {
 		$data['filename'] = $this->config['album_id'] .'/'. $this->pathinfo['filename'] .'.'. $fileExtension;
 		$result = $this->_saveItem($data, false);
 		if(!$result){
-			$this->errors[] = 'Could not save image "'. $fileName .'" in database';
+			$this->errors[] = $this->modx->lexicon('cliche.db_save_item_error', array('filename' => $fileName));
 			@unlink($filePathName);
 			return false;
 		}
@@ -393,7 +398,7 @@ class FileUploader extends Import {
 				/* We must erase the item from db too */
 				$result = $this->_removeItem();
 				if($result){
-					$this->errors[] = 'File already exist';
+					$this->errors[] = $this->modx->lexicon('cliche.already_exist_error');
 				}
 				return false;
 			} else {
@@ -410,7 +415,7 @@ class FileUploader extends Import {
 		if (!@copy($filePathName, $newAbsolutePath)) {
             $result = $this->_removeItem();
 			if($result){
-				$this->errors[] = 'File already exist';
+				$this->errors[] = $this->modx->lexicon('cliche.already_exist_error');
 			}
             return false;
         } else {

@@ -13,7 +13,7 @@ class UploadFileXhr {
      * @return boolean TRUE on success
      */
     function save($path) {    
-        $input = fopen("php://input", "r");
+        $input = fopen("php://input", "rb");
         $temp = tmpfile();
         $realSize = stream_copy_to_stream($input, $temp);
         fclose($input);

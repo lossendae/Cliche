@@ -78,7 +78,7 @@ class AlbumController extends ClicheController {
 		}
 		
 		if(empty($id)){
-			return 'Album not specified';
+			return $this->modx->lexicon('cliche.album_not_specified');
 		}	
 		
 		$list = '';

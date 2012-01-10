@@ -31,15 +31,13 @@ Ext.onReady(function() {
 
 		$this->addJavascript($this->cliche->config['assets_url'].'mgr/libs/plupload.js');
 		$this->addJavascript($this->cliche->config['assets_url'].'mgr/libs/plupload.html5.js');
-		$this->addJavascript($this->cliche->config['assets_url'].'mgr/libs/plupload.flash.js');
+		// $this->addJavascript($this->cliche->config['assets_url'].'mgr/libs/plupload.flash.js');
 		$this->addJavascript($this->cliche->config['assets_url'].'mgr/libs/plupload.html4.js');
 		
 		$panels[] = 'cliche-item-default-upload-panel';
 		
 		//Will need some refactoring to allow dynamic custom panel loading
 		$this->addHtml('<script type="text/javascript">function getPanels(){ return '.$this->modx->toJSON($panels).'; }</script>');
-
-
     }
     public function getTemplateFile() { return ''; }
 }
