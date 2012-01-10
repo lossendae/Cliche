@@ -40,8 +40,8 @@ class AlbumsController extends ClicheController {
             'columns' => 3,
             'columnBreak' => '<br style="clear: both;">',
 			
-            'albumsWrapperTpl' => 'albumwrapper',
-            'albumItemTpl' => 'albumcover',
+            'wrapperTpl' => 'albumwrapper',
+            'itemTpl' => 'albumcover',
 			
             'idParam' => 'cid',
             'viewParam' => 'view',
@@ -87,7 +87,7 @@ class AlbumsController extends ClicheController {
 			}	
 		}
 		$phs['items'] = $list;
-		$sets = $this->getChunk($this->getProperty('albumsWrapperTpl'), $phs);
+		$sets = $this->getChunk($this->getProperty('wrapperTpl'), $phs);
 		return $sets;
 	}
 	
@@ -137,7 +137,7 @@ class AlbumsController extends ClicheController {
 		unset($cover['metas']);
 		$phs = array_merge($phs, $cover);	
 
-		$processed = $this->getChunk($this->getProperty('albumItemTpl'), $phs);			
+		$processed = $this->getChunk($this->getProperty('itemTpl'), $phs);			
 		return $processed;
 	}
 }

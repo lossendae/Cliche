@@ -40,7 +40,7 @@ class AlbumController extends ClicheController {
             'columns' => 3,
             'columnBreak' => '<br style="clear: both;">',
 			
-            'albumWrapperTpl' => 'albumwrapper',
+            'wrapperTpl' => 'albumwrapper',
             'itemTpl' => 'item',
 			
             'idParam' => 'cid',
@@ -105,7 +105,7 @@ class AlbumController extends ClicheController {
 		}
 		$phs = $row->Album->toArray();
 		$phs['items'] = $list;
-		$items = $this->getChunk($this->getProperty('albumWrapperTpl'), $phs);
+		$items = $this->getChunk($this->getProperty('wrapperTpl'), $phs);
 		return $items;
 	}
 	

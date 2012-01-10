@@ -17,21 +17,36 @@ You can go back and forth in your albums by using the breadcrumbs.
 Front End Snippets
 ------------------
 
-There are 3 snippets available, they all share the same properties.
+Use the liche snippet to load your gallery as you want
 
-Snippets Usage
+Snippet Usage
+--------------
 
 Simply drop the snippet call anywhere in your document [[Cliche]]
 The 2 other snippets requires an id to work
 
-Retreiving an album sets
-[[ClicheAlbum? 
-    &id=`your_album_id`
+To retreive an album list:
+[[Cliche? 
+    &view=`albums`
 ]]
 
-Retreiving a single item
-[[ClicheItem? 
-    &id=`your_item_id`
+To retreive an album:
+[[Cliche? 
+    &id=`your_album_id`
+    &view=`album`
+]]
+
+To retreive a single image:
+[[Cliche? 
+    &id=`your_image_id`
+    &view=`image`
+]]
+
+Witht he default front end viewer, you can disable browsing through the image and use fancybox to show the image
+[[Cliche?
+	&id=`your_album_id`
+    &view=`album`
+	&browse=`0`
 ]]
 
 Available Parameters
@@ -41,14 +56,10 @@ List of the available parameters (and their default values) :
 
 - thumbWidth (120),
 - thumbHeight (120),			
-- itemTpl (item),
-- albumsWrapperTpl (albumwrapper),
-- albumItemTpl (albumitem),
-- display (default),	
-- idParam (cid),
-- loadCSS (true),
+- itemTpl,
+- wrapperTpl,
+- plugin (default),	
 - css (default),
-- config (null),
 - columns (3),
 - columnBreak (<\br style="clear: both;">),
 - idParam (cid), //Only used by the main cliche snippet
@@ -86,9 +97,11 @@ To use it, set you snippet call like the following :
 Notes
 -----
 
-All chunks are filebased located in the assets chunks directory
+By default, all chunks are filebased located in the assets/components/cliche/plugins/[pluginName]/[chunksName].tpl 
 
-The gallerific plugin does not bundle jquery, therefore, you will need to load it in other way in your page.
+However, you still can use any normal chunk if you want/need.
+Cliche will search first for the chunk in the db and if it does not exist, in the current plugin directory (as a *.tpl file).
+You can bypass the search in db to use only filebased chunks by using the parameter config['use_filebased_chunks']
 
 This is an incomplete "getting started" base documetnation for beta testers
 The complete documentation is under writing.

@@ -36,7 +36,7 @@ class ImageController extends ClicheController {
         $this->setDefaultProperties(array(
             'thumbWidth' => 120,
             'thumbHeight' => 120,			
-            'imageTpl' => 'image',
+            'itemTpl' => 'image',
 			
             'display' => 'default',	
 			
@@ -100,7 +100,7 @@ class ImageController extends ClicheController {
         }
         $phs['thumbnail'] = $item->getCacheDir(false) . $mask;
 
-		$item = $this->getChunk($this->getProperty('imageTpl'), $phs);
+		$item = $this->getChunk($this->getProperty('itemTpl'), $phs);
 
 		return $item;
 	}
