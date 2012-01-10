@@ -32,7 +32,7 @@ $_lang['cliche.list.empty_col_msg'] = '<div class="empty-msg">Select an album fr
 $_lang['cliche.main_total_pics'] = '{total} Images';
 
 //msg
-$_lang['cliche.breadcrumb_album_list_desc'] = 'Album List.<br/>Select an album to view its contents.';
+$_lang['cliche.breadcrumb_album_list_desc'] = '<h3>Album List</h3><p>Select an album to view its contents.</p>';
 
 
 /* CARD - ITEMS LIST */
@@ -92,7 +92,7 @@ $_lang['cliche.start_upload'] = 'Start Upload';
 //msg
 $_lang['cliche.breadcrumbs_upload_pictures_msg'] = 'Upload Images'; 
 $_lang['cliche.upload_in_progress'] = 'Upload in progress...'; 
-$_lang['cliche.upload_items_for'] = 'Upload Items for the album '; 
+$_lang['cliche.upload_items_for'] = '<h3>Images Uploader</h3><p>Upload new images for the album <strong>'; 
 $_lang['cliche.upload_successful'] = 'Files uploaded successfully'; 
 
 //NOT USED YET
