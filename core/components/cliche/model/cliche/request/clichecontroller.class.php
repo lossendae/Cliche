@@ -59,11 +59,9 @@ abstract class ClicheController {
 		$this->initialize();
         /* chunks_path is not overridable by script properties - better for multi instance call */
         $chunksPath = $this->config['chunks_path'];
-        $useFileBasedChunks = $this->getProperty('use_filebased_chunks', true);
-        if(empty($chunksPath) && $useFileBasedChunks){
+        if(empty($chunksPath)){
             $this->_setDefaultChunksPath();
         }
-        $this->loadCSS();
         return $this->process();
     }
 
@@ -100,9 +98,8 @@ abstract class ClicheController {
      * Load a css file in the header if specified in properties
      * @return void
      */
-	protected function loadCSS() {
-		if($this->getProperty('loadCSS'))
-			$this->modx->regClientCSS($this->config['chunks_url'] . $this->getProperty('css') .'.css');
+	public function loadCSS($name) {
+		$this->modx->regClientCSS($this->config['chunks_url'] . $name .'.css');
 	}	
 
     abstract public function initialize();
@@ -243,10 +240,9 @@ abstract class ClicheController {
 		$chunk = null;
         /* first check internal cache */
         if (!isset($this->chunks[$name])) {
-            $useFileBasedChunks = $this->getProperty('use_filebased_chunks', true);
+            $useFileBasedChunks = $this->getProperty('use_filebased_chunks');
 			if (!$useFileBasedChunks) {
-				$objectName = $this->config['chunks_prefix'] . ucfirst($name) . 'Tpl';
-                $chunk = $this->modx->getObject('modChunk',array('name' => $objectName));
+                $chunk = $this->modx->getObject('modChunk',array('name' => $name));
             }
 			if (empty($chunk)) {	
 				$chunk = $this->_getTplChunk($name);

@@ -57,6 +57,7 @@ class ImageController extends ClicheController {
      */
     public function process() {	
 		$output = $this->getItem();
+		$this->fireEvent('render');
 		return $output;
 	}
 		

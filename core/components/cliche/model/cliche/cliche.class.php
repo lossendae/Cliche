@@ -83,7 +83,7 @@ class Cliche {
 			'thumb' => $assets_url.'connector.php?action=web/thumb',
 			'chunks_prefix' => 'Cliche',
 			
-			'use_filebased_chunks' => true,			
+			'use_filebased_chunks' => 0,			
 			'tpl_suffix' => '.tpl',	
 				
 			'request_file_var' => 'name',

@@ -61,6 +61,7 @@ class AlbumsController extends ClicheController {
      */
     public function process() {
 		$output = $this->getSets();	
+		$this->fireEvent('render');
 		return $output;
 	}
 	
