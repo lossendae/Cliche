@@ -2,10 +2,13 @@
 .modx-template-detail .selected h5 {
 	word-wrap: break-word;
 }
-h2{ font-weight: bold; }
-.panel-desc p {
-	color: #777777;
-    font-size: 12px;
+.panel-desc {
+	background-color: #FAFAFA;
+    border: 1px solid #D5D5D5;
+    color: #5A5A5A;
+    line-height: 1.5;
+    margin: 1px 20px 0;
+    padding: 15px;
 }
 .thumb-wrapper,
 .thumb-wrapper.selected {
@@ -86,12 +89,12 @@ h2{ font-weight: bold; }
     font-size: 11px;
     margin-left: 80px;
 }
-h3{
+.album_name h3{
 	color: #555555;
     font-size: 18px;
     margin-bottom: 0;   
 }
-h3 span{ color: #888888; }
+.album_name h3 span{ color: #888888; }
 .album_name strong{ color: #555555; }
 .album-desc .icon-add-white{
 	background-position: 0 0 !important;
@@ -120,27 +123,6 @@ h3 span{ color: #888888; }
 }
 
 /* Upload list */
-.ddtarget-over {
-	background-color: #FAFAFA;
-    border: 1px solid #D5D5D5;
-}
-.drop-here{ 
-	color: #666;
-    display: none;
-    font-size: 22px;
-    font-weight: bold;
-    position: absolute;
-    text-align: center;
-    top: 50px;
-    width: 100%;
-}
-.ddtarget-over .empty-msg{ visibility: hidden; }
-.ddtarget-over .drop-here{ display: block; }
-.ddtarget-over .drop-here .drop_text{ 
-	color: #999999;
-    font-size: 15px;
-    margin-top: 10px;
-}
 .upload-ready-msg {
     color:gray;
     font:13px tahoma, arial, helvetica, sans-serif;
@@ -208,14 +190,11 @@ h3 span{ color: #888888; }
 .active .upload-percent { display:inline-block; }
 .upload-size { color:#95989f; }
 .upload-cancel {
-    border: 0 none;
-    color: #AF0007 !important;
-    float: right;
-    font-family: arial,helvetica,sans-serif;
-    font-size: 10px;
-    font-weight: bold;
-    text-decoration: underline;
-    text-transform: uppercase;
+    color:#af0007 !important;
+    float:right;
+    font-size:10px;
+    font-weight:bold;
+    text-transform:uppercase;
 }
 .upload-failed-text, .upload-success-hint { display:none; }
 .upload-success-hint {

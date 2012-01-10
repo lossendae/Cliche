@@ -56,7 +56,7 @@ MODx.panel.ClicheDefaultItemPanelUpload = function(config) {
 								,'<span class="upload-spinner hidden"></span>'	
 								,'<span class="upload-percent hidden">0%</span>'	
 								,'<span class="upload-size">{[values.size < 1024 ? values.size+" bytes" : (Math.round(((values.size*10) / 1024))/10)+" KB" ]}</span>'							
-								,'<a class="upload-cancel" href="#">'+_('cliche.upload_cancel_msg')+'</a>'
+								,'<button class="upload-cancel" onclick="Ext.getCmp(\'default-uploader\').removeFile(\'{id}\'); return false;">'+_('cliche.upload_cancel_msg')+'</button>'
 								,'<span class="upload-success-hint">&nbsp;</span>'
 							,'</div>'	
 							,'<div class="inner-content upload-progress">&nbsp;</div>'		
@@ -73,7 +73,7 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 		Ext.getCmp('default-start-upload-btn').disable();		
 		this.album = rec;
 		Ext.getCmp('card-container').getLayout().setActiveItem(this.id);
-		this.updateBreadcrumbs(_('cliche.upload_items_for') + this.album.name);
+		this.updateBreadcrumbs(_('cliche.upload_items_for') + this.album.name +'</strong></p>');
 		if(this.uploader !== null){
 			this.resetUploader();
 		} else {
@@ -137,16 +137,14 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 	}
 	
 	,onInit: function(uploader, data){}
-	,onFilesAdded: function(uploader, files){
-		if(typeof this.uploadListData.files !== "object"){
-			this.uploadListData.files = [];
-		}	
-		for (i = 0; i < files.length; i++) {
-			this.uploadListData.files.push(files[i]);
-		}
+	,onFilesAdded: function(up, files){
+			this.uploadListData.files = up.files;
 	}
 	
-	,onFilesRemoved: function(){}
+	,onFilesRemoved: function(up, files){
+		this.uploadListData.files = up.files;
+	}
+	
 	,onFileUploaded: function(uploader, file, xhr){
 		var r = Ext.util.JSON.decode( xhr.response );
 		var current = Ext.select(this.getCurrent(file.id));
@@ -167,6 +165,11 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 			}, 1000);			
 		}
 		Ext.getCmp('modx-content').doLayout();
+	}
+	
+	,removeFile: function(id){
+		var f = this.uploader.getFile(id);
+		this.uploader.removeFile(f);
 	}
 		
 	,onQueueChanged: function(up){
