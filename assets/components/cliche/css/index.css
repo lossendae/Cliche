@@ -103,19 +103,21 @@ h2{ font-weight: bold; }
 }
 .album_meta{
 	border-left: 1px solid #E5E5E5;
-    color: #666;
-    font-size: 20px;
+    color: #AAAAAA;
+    font-size: 10px;
     font-weight: bold;
-    line-height: 1.1;
+    line-height: 1.5;
     padding: 16px 20px 25px;
     position: absolute;
     right: -15px;
     text-align: center;
+    text-transform: uppercase;
     top: -15px;
 }
 .album_meta span{
-	display: block;
-	color: #888;
+	color: #555555;
+    display: block;
+    font-size: 18px;
 }
 
 /* Upload list */
@@ -163,7 +165,7 @@ h2{ font-weight: bold; }
 .upload-size, 
 .upload-cancel, 
 .upload-failed-text, 
-.upload-success-text { margin-right:7px; }
+.upload-success-hint { margin-right:7px; }
 .upload-file {
     color:#4d535f;
     font-weight:bold;
@@ -192,26 +194,38 @@ h2{ font-weight: bold; }
     font-weight:bold;
     text-transform:uppercase;
 }
-.upload-failed-text, .upload-success-text { display:none; }
-.upload-success-text {
-    background:url("../images/success24.png") no-repeat scroll center center #ffffff;
-    color:#4c5f00;
-    float:right;
-    font-weight:bold;
-    margin:0;
-    padding:30px 35px 0 2px;
-    text-indent:-999em;
-    text-transform:uppercase;
+.upload-failed-text, .upload-success-hint { display:none; }
+.upload-success-hint {
+	background: url("../images/success24.png") no-repeat scroll left top #FFFFFF;
+    height: 25px;
+    margin: 0;
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    width: 25px;
 }
 .upload-success { background-color:#ffffff !important; }
-.upload-success .upload-success-text { display:block; }
+.upload-success .upload-success-hint { display:block; }
 .upload-success .upload-spinner, .upload-success .upload-cancel{ display:none; }
 .upload-success .upload-file { margin-left: 10px; }
 .upload-success .upload-size {}
-.upload-content .pw { float: left; }
+.upload-content .pw { 
+	height: 45px;
+	float: left; 
+}
+.upload-content .pw  img { border: 1px solid #ccc; }
+.upload-content .pw span {
+	color: #698F2C;
+    font-size: 11px;
+    font-weight: bold;
+    left: 68px;
+    position: absolute;
+    top: 26px;
+}
 .upload-fail {
-    background-color:#ffeff0 !important;
-    border-color:#dfb5b7 !important;
+    background-color: #FFEFF0 !important;
+    border-color: #DFB5B7 !important;
+    padding: 4px 0;
 }
 .upload-fail .qq-upload-failed-text { display:inline; }
 .upload-fail .failure {
@@ -228,6 +242,8 @@ h2{ font-weight: bold; }
 .active .upload-button, .upload-fail .upload-button, .upload-success .upload-button { display:none; }
 .what_happened {
 	color: #8F0000;
+    font-size: 11px;
+    font-weight: bold;
     padding-top: 4px;
 }
  
