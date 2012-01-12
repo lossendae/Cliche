@@ -13,15 +13,14 @@ if(empty($tvId)){
 }
 
 $tv = $modx->getObject('modTemplateVar', $tvId);
-$tvName = $tv->get('name');
 $tvDesc = $tv->get('description');
 
 /* Verify if the TV dedicated album exist, else create it */
-$album = $modx->getObject('ClicheAlbums', array('name' => $tvName));
+$album = $modx->getObject('ClicheAlbums', array('name' => 'Cliche Thumbnail TV - #' . $tvId));
 if(!$album){
 	$album = $modx->newObject('ClicheAlbums');
 	$album->fromArray(array(
-		'name' => $tvName,
+		'name' => 'Cliche Thumbnail TV - #' . $tvId,
 		'description' => $tvDesc,
 		'type' => 'TV',
 	));

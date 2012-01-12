@@ -36,6 +36,7 @@ $_lang['cliche.breadcrumb_root'] = 'Album list';
 
 //buttons
 $_lang['cliche.close_btn'] = 'Cancel';
+$_lang['cliche.thumb_select_btn'] = 'Select this image';
 
 //misc
 $_lang['cliche.actions'] = 'Actions';

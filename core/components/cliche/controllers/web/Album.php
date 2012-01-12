@@ -51,7 +51,6 @@ class AlbumController extends ClicheController {
             'css' => 'default',
             'config' => null,
             'browse' => true,
-			'chunk_dirname' => 'default',
         ));
         $this->fireEvent('load');
     }
