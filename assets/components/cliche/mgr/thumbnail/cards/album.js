@@ -142,7 +142,7 @@ MODx.panel.ClicheAlbum = function(config) {
 							+'<img src="{image}" alt="{name}" />'
 						+'</a>'
 						+'<h5>{name}</h5>'
-						+'<button class="inline-button green" onclick="Ext.getCmp(\'cliche-main-{tv}\').updateThumbnail(\'{id}\'); return false;"/>'+_('download')+'</button>'
+						+'<button class="inline-button green" onclick="Ext.getCmp(\'cliche-main-{tv}\').updateThumbnail(\'{id}\'); return false;"/>'+_('cliche.thumb_select_btn')+'</button>'
 					+'</div>'
 					+'<div class="description">'
 						+'<h4>'+_('cliche.desc_title')+'</h4>'
