@@ -15,11 +15,10 @@ set_time_limit(0);
 define('PKG_NAME','Cliche');
 define('PKG_NAMESPACE',strtolower(PKG_NAME));
 define('PKG_VERSION','1.0');
-define('PKG_RELEASE','beta1');
+define('PKG_RELEASE','beta2');
 
 function getSnippetContent($path, $name, $debug = false) {
-	$name = ($debug) ? 'debug.'. $name .'.php' : $name .'.php';
-	$filename = $path . $name;
+	$filename = $path . $name .'.php';
     $o = file_get_contents($filename);
     $o = str_replace('<?php','',$o);
     $o = str_replace('?>','',$o);
@@ -37,8 +36,8 @@ $sources= array (
     'resolvers' => $root . '_build/resolvers/',
     'core' => $root.'core/components/'.PKG_NAMESPACE,
     'snippets' => $root.'core/components/'.PKG_NAMESPACE.'/elements/snippets/',
+	'plugins' => $root.'core/components/'.PKG_NAMESPACE.'/elements/plugins/',
     'assets' => $root.'assets/components/'.PKG_NAMESPACE,
-	// 'tpl' => $root . 'assets/templates/freshpick/',
 	'lexicon' => $root . 'core/components/'.PKG_NAMESPACE.'/lexicon/',
     'docs' => $root.'core/components/'.PKG_NAMESPACE.'/docs/',
     'model' => $root.'core/components/'.PKG_NAMESPACE.'/model/',
@@ -93,14 +92,37 @@ if (empty($snippets)) $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in sni
 $category->addMany($snippets);
 $modx->log( xPDO::LOG_LEVEL_INFO, '<strong>Packaged in '. count( $snippets ) .' snippets.</strong>' ); flush();
 
-/* add tvs */
-// $modx->log(modX::LOG_LEVEL_INFO,'Adding TV\'s...'); flush();
-// $tvs = include $sources['data'].'transport.tvs.php';
-// if (is_array($tvs)) {
-    // $category->addMany($tvs);
-// } else { $modx->log(modX::LOG_LEVEL_FATAL,'Adding TV\'s failed.'); }
-// $modx->log(modX::LOG_LEVEL_INFO,'<strong>Packaged in '.count($tvs).' TV\'s.</strong>'); flush();
-// unset($tvs);
+/* add tv plugin */
+$modx->log(modX::LOG_LEVEL_INFO,'Adding in TV Plugin...');
+$plugin= $modx->newObject('modPlugin');
+$plugin->fromArray(array(
+    'id' => 1,
+    'name' => 'ClicheThumbnail',
+    'description' => 'Resource Thumbnail Manager via Cliche 3rd party component',
+    'plugincode' => getSnippetContent($sources['plugins'], 'plugin.clichethumbnail'),
+),'',true,true);
+$events = include $sources['data'].'events/events.clichethumbnail.php';
+if (is_array($events) && !empty($events)) {
+    $modx->log(modX::LOG_LEVEL_INFO,'<strong>Added '.count($events).' events to ClicheThumbnail plugin.</strong>');
+    $plugin->addMany($events);
+}
+unset($events);
+$attributes = array (
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::UNIQUE_KEY => 'name',
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'PluginEvents' => array(
+            xPDOTransport::PRESERVE_KEYS => true,
+            xPDOTransport::UPDATE_OBJECT => false,
+            xPDOTransport::UNIQUE_KEY => array('pluginid','event'),
+        ),
+    ),
+);
+$vehicle = $builder->createVehicle($plugin, $attributes);
+$builder->putVehicle($vehicle);
+unset($vehicle,$attributes,$plugin);
 
 /* create category vehicle */
 $attr = array(
@@ -120,11 +142,6 @@ $attr = array(
                     xPDOTransport::UPDATE_OBJECT => true,
                     xPDOTransport::UNIQUE_KEY => 'name',
                 ),
-				// 'TemplateVars' => array(
-					// xPDOTransport::PRESERVE_KEYS => false,
-					// xPDOTransport::UPDATE_OBJECT => true,
-					// xPDOTransport::UNIQUE_KEY => 'name',
-				// ),
             ),
         ),
         'Snippets' => array(
@@ -132,11 +149,6 @@ $attr = array(
             xPDOTransport::UPDATE_OBJECT => true,
             xPDOTransport::UNIQUE_KEY => 'name',
         ),
-		// 'TemplateVars' => array(
-			// xPDOTransport::PRESERVE_KEYS => false,
-			// xPDOTransport::UPDATE_OBJECT => true,
-			// xPDOTransport::UNIQUE_KEY => 'name',
-		// ),
     ),
 );
 $vehicle = $builder->createVehicle($category,$attr);
