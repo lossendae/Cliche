@@ -56,7 +56,8 @@ $_lang['cliche.breadcrumbs_album_msg'] = '<div class="album-desc"><tpl if="cover
 		<img src="{thumbnail}" title="Image Cover for the album {name}" alt="Image Cover for the album {name}" />
 	</tpl>
 	<div class="album_name"><h3>Album : <span>{name}</span></h3>
-		Created on <strong>{createdon}</strong> by <strong>{createdby}</strong>
+		Created on <strong>{createdon}</strong> by <strong>{createdby}</strong><br/>
+		Album id : #<strong>{id}</strong>
 	</div>
 	<div class="album_meta">
 		<span>{total}</span>
@@ -66,7 +67,8 @@ $_lang['cliche.breadcrumbs_album_msg'] = '<div class="album-desc"><tpl if="cover
 /* CARD - SINGLE ITEM */
 
 //buttons
-$_lang['cliche.edit_item'] = 'Edit image';
+$_lang['cliche.edit_image'] = 'Edit image';
+$_lang['cliche.edit_image_msg'] = 'Edit the informations for your image';
 $_lang['cliche.delete_image'] = 'Delete image';
 $_lang['cliche.delete_image_msg'] = 'Are you sur you want to delete this image ?';
 $_lang['cliche.set_as_album_cover'] = 'Set as Album cover';

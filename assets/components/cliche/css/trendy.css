@@ -7,8 +7,13 @@
     border: 1px solid #D5D5D5;
     color: #5A5A5A;
     line-height: 1.5;
-    margin: 1px 20px 0;
-    padding: 15px;
+    margin: 5px 20px 0;
+    padding: 12px 15px !important;
+}
+.panel-desc p{
+	background-color: transparent;
+    border: 0 none !important;
+    padding: 0;
 }
 .thumb-wrapper,
 .thumb-wrapper.selected {
@@ -63,14 +68,13 @@
 
 /* Album desc */
 .album-desc { 
-	min-height: 50px;
+	min-height: 55px;
     position: relative;
 }
 .album-desc img{
 	border: 1px solid #CCCCCC;
-	max-height: 50px;
 	position: absolute;
-    width: 65px;
+    width: 72px;
 }
 .album-desc .no-preview{
 	background-color: #FAFAFA;
@@ -109,7 +113,7 @@
     font-size: 10px;
     font-weight: bold;
     line-height: 1.5;
-    padding: 16px 20px 25px;
+    padding: 16px 20px 35px;
     position: absolute;
     right: -15px;
     text-align: center;

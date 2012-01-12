@@ -217,7 +217,7 @@ MODx.panel.ClicheAlbumsList = function(config) {
 	MODx.panel.ClicheAlbumsList.superclass.constructor.call(this,config);
 };
 Ext.extend(MODx.panel.ClicheAlbumsList,MODx.Panel,{
-	activate: function(cat){
+	activate: function(){
 		Ext.getCmp('card-container').getLayout().setActiveItem(this.id);
 		this.updateBreadcrumbs(_('cliche.breadcrumb_album_list_desc'));
 		this.view.run();

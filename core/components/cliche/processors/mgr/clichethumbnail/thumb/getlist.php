@@ -1,9 +1,33 @@
 <?php
+$tvId = $scriptProperties['tv'];
 $start = $scriptProperties['start'];
 $limit = $scriptProperties['limit'];
-$albumId = $scriptProperties['album'];
 $sort = $modx->getOption('sort', $scriptProperties, 'ClicheItems.id');
 $dir = $modx->getOption('dir', $scriptProperties, 'ASC');
+$pics = array();
+
+if(empty($tvId)){
+    $response['success'] = false;
+    $response['message'] = 'TV id not supplied';
+    return $modx->toJSON($response);
+}
+
+$tv = $modx->getObject('modTemplateVar', $tvId);
+$tvName = $tv->get('name');
+$tvDesc = $tv->get('description');
+
+/* Verify if the TV dedicated album exist, else create it */
+$album = $modx->getObject('ClicheAlbums', array('name' => $tvName));
+if(!$album){
+	$album = $modx->newObject('ClicheAlbums');
+	$album->fromArray(array(
+		'name' => $tvName,
+		'description' => $tvDesc,
+		'type' => 'TV',
+	));
+	$album->save();
+}
+$albumId = $album->get('id');
 
 $c = $modx->newQuery('ClicheItems');
 $c->where(array(
@@ -24,27 +48,14 @@ if($rows){
 		$pic['createdon'] = date('j M Y',strtotime($pic['createdon']));
 		$pic['image'] = $row->get('image');
 		$pic['thumbnail'] = $row->get('manager_thumbnail');
+		$pic['tv'] = $tvId;
 
 		$pics[] = $pic;	
 	}
 	unset($rows);
-	
-	/* Retreive the album owner informations */
-	$owner = $modx->getObjectGraph('ClicheAlbums', '{ "CreatedBy": {}, "Cover":{} }', $pic['album_id']);
-	$album = $owner->toArray();
-	$album['createdby'] = $owner->CreatedBy->get('username');
-	$album['createdon'] = date('j M Y',strtotime($album['createdon']));
-	if($album['cover_id'] != 0){			
-		$album['image'] = $owner->Cover->get('image');
-		$album['thumbnail'] = $owner->Cover->get('manager_thumbnail');
-	}
-	
-	$results = $pics;
-} else {
-	$results = array();
 }
 $response['success'] = true;
 $response['total'] = $count;
-$response['results'] = $results;
-$response['album'] = $album;
+$response['results'] = $pics;
+$response['album'] = $album->toArray();
 return $modx->toJSON($response);

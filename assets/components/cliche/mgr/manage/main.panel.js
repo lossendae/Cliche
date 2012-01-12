@@ -118,19 +118,19 @@ MODx.window.ClicheAlbumsWindow = function(config) {
 			,items:[{
 				fieldLabel: _('cliche.album_name_label')
 				,name: 'name'
-				,id: 'name'
+				,id: 'album_name'
 				,xtype: 'textfield'			
 				,allowBlank: false
 			},{
 				fieldLabel: _('cliche.album_desc_label')
 				,name: 'description'
-				,id: 'description'
+				,id: 'album_description'
 				,xtype: 'textarea'
 				,minHeight: 150
 				,grow: true
 			},{
 				name: 'id'
-				,id: 'id'
+				,id: 'album_id'
 				,xtype: 'hidden'
 			}]						
 		}]

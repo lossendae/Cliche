@@ -18,10 +18,16 @@ class DefaultPlugin extends ClichePlugin {
 			case 'load':
 				/* We're not in browse mode - Use an alternative chunk for each item when not in image view */
 				if(!$browse){
-					$this->obj->setProperties(array(
-						'albumItemTpl' => 'albumcoverzoom',
-						'itemTpl' => 'itemzoom',
-					));
+					switch( $view ){
+						case 'albums':
+							$this->obj->setProperty('itemTpl','albumcoverzoom');
+							break;
+						case 'album':
+							$this->obj->setProperty('itemTpl','itemzoom');
+							break;
+						default:
+							break;
+					}					
 				}	
 				$this->useFancyBox = $this->obj->getProperty('useFancyBox', true);						
 				break;

@@ -15,9 +15,7 @@ abstract class ClicheManagerController extends modManagerController {
     /** @var Cliche $cliche */
     public $cliche;
     public function initialize() {
-        $this->cliche = new Cliche($this->modx);
-
-        $this->addCss($this->cliche->config['css_url'].'index.css');
+        $this->cliche = new Cliche($this->modx);    
 		
 		$mgrUrl = $this->modx->getOption('manager_url',null,MODX_MANAGER_URL);		
         $this->addJavascript($mgrUrl . 'assets/modext/util/lightbox.js');

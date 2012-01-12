@@ -11,6 +11,14 @@ class ClicheAlbumsManagerController extends ClicheManagerController {
     public function process(array $scriptProperties = array()) {}
     public function getPageTitle() { return $this->modx->lexicon('cliche'); }
     public function loadCustomCssJs() {
+		/* Load CSS here to avoid style unwanted override  */
+		$theme = $this->modx->getOption('manager_theme');
+		if($theme == 'trendy'){
+			$this->addCss($this->cliche->config['css_url'].'trendy.css');
+		} else {
+			$this->addCss($this->cliche->config['css_url'].'index.css');
+		}
+		
         $this->addJavascript($this->cliche->config['assets_url'].'mgr/manage/albums/list.js');
         $this->addJavascript($this->cliche->config['assets_url'].'mgr/manage/main.panel.js');
 		
