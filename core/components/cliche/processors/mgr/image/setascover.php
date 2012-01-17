@@ -14,9 +14,7 @@ if($album->save()){
 	$data = $album->toArray();
 	$data['createdby'] = $album->CreatedBy->get('username');
 	$data['createdon'] = date('j M Y',strtotime($data['createdon']));
-	$data['image'] = $modx->cliche->config['images_url'] . $album->Cover->filename;
-	$data['thumbnail'] = $modx->cliche->config['phpthumb'] . urlencode($data['image']) .'&h=80&w=90&zc=1';
-	$data['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($data['image']);
+	$data['image'] = $album->Cover->get('image');
 	
 	$response['success'] = true;
 	$response['msg'] = $modx->lexicon('cliche.item_set_as_cover_succesfully');

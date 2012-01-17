@@ -121,9 +121,8 @@ class Cliche {
      * @return string The JSON response
      */	
 	public function loadPhpThumb($src, $options = array()){
-        if (!$this->modx->loadClass('cliche.helpers.phpthumb.ThumbLib',$this->config['model_path'],true,true)) {
-			$this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche phpThumb] Could not load PhpThumbFactory');
-		}
+		/* We don't use modx->loadClass cause it put every chars on lower case causing phpThumb to fail lamentably */
+		require_once $this->config['model_path'] . 'cliche/helpers/phpthumb/ThumbLib.class.php';
 		$this->phpThumb = PhpThumbFactory::create( $src, $options );
         return $this->phpThumb;
 	}

@@ -4,6 +4,9 @@ Changelog for Cliche
 
 	- Add ID display to album (description) and images (detail panel) in CMP
 	- Added image edit window
+	- Added search field
+	- Drag and drop reorder for album
+	- Added Cliche thumbnail Template Variable
 
 *** Cliche 1.0.0 beta 1 ***
 

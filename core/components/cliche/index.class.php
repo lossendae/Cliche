@@ -8,7 +8,7 @@
 require_once dirname(__FILE__) . '/model/cliche/cliche.class.php';
 
 class IndexManagerController extends modExtraManagerController {
-    public static function getDefaultController() { return 'albums'; }
+    public static function getDefaultController() { return 'mgr/albums'; }
 }
 
 abstract class ClicheManagerController extends modManagerController {

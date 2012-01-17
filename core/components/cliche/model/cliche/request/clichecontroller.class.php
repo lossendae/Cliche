@@ -68,13 +68,13 @@ abstract class ClicheController {
      * @return void
      */
     public function loadPlugin(){
-        $plugin = ucfirst($this->getProperty('plugin'));
+        $plugin = $this->getProperty('plugin');
         if(!empty($plugin)){
             $dir = $config['plugins_path'] . $this->getProperty('plugin');
             if (!$this->modx->loadClass($dir.'.'. $dir, $this->config['plugins_path'],true,true)) {
                 $this->modx->log(modX::LOG_LEVEL_ERROR, '[Cliche] Could not load '.$plugin.' plugin in: '. $this->config['plugins_path'] . $dir .'/'. $plugin .'.class.php');
             }
-			$className = ($plugin == 'Default') ? 'DefaultPlugin' : $plugin;
+			$className = ($plugin == 'Default') ? 'DefaultPlugin' : ucfirst($plugin);
             $this->plugin = new $className($this);
         }
     }

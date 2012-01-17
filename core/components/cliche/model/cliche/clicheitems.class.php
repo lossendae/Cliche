@@ -14,7 +14,7 @@ class ClicheItems extends xPDOSimpleObject {
                 $cacheFile = $cacheDir . $cacheFilename;
                 $checkFile = $assetsPath . $cacheFilename;
 				if(!file_exists($checkFile)){ $this->addManagerCacheFiles(); }
-                $value = $cacheFile;
+                $value = $cacheFile .'?t='. strtotime('now');
                 break;
             case 'image':
                 $assetsUrl = $this->xpdo->cliche->config['images_url'];

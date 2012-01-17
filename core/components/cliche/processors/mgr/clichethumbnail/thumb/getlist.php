@@ -22,7 +22,7 @@ if(!$album){
 	$album->fromArray(array(
 		'name' => 'Cliche Thumbnail TV - #' . $tvId,
 		'description' => $tvDesc,
-		'type' => 'TV',
+		'type' => 'clichethumbnail',
 	));
 	$album->save();
 }

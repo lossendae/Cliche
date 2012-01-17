@@ -1,7 +1,7 @@
 <?php
 $start = $scriptProperties['start'];
 $limit = $scriptProperties['limit'];
-$sort = $modx->getOption('sort', $scriptProperties, 'ClicheAlbums.name');
+$sort = $modx->getOption('sort', $scriptProperties, 'ClicheAlbums.createdon');
 $dir = $modx->getOption('dir', $scriptProperties, 'ASC');
 
 $type = $modx->getOption('type', $scriptProperties, 'default');

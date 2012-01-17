@@ -4,6 +4,7 @@ $limit = $scriptProperties['limit'];
 $albumId = $scriptProperties['album'];
 $sort = $modx->getOption('sort', $scriptProperties, 'ClicheItems.id');
 $dir = $modx->getOption('dir', $scriptProperties, 'ASC');
+$query = $modx->getOption('query', $scriptProperties, false);
 
 $c = $modx->newQuery('ClicheItems');
 $c->where(array(
@@ -11,6 +12,12 @@ $c->where(array(
 ));
 /* paginate result */
 $count = $modx->getCount('ClicheItems', $c);
+
+if($query && $query != ''){
+	$c->where(array(
+		'name:LIKE' => '%'. $query .'%' 
+	));
+}
 
 /* limit and sort */
 $c->sortBy($sort,$dir);

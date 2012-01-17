@@ -29,8 +29,12 @@ Ext.onReady(function() {
 	MODx.ClicheConnectorUrl = "'.$cliche->config['connector_url'].'";
 	MODx.ClicheAssetsUrl = "'.$cliche->config['assets_url'].'";
 	MODx.ClicheAssetsPath = "'.$cliche->config['assets_path'].'";
+	Ext.ux.Lightbox.register("a.lightbox");
 });
 </script>');
+		/* Lightbox */
+		$mgrUrl = $modx->getOption('manager_url',null,MODX_MANAGER_URL);		
+        $modx->controller->addJavascript($mgrUrl . 'assets/modext/util/lightbox.js');
             
 		/* App base definitions + libs */
 		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/libs/jquery.1.4.min.js');
