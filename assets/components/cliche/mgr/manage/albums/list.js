@@ -25,7 +25,7 @@ MODx.ClicheAlbumsListView = function(config) {
 		,selectedClass:'selected'
 		,itemSelector: 'div.thumb-wrapper'
 		,loadingText : '<div class="empty-msg"><h4>'+_('cliche.loading')+'</h4></div>'
-		,emptyText : '<div class="empty-msg"><h4>'+_('cliche.album-list.empty_msg')+'</h4></div>'
+		,emptyText : '<div class="empty-msg"><h4>'+_('cliche.album_list_empty_msg')+'</h4></div>'
     });
     MODx.ClicheAlbumsListView.superclass.constructor.call(this,config);
     this.on('selectionchange',this.onSelect,this,{buffer: 100});
@@ -72,7 +72,6 @@ Ext.extend(MODx.ClicheAlbumsListView,MODx.DataView,{
     }
 
     ,formatData: function(data) {
-        data.shortName = Ext.util.Format.ellipsis(data.name, 16);
         this.lookup['album-list-thumb-'+data.id] = data;
         return data;
     }
@@ -88,8 +87,8 @@ Ext.extend(MODx.ClicheAlbumsListView,MODx.DataView,{
 						+'<img src="{thumbnail}" title="{name}" alt="{name}" />'
 					+'</tpl>'
 				+'</div>'
-				+'<span class="name">{shortName}</span>'
-				+'<span class="total_pics">'+_('cliche.main_total_pics')+'</span>'
+				+'<span class="name">{name}</span>'
+				+'<span class="total-pics">'+_('cliche.album_list_total_pics')+'</span>'
 			+'</div>'
 		+'</tpl>', {
 			compiled: true
@@ -148,59 +147,80 @@ MODx.panel.ClicheAlbumsList = function(config) {
 		,layout: 'form'
 		,tbar: [{
 			xtype: 'button'
-			,text: _('cliche.add_album_btn')
+			,text: _('cliche.btn_add_album')
 			,iconCls:'icon-add'
 			,id: 'create-album-btn'
 			,handler: this.loadWindow
 			,scope: this
 		}
 		/* Not active in first bêta - Wait for the first TV */
-		// , '->'
-        // , '<span class="customsearchfield desc">Viewing</span>' ,{
-			// text: 'Default'
-			// ,id: 'cliche-filter-album-type'
-            // ,param: 'type'
-			// ,activeItem: 0
-			// ,menu: {
-				// plain: true
-				// ,defaults: {
-					// handler: this.onItemClick
-					// ,scope: this
-				// }
-				// ,items: [{
-					// text: 'Default'
-                    // ,filter: 'default'
-				// },{
-					// text: 'Cliche Thumbnail TV'
-                    // ,filter: 'TV'
-				// }]
-			// }
-        // }
-		// , '	','Albums sorted by : '
-		// ,{
-            // text: 'Title'
-			// ,id: 'cliche-filter-album'
-            // ,param: 'sortby'
-			// ,activeItem: 0
-			// ,menu: {
-				// plain: true
-				// ,defaults: {
-					// handler: this.onSortByItemClick
-					// ,scope: this
-				// }
-				// ,items: [{
-					// text: 'Name'
-                    // ,filter: 'name'
-				// },{
-					// text: 'Creation date'
-                    // ,filter: 'createdon'
-				// },{
-					// text: 'Author'
-                    // ,filter: 'createdby'
-				// }]
-			// }
-		// }
-		]
+		, '->'
+        , '<span class="customsearchfield desc">Viewing</span>' ,{
+			text: 'Default'
+			,id: 'cliche-filter-album-type'
+            ,param: 'type'
+			,activeItem: 0
+			,menu: {
+				plain: true
+				,defaults: {
+					handler: this.onItemClick
+					,scope: this
+				}
+				,items: [{
+					text: 'Default'
+                    ,filter: 'default'
+				},{
+					text: 'Cliche Thumbnail TV'
+                    ,filter: 'clichethumbnail'
+				}]
+			}
+        }
+		, '	','Albums Sorted by : '
+		,{
+            text: 'Creation date'
+			,id: 'cliche-filter-album'
+            ,param: 'sortby'
+			,activeItem: 0
+			,menu: {
+				plain: true
+				,defaults: {
+					handler: this.onSortByItemClick
+					,scope: this
+				}
+				,items: [{
+					text: 'Name'
+                    ,filter: 'name'
+				},{
+					text: 'Creation date'
+                    ,filter: 'createdon'
+				},{
+					text: 'Author'
+                    ,filter: 'createdby'
+				}]
+			}
+		},'-',{
+			xtype: 'trigger'
+			,id: 'album-searchfield'
+			,ctCls: 'customsearchfield'
+			,emptyText: 'Search...'
+			,onTriggerClick: function(){
+				this.reset();	
+				this.fireEvent('click');				
+			}
+			,listeners: {
+				specialkey: function(field, e){
+                    if (e.getKey() == e.ENTER) {
+						this.view.getStore().setBaseParam('query',field.getValue());
+						this.view.getStore().load();
+                    }
+                }
+				,click: function(trigger){
+					this.view.getStore().setBaseParam('query','');
+					this.view.getStore().load();
+				}
+				,scope: this
+			}
+		}]
 		,border: false
 		,autoHeight: true
 		,items:[{
@@ -228,7 +248,7 @@ Ext.extend(MODx.panel.ClicheAlbumsList,MODx.Panel,{
 	}
 	
 	,loadWindow: function(btn){
-		Ext.getCmp('cliche-main-panel').loadCreateUpdateWindow('Create a new Album', 'create', btn, 'album-list');	
+		Ext.getCmp('cliche-main-panel').loadCreateUpdateWindow(_('cliche.window_create_a_new_album'), 'create', btn, 'album-list');	
 	}
 });
 Ext.reg('cliche-albums-list', MODx.panel.ClicheAlbumsList);

@@ -16,7 +16,7 @@ MODx.ClicheThumbCropper = function(config) {
 		,items:[{
 			xtype: 'modx-template-panel'
 			,id: 'cliche-original-'+config.tv
-			,startingText: '<h4>Thumbnail image source will be shown below</h4>'
+			,startingText: _('clichethumbnail.cropper_empty_msg')
 			,startingMarkup: '<div class="crop_tpl">'
 				+'{text}'
 				+'<hr class="sep_crop"/>'
@@ -30,7 +30,7 @@ MODx.ClicheThumbCropper = function(config) {
 		},{
 			xtype: 'modx-template-panel'
 			,id: 'cliche-preview-'+config.tv
-			,startingText: '<h4>Thumbnail preview will appear once you have selected an image from the browser</h4>'
+			,startingText: _('clichethumbnail.cropper_empty_msg')
 			,startingMarkup: '<div class="crop_tpl">'
 				+'{text}'
 				+'<hr class="sep_crop"/>'
@@ -43,7 +43,7 @@ MODx.ClicheThumbCropper = function(config) {
 			,width: 605
 		}]
 		,tbar: [{
-			text: 'Validate image'
+			text: _('clichethumbnail.btn_crop_validate')
 			,iconCls: 'icon-add'
 			,handler: function(btn,e){
                 this.coords.crop = true;
@@ -59,14 +59,14 @@ Ext.extend(MODx.ClicheThumbCropper, MODx.Panel,{
 	activate: function(record, initial){
         this.image = record;
         if(record !== undefined) this.updateCropper(record, initial);
-        this.updateBreadcrumbs('<h3>Image Cropper</h3>Crop the image to your desire');
+        this.updateBreadcrumbs(_('clichethumbnail.breadcrumb_crop_desc'));
 		Ext.getCmp(this.cardContainer).setActiveItem(this.id);
     }
 	
 	,updateBreadcrumbs: function(msg){
 		var bd = { text: msg };
 		bd.trail = [{
-			text : 'Cropping Tool'
+			text : _('clichethumbnail.breadcrumb_crop')
 		}];
 		Ext.getCmp(this.breadcrumbs).updateDetail(bd);
 	}

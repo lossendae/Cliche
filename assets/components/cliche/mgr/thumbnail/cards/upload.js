@@ -15,7 +15,7 @@ MODx.panel.ClichePanelUpload = function(config) {
 		,uploadListData: {}
 		,tbar: [{
 			xtype: 'button'
-			,text: _('cliche.back_to_album')
+			,text: _('clichethumbnail.btn_back_to_album')
 			,id: 'default-back-to-album-btn-'+config.tv
 			,iconCls:'icon-back'
 			,handler: function(){
@@ -23,12 +23,12 @@ MODx.panel.ClichePanelUpload = function(config) {
 			}
 		},{
 			xtype: 'button'
-			,text: _('cliche.browse')
+			,text: _('clichethumbnail.btn_browse')
 			,id: 'default-browse-btn-'+config.tv
 			,iconCls:'icon-add'
 		},'->',{
 			xtype: 'button'
-			,text: _('cliche.start_upload')
+			,text: _('clichethumbnail.btn_start_upload')
 			,id: 'default-start-upload-btn-'+config.tv
 			,iconCls:'icon-add-white'
 			,handler: this.onStartUpload
@@ -43,10 +43,10 @@ MODx.panel.ClichePanelUpload = function(config) {
 		,items:[{
 			xtype: 'modx-template-panel'
 			,id: 'default-upload-list-'+config.tv
-			,startingText: _('cliche.upload_desc')
+			,startingText: _('clichethumbnail.upload_desc')
 			,startingMarkup: '<tpl for="."><div class="empty-msg">{text}</div></tpl>'
 			,markup: [
-				'<p class="upload-ready-msg">'+_('cliche.upload_ready_msg')+'</p>'
+				'<p class="upload-ready-msg">'+_('clichethumbnail.upload_ready_msg')+'</p>'
 				,'<ul class="upload-list">'
 					,'<tpl for="files">'
 						,'<li id="{id}">'	
@@ -55,7 +55,7 @@ MODx.panel.ClichePanelUpload = function(config) {
 								,'<span class="upload-spinner hidden"></span>'	
 								,'<span class="upload-percent hidden">0%</span>'	
 								,'<span class="upload-size">{[values.size < 1024 ? values.size+" bytes" : (Math.round(((values.size*10) / 1024))/10)+" KB" ]}</span>'							
-								,'<button class="upload-cancel" onclick="Ext.getCmp(\'default-uploader\').removeFile(\'{id}\'); return false;">'+_('cliche.upload_cancel_msg')+'</button>'
+								,'<button class="upload-cancel" onclick="Ext.getCmp(\'default-uploader\').removeFile(\'{id}\'); return false;">'+_('clichethumbnail.upload_cancel')+'</button>'
 								,'<span class="upload-success-hint">&nbsp;</span>'
 							,'</div>'	
 							,'<div class="inner-content upload-progress">&nbsp;</div>'		
@@ -72,7 +72,7 @@ Ext.extend(MODx.panel.ClichePanelUpload,MODx.Panel,{
 		Ext.getCmp('default-start-upload-btn-'+this.tv).disable();		
 		this.album = rec;
 		Ext.getCmp(this.cardContainer).setActiveItem(this.id);
-		this.updateBreadcrumbs('TV name file upload');
+		this.updateBreadcrumbs();
 		if(this.uploader !== null){
 			this.resetUploader();
 		} else {
@@ -82,19 +82,20 @@ Ext.extend(MODx.panel.ClichePanelUpload,MODx.Panel,{
 	}
 
 	,updateBreadcrumbs: function(msg, highlight){
-		var bd = { text: msg };
+		var bd = {};
+		if(msg != undefined){ bd.text = msg }
         if(highlight){ bd.className = 'highlight'; }
 		bd.trail = [{
-			text : 'Album browser'
+			text : _('clichethumbnail.breadcrumb_album')
 			,pnl : this.albumViewCard
 		},{
-			text : 'Add Images'
+			text : _('clichethumbnail.breadcrumb_upload')
 		}];
 		Ext.getCmp(this.breadcrumbs).updateDetail(bd);
 	}
 	
 	,deactivateBreadcrumbs: function(){
-		Ext.getCmp(this.breadcrumbs).updateDetail({text: _('cliche.upload_in_progress'), className:'highlight'});
+		Ext.getCmp(this.breadcrumbs).updateDetail({text: _('clichethumbnail.upload_in_progress'), className:'highlight'});
 	}
 	
 	,_initTemplates: function() {
@@ -197,7 +198,7 @@ Ext.extend(MODx.panel.ClichePanelUpload,MODx.Panel,{
 	
 	,onUploadComplete: function(uploader, files){
 		this.resetUploader();
-		this.updateBreadcrumbs(_('cliche.upload_items_for') + this.album.name);
+		this.updateBreadcrumbs();
 	}
 	
 	,onError: function(up, error){}	
@@ -217,7 +218,6 @@ Ext.extend(MODx.panel.ClichePanelUpload,MODx.Panel,{
 		this.uploader.destroy();
 		this.uploadListData.files = [];
 		this._initUploader();
-		Ext.getCmp('default-start-upload-btn-'+this.tv).enable();
 		Ext.getCmp('default-browse-btn-'+this.tv).show();
 		Ext.getCmp('default-back-to-album-btn-'+this.tv).enable();
 	}

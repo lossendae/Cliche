@@ -16,7 +16,7 @@ MODx.panel.cliche = function(config) {
         ,unstyled: true
         ,defaults: { collapsible: false ,autoHeight: true }
         ,items: [{
-            html: '<h2>'+ _('cliche.title') +'</h2>'
+            html: '<h2>'+ _('cliche.main_title') +'</h2>'
             ,border: false
             ,cls: 'tools modx-page-header'
         },{
@@ -72,7 +72,7 @@ MODx.panel.cliche = function(config) {
 };
 Ext.extend(MODx.panel.cliche,MODx.Panel,{
 	addPanels: function(){
-		var p = getPanels();
+		var p = MODx.config['cliche.album_mgr_panels'].split(',');
 		Ext.each(p, function(value){
 			Ext.getCmp('card-container').add({ xtype: value });	
 		});
@@ -84,6 +84,8 @@ Ext.extend(MODx.panel.cliche,MODx.Panel,{
 		}
 		this.win.setTitle(title);
 		this.win.show(btn.id);	
+		var pos = this.win.getPosition(true);
+		this.win.setPosition(pos[0], 35);
 		this.win.reset(action, returnTo);		
 		if(data != undefined){
 			this.win.load(data);
@@ -116,13 +118,13 @@ MODx.window.ClicheAlbumsWindow = function(config) {
 				,anchor: '100%'
 			}
 			,items:[{
-				fieldLabel: _('cliche.album_name_label')
+				fieldLabel: _('cliche.field_album_name_label')
 				,name: 'name'
 				,id: 'album_name'
 				,xtype: 'textfield'			
 				,allowBlank: false
 			},{
-				fieldLabel: _('cliche.album_desc_label')
+				fieldLabel: _('cliche.field_album_desc_label')
 				,name: 'description'
 				,id: 'album_description'
 				,xtype: 'textarea'
@@ -139,7 +141,7 @@ MODx.window.ClicheAlbumsWindow = function(config) {
             ,scope: this
             ,handler: function() { this.hide(); }
 		},{
-			text: _('cliche.save_album_btn')
+			text: _('cliche.btn_save_album')
 			,id: 'create-album-window-btn'
 			,cls: 'green'
 			,handler: this.save
@@ -196,3 +198,106 @@ Ext.extend(MODx.window.ClicheAlbumsWindow,Ext.Window,{
 	}
 });
 Ext.reg('modx-window-cu-albums', MODx.window.ClicheAlbumsWindow);
+
+/**
+ * @class MODx.clicheSortableDataView
+ * @extends Ext.util.Observable
+ * @author tof (http://blog.tof2k.com/) - Forum: http://www.sencha.com/forum/showthread.php?33857-Sortable-Plugin-for-DataView - Plugin : http://tof2k.com/ext/sortable/
+ * @param {Object} config An object of configuration parameters
+ * @xtype 'cliche-sortabledataview'
+ */
+MODx.clicheSortableDataView = function(config) {
+	Ext.apply(this, config || {}, {
+		dragCls : 'x-view-sortable-drag'
+		,viewDragCls : 'x-view-sortable-dragging'
+	});
+	MODx.clicheSortableDataView.superclass.constructor.call(this);
+	
+	this.addEvents({
+	  'drop' : true
+	}); 
+};
+Ext.extend(MODx.clicheSortableDataView, Ext.util.Observable, {
+	init : function(view) {
+		window.sdv = this;
+		this.view = view;
+		view.on('render', this.onRender, this);
+	}
+
+	,onRender : function() {
+		
+		var self = this
+		    ,v = this.view
+			,ds = v.store
+		    ,dd = new Ext.dd.DragDrop(v.el)
+		    ,dragCls = this.dragCls
+		    ,viewDragCls = this.viewDragCls;
+
+		// onMouseDown : if found an element, record it for future startDrag
+		dd.onMouseDown = function(e) {			
+			var t, idx,record;
+			this.dragData = null;
+			try {
+				t = e.getTarget(v.itemSelector);
+				idx = v.indexOf(t);
+				record = ds.getAt(idx);
+
+				// Found a record to move
+				if (t && record) {
+					this.dragData = {
+						origIdx : idx,
+						lastIdx : idx,
+						record  : record
+					};
+					return true;
+				}
+			} catch (ex) { this.dragData = null; }
+			return false;
+		};
+
+		// startDrag: add dragCls to the element
+		dd.startDrag = function(x, y) {
+			if (!this.dragData) { return false; }
+			Ext.fly(v.getNode(this.dragData.origIdx)).addClass(dragCls);
+			v.el.addClass(viewDragCls);
+		};
+
+		// endDrag : remove dragCls and fire "drop" event
+		dd.endDrag = function(e) {
+			if (!this.dragData) { return true; }
+			Ext.fly(v.getNode(this.dragData.lastIdx)).removeClass(dragCls);
+			v.el.removeClass(viewDragCls);
+			self.fireEvent('drop' 
+				,this.dragData.origIdx
+				,this.dragData.lastIdx 
+				,this.dragData.record
+			);
+			return true;
+		};
+
+		// onDrag : if correct position, move record
+		dd.onDrag = function(e) {
+			var t, idx, record,data = this.dragData;
+			if (!data) { return false; }
+
+			try {
+				t = e.getTarget(v.itemSelector);
+				idx = v.indexOf(t);
+				record = ds.getAt(idx);
+
+				if (idx === data.lastIdx) { return true; }
+
+				// found new position : move record and re-add dragCls
+				if (t && record) {
+					data.lastIdx = idx;
+					ds.remove(data.record);
+					ds.insert(idx, [data.record]);
+					Ext.fly(v.getNode(idx)).addClass(dragCls);
+					return true;
+				}
+			} catch (ex) { return false; }
+			return false;
+		};
+		this.dd = dd;
+	}
+});

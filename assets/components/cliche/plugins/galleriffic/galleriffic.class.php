@@ -13,6 +13,9 @@ class Galleriffic extends ClichePlugin {
 		$this->modx->regClientStartupScript($this->controller->config['plugins_url'] . 'galleriffic/libs/jquery.galleriffic.js');
 		$this->modx->regClientStartupScript($this->controller->config['plugins_url'] . 'galleriffic/libs/jquery.history.js');
 		$this->modx->regClientStartupScript($this->controller->config['plugins_url'] . 'galleriffic/libs/jquery.opacityrollover.js');
+		
+		$this->controller->setProperty('wrapperTpl','wrapper');
+		$this->controller->setProperty('itemTpl','item');
 	}
 	
 	public function render(){

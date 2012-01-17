@@ -7,7 +7,7 @@
 MODx.window.ClicheThumbnailManager = function(config) {
     config = config || {};	
     Ext.applyIf(config,{ 
-		title: 'Thumbnail manager'
+		title: _('clichethumbnail.window_title')
 		,width: 960
 		,cls: 'cliche'
 		,layout: 'form'
@@ -17,9 +17,9 @@ MODx.window.ClicheThumbnailManager = function(config) {
 			xtype: 'modx-breadcrumbs-panel'
 			,bodyCssClass: 'win breadcrumbs'
 			,id: 'cliche-thumb-bd-'+config.tv
-			,desc: 'This is where the preview of thumbnail will be shown.<br/>And a very useful second sentence'
+			,desc: _('clichethumbnail.breadcrumb_root_desc')
 			,root : { 
-				text : _('cliche.breadcrumb_root')
+				text : _('clichethumbnail.breadcrumb_root')
 				,className: 'first'
 				,root: true
 				,pnl: 'cliche-main-'+config.tv
@@ -71,7 +71,7 @@ MODx.window.ClicheThumbnailManager = function(config) {
             ,scope: this
             ,handler: function() { this.hide(); }
 		},{
-			text: 'Select this image'
+			text: _('clichethumbnail.btn_select_image')
 			,id: 'cliche-thumb-select-image-'+ config.tv
 			,cls: 'green'
 			,handler: this.onSelect

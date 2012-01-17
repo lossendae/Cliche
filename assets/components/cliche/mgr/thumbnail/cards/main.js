@@ -11,12 +11,12 @@ MODx.ClicheThumbMainCard = function(config) {
 		,cls: 'main-wrapper modx-template-detail'
 		,bodyCssClass: 'body-wrapper'
 		,initial: false
-		,startingText: '<h4>There is no thumbnail set yet for this document</p>'
+		,startingText: _('clichethumbnail.main_empty_msg')
 		,markup: '<div class="cropped centered">'
 			+'<img src="{thumbnail}?t={timestamp}" alt="Your thumbnail preview" class="thumb_pw"/>'
         +'</div>'
 		,tbar: [{
-			text: 'Browse album'
+			text: _('clichethumbnail.btn_browse_album')
 			,iconCls: 'icon-add'
 			,handler: function(btn,e){
 				Ext.getCmp(this.albumViewCard).activate();
@@ -24,7 +24,7 @@ MODx.ClicheThumbMainCard = function(config) {
 			}
 			,scope: this
 		},{
-			text: 'Crop the current thumbnail'
+			text: _('clichethumbnail.btn_crop_thumbnail')
 			,iconCls: 'icon-crop'
 			,handler: function(btn,e){
                 if(typeof(this.initial) == "object"){
@@ -43,7 +43,7 @@ MODx.ClicheThumbMainCard = function(config) {
 }
 Ext.extend(MODx.ClicheThumbMainCard, MODx.TemplatePanel,{
 	activate: function(){
-		Ext.getCmp(this.breadcrumbs).reset('Choose an image from the dedicated album or upload an image for this thumbnail');
+		Ext.getCmp(this.breadcrumbs).reset(_('clichethumbnail.breadcrumb_root_desc'));
 		Ext.getCmp(this.cardContainer).setActiveItem(this.id);        
     }
 	
@@ -81,7 +81,7 @@ Ext.extend(MODx.ClicheThumbMainCard, MODx.TemplatePanel,{
             ,scope: this
         });
 
-        Ext.getCmp(this.breadcrumbs).reset('The image below shows a preview of your thumbnail.<br/>You can crop the selected image by using the button "Crop Image"')
+        Ext.getCmp(this.breadcrumbs).reset(_('clichethumbnail.breadcrumb_root_desc_with_thumb'))
 		Ext.getCmp(this.cardContainer).setActiveItem(this.id);
 	}
 	

@@ -16,7 +16,7 @@ MODx.panel.ClicheDefaultItemPanelUpload = function(config) {
 		,uploadListData: {}
 		,tbar: [{
 			xtype: 'button'
-			,text: _('cliche.back_to_album')
+			,text: _('cliche.btn_back_to_album')
 			,id: 'default-back-to-album-btn'
 			,iconCls:'icon-back'
 			,handler: function(){
@@ -24,12 +24,12 @@ MODx.panel.ClicheDefaultItemPanelUpload = function(config) {
 			}
 		},{
 			xtype: 'button'
-			,text: _('cliche.browse')
+			,text: _('cliche.btn_browse')
 			,id: 'default-browse-btn'
 			,iconCls:'icon-add'
-		},'->',{
+		},'-',{
 			xtype: 'button'
-			,text: _('cliche.start_upload')
+			,text: _('cliche.btn_start_upload')
 			,id: 'default-start-upload-btn'
 			,iconCls:'icon-add-white'
 			,handler: this.onStartUpload
@@ -89,7 +89,7 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 			text : this.album.name
 			,pnl : 'cliche-album-default'
 		},{
-			text : _('cliche.breadcrumbs_upload_pictures_msg')
+			text : _('cliche.breadcrumb_upload_images')
 		}];
 		Ext.getCmp('cliche-breadcrumbs').updateDetail(bd);
 	}
@@ -218,7 +218,6 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 		this.uploader.destroy();
 		this.uploadListData.files = [];
 		this._initUploader();
-		Ext.getCmp('default-start-upload-btn').enable();
 		Ext.getCmp('default-browse-btn').show();
 		Ext.getCmp('default-back-to-album-btn').enable();
 	}

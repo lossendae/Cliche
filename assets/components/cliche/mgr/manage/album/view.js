@@ -8,7 +8,6 @@
  */
 MODx.ClicheDefaultAlbumView = function(config) {
     config = config || {};
-
     this._initTemplates();
     Ext.applyIf(config,{
         url: MODx.ClicheConnectorUrl
@@ -25,7 +24,7 @@ MODx.ClicheDefaultAlbumView = function(config) {
 		,selectedClass:'selected'
 		,itemSelector: 'div.thumb-wrapper'
 		,loadingText : '<div class="empty-msg"><h4>'+_('cliche.loading')+'</h4></div>'
-		,emptyText : '<div class="empty-msg"><h4>'+_('cliche.items_empty_msg')+'</h4></div>'
+		,emptyText : '<div class="empty-msg"><h4>'+_('cliche.album_item_empty_msg')+'</h4></div>'
     });
     MODx.ClicheDefaultAlbumView.superclass.constructor.call(this,config);
     this.on('selectionchange',this.showDetails,this,{buffer: 100});
@@ -33,7 +32,6 @@ MODx.ClicheDefaultAlbumView = function(config) {
 };
 Ext.extend(MODx.ClicheDefaultAlbumView,MODx.DataView,{
     templates: {}
-
     ,run: function(p) {
         var v = {};
         Ext.applyIf(v,this.store.baseParams);
@@ -62,7 +60,6 @@ Ext.extend(MODx.ClicheDefaultAlbumView,MODx.DataView,{
     }
 
     ,formatData: function(data) {
-        data.shortName = Ext.util.Format.ellipsis(data.name, 12);
         this.lookup['cliche-album-item-thumb-'+data.id] = data;
         return data;
     }
@@ -73,11 +70,13 @@ Ext.extend(MODx.ClicheDefaultAlbumView,MODx.DataView,{
 				+'<div class="thumb">'
 					+'<img src="{thumbnail}" title="{name}" alt="{name}" />'
 				+'</div>'
+				+'<span class="image-name">{name}</span>'
 			+'</div>'
-		+'</tpl>', {
+		+'</tpl>'
+		+'<div class="clear"></div>', {
 			compiled: true
 		});
-		this.templates.album_desc = new Ext.XTemplate( '<tpl for=".">'+_('cliche.breadcrumbs_album_msg')+'</tpl>', {
+		this.templates.album_desc = new Ext.XTemplate( '<tpl for=".">'+_('cliche.album_desc')+'</tpl>', {
 			compiled: true
 		});	
     }
@@ -103,6 +102,7 @@ MODx.panel.ClicheAlbumDefault = function(config) {
 		,containerScroll: true
 		,ident: this.ident
 		,border: false
+		,plugins : new MODx.clicheSortableDataView()
     });
 
 	Ext.applyIf(config,{
@@ -112,32 +112,59 @@ MODx.panel.ClicheAlbumDefault = function(config) {
 		,layout: 'column'
 		,tbar: [{
 			xtype: 'button'
-			,text: _('cliche.back_to_album_list')
+			,text: _('cliche.btn_back_to_album_list')
 			,iconCls:'icon-back'
 			,handler: function(){
 				Ext.getCmp('album-list').activate();
 			}			
-		},'-',{
-            text: 'Options'
+		},{
+            text: _('cliche.btn_options')
 			,iconCls:'icon-options'			
 			,menu: {
 				cls: 'custom-menu'
 				,items: [{
-					text: _('cliche.update_album')
+					text: _('cliche.btn_update_album')
 					,id:'update-album'
 					,iconCls:'icon-edit'
 					,handler: this.onUpdateAlbum
 					,scope: this
 				},{
-					text: _('cliche.delete_album')
+					text: _('cliche.btn_delete_album')
 					,id:'delete-album'
 					,iconCls:'icon-delete-album'
 					,handler: this.onDeleteAlbum
 					,scope: this				
+				},{
+					text: 'Save new order'
+					,id: 'reorder-album'
+					,handler: this.onReorderAlbum
+					,scope: this
 				}]
 			}
-		},'->',{
-			text: _('cliche.add_photo')
+		},'-',{
+			xtype: 'trigger'
+			,id: 'album-searchfield'
+			,ctCls: 'customsearchfield'
+			,emptyText: 'Search...'
+			,onTriggerClick: function(){
+				this.reset();	
+				this.fireEvent('click');				
+			}
+			,listeners: {
+				specialkey: function(field, e){
+                    if (e.getKey() == e.ENTER) {
+						this.view.getStore().setBaseParam('query',field.getValue());
+						this.view.getStore().load();
+                    }
+                }
+				,click: function(trigger){
+					this.view.getStore().setBaseParam('query','');
+					this.view.getStore().load();
+				}
+				,scope: this
+			}
+		},'-',{
+			text: _('cliche.btn_add_photo')
 			,cls: 'green'
 			,iconCls: 'icon-add-white'
 			,handler: this.onaddPhoto
@@ -162,39 +189,39 @@ MODx.panel.ClicheAlbumDefault = function(config) {
 			,id: 'cliche-album-item-details'
 			,cls: 'aside-details'
 			,width: 250
-			,startingText: _('cliche.album-empty-col-msg')
+			,startingText: _('cliche.album_empty_col_msg')
 			,markup: '<div class="details">'
 				+'<tpl for=".">'
 					+'<div class="selected">'
-						+'<a href="{image}" title="Album {name} preview" alt="'+_('cliche.album_cover_alt_msg')+'" class="lightbox" />'
+						+'<a href="{image}" title="Album {name} preview" alt="'+_('cliche.album_item_cover_alt_msg')+'" class="lightbox" />'
 							+'<img src="{image}" alt="{name}" />'
 						+'</a>'
 						+'<h5>{name}</h5>'
 						+'<ul class="splitbuttons">'
-							+'<li class="inline-button edit"><button ext:qtip="'+_('cliche.edit_image')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').editImage(\'{id}\'); return false;">'+_('cliche.edit_image')+'</button></li>'
+							+'<li class="inline-button edit"><button ext:qtip="'+_('cliche.btn_edit_image')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').editImage(\'{id}\'); return false;">'+_('cliche.btn_edit_image')+'</button></li>'
 							+'<tpl if="!is_cover">'								
-								+'<li class="inline-button set-as-cover"><button ext:qtip="'+_('cliche.set_as_album_cover')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').setAsCover(\'{id}\'); return false;">'+_('cliche.set_as_album_cover')+'</button></li>'
+								+'<li class="inline-button set-as-cover"><button ext:qtip="'+_('cliche.btn_set_as_album_cover')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').setAsCover(\'{id}\'); return false;">'+_('cliche.btn_set_as_album_cover')+'</button></li>'
 							+'</tpl>'
-							+'<li class="inline-button delete"><button ext:qtip="'+_('cliche.delete_image')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').deleteImage(\'{id}\'); return false;">'+_('cliche.delete_image')+'</button></li>'
+							+'<li class="inline-button delete"><button ext:qtip="'+_('cliche.btn_delete_image')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').deleteImage(\'{id}\'); return false;">'+_('cliche.btn_delete_image')+'</button></li>'
 						+'</ul>'
 					+'</div>'
 					+'<div class="description">'
-						+'<h4>'+_('cliche.desc_title')+'</h4>'
+						+'<h4>'+_('cliche.album_item_desc_title')+'</h4>'
 						+'{description:defaultValue("'+_('cliche.no_desc')+'")}'						
 					+'</div>'
 					+'<div class="infos">'
-						+'<h4>'+_('cliche.informations_title')+'</h4>'
+						+'<h4>'+_('cliche.album_item_informations_title')+'</h4>'
 						+'<ul>'
 							+'<li>'
-								+'<span class="infoname">ID:</span>'
+								+'<span class="infoname">'+_('cliche.album_item_id')+':</span>'
 								+'<span class="infovalue">#{id}</span>'
 							+'</li>'
 							+'<li>'
-								+'<span class="infoname">'+_('cliche.created_by')+':</span>'
+								+'<span class="infoname">'+_('cliche.album_item_created_by')+':</span>'
 								+'<span class="infovalue">{createdby}</span>'
 							+'</li>'
 							+'<li>'
-								+'<span class="infoname">'+_('cliche.created_on')+':</span>'
+								+'<span class="infoname">'+_('cliche.album_item_created_on')+':</span>'
 								+'<span class="infovalue">{createdon}</span>'
 							+'</li>'
 						+'</ul>'
@@ -232,13 +259,13 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 	}
 	
 	,onUpdateAlbum: function(btn, e){
-		Ext.getCmp('cliche-main-panel').loadCreateUpdateWindow(_('cliche.update_album'), 'update', btn, this.id, this.album);	
+		Ext.getCmp('cliche-main-panel').loadCreateUpdateWindow(_('cliche.window_update_album'), 'update', btn, this.id, this.album);	
 	}
 	
 	,onDeleteAlbum: function(btn, e){
 		MODx.msg.confirm({
-			title: _('cliche.delete_album')
-			,text: _('cliche.delete_album_msg')
+			title: _('cliche.window_delete_album')
+			,text: _('cliche.window_delete_album_msg')
 			,url: MODx.ClicheConnectorUrl			   
 			,params: {
 				action: 'album/delete'
@@ -265,6 +292,8 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 					this.win = new MODx.window.ClicheImageWindow();
 				}
 				this.win.show(this.id);	
+				var pos = this.win.getPosition(true);
+				this.win.setPosition(pos[0], 35);
 				this.win.reset(this.id);
 				this.win.load(data);
 			}
@@ -273,8 +302,8 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 	
 	,setAsCover: function(id){
 		MODx.msg.confirm({
-			title: _('cliche.set_as_album_cover')
-			,text: _('cliche.set_as_album_cover_msg')
+			title: _('cliche.window_set_as_album_cover')
+			,text: _('cliche.window_set_as_album_cover_msg')
 			,url: MODx.ClicheConnectorUrl			   
 			,params: {
 				action: 'image/setascover'
@@ -293,8 +322,8 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 	
 	,deleteImage: function(id){
 		MODx.msg.confirm({
-			title: _('cliche.delete_image')
-			,text: _('cliche.delete_image_msg')
+			title: _('cliche.window_delete_image')
+			,text: _('cliche.window_delete_image_msg')
 			,url: MODx.ClicheConnectorUrl			   
 			,params: {
 				action: 'image/delete'
@@ -304,6 +333,33 @@ Ext.extend(MODx.panel.ClicheAlbumDefault,MODx.Panel,{
 			,listeners: {
 				'success':{fn:function(r) {
 					this.activate(r.data);
+				},scope:this}
+			}
+			,animEl: this.id
+        });
+	}
+	
+	,onReorderAlbum: function(){
+		var ids = this.view.getStore().collect('id');
+		var start = this.view.getStore().lastOptions.params.start;
+		var limit = this.view.getStore().lastOptions.params.limit;
+		MODx.msg.confirm({
+			title: 'Reorder album'
+			,text: 'Are sure you want to reorder this album item\'s ?'
+			,url: MODx.ClicheConnectorUrl			   
+			,params: {
+				action: 'album/reorder'
+				,ctx: 'mgr'
+				,ids: ids.join(',')
+				,start: start
+				,limit: limit
+				,album: this.album.id
+			}
+			,listeners: {
+				'success':{fn:function(r) {
+					this.view.getStore().removeAll();
+					this.activate(r.data);
+					// IMAGES NEEDS TIMESTAMP TO BE RELOADED ACCORDINGLY
 				},scope:this}
 			}
 			,animEl: this.id
@@ -323,14 +379,14 @@ MODx.window.ClicheImageWindow = function(config) {
 	
     Ext.applyIf(config,{ 
 		layout: 'form'
-		,title: _('cliche.edit_image')
+		,title: _('cliche.window_edit_image')
 		,border: false		
 		,width: 450
 		,items:[{			
 			xtype: 'modx-template-panel'
 			,bodyCssClass: 'win-desc panel-desc'
 			,startingMarkup: '<tpl for="."><p>{text}</p></tpl>'
-			,startingText: _('cliche.edit_image_msg')
+			,startingText: _('cliche.window_edit_image_msg')
 		},{
 			xtype: 'form'
 			,id: 'edit-image-form'
@@ -342,13 +398,13 @@ MODx.window.ClicheImageWindow = function(config) {
 				,anchor: '100%'
 			}
 			,items:[{
-				fieldLabel: _('cliche.album_name_label')
+				fieldLabel: _('cliche.field_image_name_label')
 				,name: 'name'
 				,id: 'image_name'
 				,xtype: 'textfield'			
 				,allowBlank: false
 			},{
-				fieldLabel: _('cliche.album_desc_label')
+				fieldLabel: _('cliche.field_image_desc_label')
 				,name: 'description'
 				,id: 'image_description'
 				,xtype: 'textarea'
@@ -365,7 +421,7 @@ MODx.window.ClicheImageWindow = function(config) {
             ,scope: this
             ,handler: function() { this.hide(); }
 		},{
-			text: _('cliche.save_album_btn')
+			text: _('cliche.btn_save_image')
 			,id: 'edit-image-window-btn'
 			,cls: 'green'
 			,handler: this.save

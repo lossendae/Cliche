@@ -23,8 +23,8 @@ MODx.ClicheAlbumView = function(config) {
 		,overClass:'x-view-over'
 		,selectedClass:'selected'
 		,itemSelector: 'div.thumb-wrapper'
-		,loadingText : '<div class="empty-msg"><h4>'+_('cliche.loading')+'</h4></div>'
-		,emptyText : '<div class="empty-msg"><h4>'+_('cliche.items_empty_msg')+'</h4></div>'
+		,loadingText : '<div class="empty-msg"><h4>'+_('clichethumbnail.album_loading')+'</h4></div>'
+		,emptyText : '<div class="empty-msg"><h4>'+_('clichethumbnail.album_empty_msg')+'</h4></div>'
     });
     MODx.ClicheAlbumView.superclass.constructor.call(this,config);
     this.on('selectionchange',this.showDetails,this,{buffer: 100});
@@ -39,7 +39,7 @@ Ext.extend(MODx.ClicheAlbumView,MODx.DataView,{
         Ext.applyIf(v,p);
         this.store.load({
             params: v
-			/* Fix layout after the store's loaded */
+			/* Fix layout after the store has been loaded */
 			,callback: function(rec, options, success){
 				setTimeout(function(){
 					Ext.getCmp('modx-content').doLayout();
@@ -53,10 +53,6 @@ Ext.extend(MODx.ClicheAlbumView,MODx.DataView,{
         if(selNode && selNode.length > 0){
             selNode = selNode[0];
             var data = this.lookup[selNode.id];
-			//Show set as cover button if necessary
-			var album = this.ownerCt.ownerCt.album;				
-			data.is_cover = (data.id == album.cover_id) ? true : false;
-			//Un peu alambiqué comme solution
             if (data) { Ext.getCmp(this.ownerCt.ownerCt.itemDetailId).updateDetail(data); }
         }
     }
@@ -77,9 +73,6 @@ Ext.extend(MODx.ClicheAlbumView,MODx.DataView,{
 		+'</tpl>', {
 			compiled: true
 		});
-		this.templates.album_desc = new Ext.XTemplate( '<tpl for=".">'+_('cliche.breadcrumbs_album_msg')+'</tpl>', {
-			compiled: true
-		});	
     }
 	
 	,onStoreLoad: function( ds, rec, options ){
@@ -134,33 +127,33 @@ MODx.panel.ClicheAlbum = function(config) {
 			,id: 'cliche-album-item-details-'+config.tv
 			,cls: 'aside-details'
 			,width: 250
-			,startingText: _('cliche.album-empty-col-msg')
+			,startingText: _('clichethumbnail.image_unselected_msg')
 			,markup: '<div class="details">'
 				+'<tpl for=".">'
 					+'<div class="selected">'
-						+'<a href="{image}" title="Album {name} preview" alt="'+_('cliche.album_cover_alt_msg')+'" class="lightbox" />'
+						+'<a href="{image}" title="Album {name} preview" alt="'+_('clichethumbnail.image_cover_alt_msg')+'" class="lightbox" />'
 							+'<img src="{image}" alt="{name}" />'
 						+'</a>'
 						+'<h5>{name}</h5>'
-						+'<button class="inline-button green" onclick="Ext.getCmp(\'cliche-main-{tv}\').updateThumbnail(\'{id}\'); return false;"/>'+_('cliche.thumb_select_btn')+'</button>'
+						+'<button class="inline-button green" onclick="Ext.getCmp(\'cliche-main-{tv}\').updateThumbnail(\'{id}\'); return false;"/>'+_('clichethumbnail.btn_select_image')+'</button>'
 					+'</div>'
 					+'<div class="description">'
-						+'<h4>'+_('cliche.desc_title')+'</h4>'
-						+'{description:defaultValue("'+_('cliche.no_desc')+'")}'						
+						+'<h4>'+_('clichethumbnail.image_desc_title')+'</h4>'
+						+'{description:defaultValue("'+_('clichethumbnail.image_no_desc')+'")}'						
 					+'</div>'
 					+'<div class="infos">'
-						+'<h4>'+_('cliche.informations_title')+'</h4>'
+						+'<h4>'+_('clichethumbnail.image_informations_title')+'</h4>'
 						+'<ul>'
 							+'<li>'
 								+'<span class="infoname">ID:</span>'
 								+'<span class="infovalue">#{id}</span>'
 							+'</li>'
 							+'<li>'
-								+'<span class="infoname">'+_('cliche.created_by')+':</span>'
+								+'<span class="infoname">'+_('clichethumbnail.image_created_by')+':</span>'
 								+'<span class="infovalue">{createdby}</span>'
 							+'</li>'
 							+'<li>'
-								+'<span class="infoname">'+_('cliche.created_on')+':</span>'
+								+'<span class="infoname">'+_('clichethumbnail.image_created_on')+':</span>'
 								+'<span class="infovalue">{createdon}</span>'
 							+'</li>'
 						+'</ul>'
@@ -170,13 +163,13 @@ MODx.panel.ClicheAlbum = function(config) {
 		}]
 		,tbar:[{
 			xtype: 'button'
-			,text: _('cliche.back_to_album_list')
+			,text: _('clichethumbnail.btn_back_to_main')
 			,iconCls:'icon-back'
 			,handler: function(){
 				Ext.getCmp('cliche-main-'+config.tv).activate();
 			}
-		},'->',{
-			text: _('cliche.add_photo')
+		},{
+			text: _('clichethumbnail.btn_add_photo')
 			,cls: 'green'
 			,iconCls: 'icon-add-white'
 			,handler: this.onaddPhoto
@@ -193,13 +186,14 @@ Ext.extend(MODx.panel.ClicheAlbum,MODx.Panel,{
 		}
 		this.view.run();
 		Ext.getCmp(this.cardContainer).setActiveItem(this.id);
-		this.updateBreadcrumbs('Choose an image from the album to use as thumbnail');
+		this.updateBreadcrumbs();
 	}
 
 	,updateBreadcrumbs: function(msg){
-		var bd = { text: msg };
+		var bd = {};
+		if(msg != undefined){ bd.text = msg }
 		bd.trail = [{
-			text : 'Album browser'
+			text : _('clichethumbnail.breadcrumb_album')
 		}];
 		Ext.getCmp(this.breadcrumbs).updateDetail(bd);
 	}
