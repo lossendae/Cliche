@@ -13,6 +13,7 @@ MODx.window.ClicheThumbnailManager = function(config) {
 		,layout: 'form'
 		,data: null
 		,autoHeight: true
+		,closeAction: 'hide'
 		,items: [{
 			xtype: 'modx-breadcrumbs-panel'
 			,bodyCssClass: 'win breadcrumbs'

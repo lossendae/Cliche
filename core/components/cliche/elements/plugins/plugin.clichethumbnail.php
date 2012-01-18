@@ -44,14 +44,14 @@ Ext.onReady(function() {
 		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/libs/plupload.html4.js');
             
         /* TV panel classes */
-		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/panel.js');
-		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/window.js');
+		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/tv/panel.js');
+		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/tv/window.js');
 		
 		/* Window cards */
-		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/cards/main.js');
-		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/cards/album.js');
-		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/cards/upload.js');
-		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/cards/cropper.js');
+		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/tv/cards/main.js');
+		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/tv/cards/album.js');
+		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/tv/cards/upload.js');
+		$modx->controller->addJavascript($cliche->config['assets_url'].'mgr/thumbnail/tv/cards/cropper.js');
         break;
 }
 return;

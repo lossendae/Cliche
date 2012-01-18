@@ -117,6 +117,28 @@ MODx.panel.ClicheAlbumDefault = function(config) {
 			,handler: function(){
 				Ext.getCmp('album-list').activate();
 			}			
+		},'-','-',{
+			xtype: 'trigger'
+			,id: 'album-searchfield'
+			,ctCls: 'customsearchfield'
+			,emptyText: 'Search...'
+			,onTriggerClick: function(){
+				this.reset();	
+				this.fireEvent('click');				
+			}
+			,listeners: {
+				specialkey: function(field, e){
+                    if (e.getKey() == e.ENTER) {
+						this.view.getStore().setBaseParam('query',field.getValue());
+						this.view.getStore().load();
+                    }
+                }
+				,click: function(trigger){
+					this.view.getStore().setBaseParam('query','');
+					this.view.getStore().load();
+				}
+				,scope: this
+			}
 		},{
             text: _('cliche.btn_options')
 			,iconCls:'icon-options'			
@@ -140,28 +162,6 @@ MODx.panel.ClicheAlbumDefault = function(config) {
 					,handler: this.onReorderAlbum
 					,scope: this
 				}]
-			}
-		},'-',{
-			xtype: 'trigger'
-			,id: 'album-searchfield'
-			,ctCls: 'customsearchfield'
-			,emptyText: 'Search...'
-			,onTriggerClick: function(){
-				this.reset();	
-				this.fireEvent('click');				
-			}
-			,listeners: {
-				specialkey: function(field, e){
-                    if (e.getKey() == e.ENTER) {
-						this.view.getStore().setBaseParam('query',field.getValue());
-						this.view.getStore().load();
-                    }
-                }
-				,click: function(trigger){
-					this.view.getStore().setBaseParam('query','');
-					this.view.getStore().load();
-				}
-				,scope: this
 			}
 		},'-',{
 			text: _('cliche.btn_add_photo')

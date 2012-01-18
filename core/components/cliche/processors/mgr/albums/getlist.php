@@ -3,14 +3,22 @@ $start = $scriptProperties['start'];
 $limit = $scriptProperties['limit'];
 $sort = $modx->getOption('sort', $scriptProperties, 'ClicheAlbums.createdon');
 $dir = $modx->getOption('dir', $scriptProperties, 'ASC');
+$query = $modx->getOption('query', $scriptProperties, false);
 
 $type = $modx->getOption('type', $scriptProperties, 'default');
 
 $c = $modx->newQuery('ClicheAlbums');
 
-$c->where(array(
-    'ClicheAlbums.type' => $type,
-));
+/* @TODO make a filter on album type */
+// $c->where(array(
+    // 'ClicheAlbums.type' => $type,
+// ));
+
+if($query && $query != ''){
+	$c->where(array(
+		'name:LIKE' => '%'. $query .'%' 
+	));
+}
 
 /* paginate result */
 $count = $modx->getCount('ClicheAlbums', $c);

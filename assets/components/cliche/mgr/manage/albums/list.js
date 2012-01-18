@@ -154,53 +154,53 @@ MODx.panel.ClicheAlbumsList = function(config) {
 			,scope: this
 		}
 		/* Not active in first bêta - Wait for the first TV */
-		, '->'
-        , '<span class="customsearchfield desc">Viewing</span>' ,{
-			text: 'Default'
-			,id: 'cliche-filter-album-type'
-            ,param: 'type'
-			,activeItem: 0
-			,menu: {
-				plain: true
-				,defaults: {
-					handler: this.onItemClick
-					,scope: this
-				}
-				,items: [{
-					text: 'Default'
-                    ,filter: 'default'
-				},{
-					text: 'Cliche Thumbnail TV'
-                    ,filter: 'clichethumbnail'
-				}]
-			}
-        }
-		, '	','Albums Sorted by : '
-		,{
-            text: 'Creation date'
-			,id: 'cliche-filter-album'
-            ,param: 'sortby'
-			,activeItem: 0
-			,menu: {
-				plain: true
-				,defaults: {
-					handler: this.onSortByItemClick
-					,scope: this
-				}
-				,items: [{
-					text: 'Name'
-                    ,filter: 'name'
-				},{
-					text: 'Creation date'
-                    ,filter: 'createdon'
-				},{
-					text: 'Author'
-                    ,filter: 'createdby'
-				}]
-			}
-		},'-',{
+		, '-', {
+        // , '<span class="customsearchfield desc">Viewing</span>' ,{
+			// text: 'Default'
+			// ,id: 'cliche-filter-album-type'
+            // ,param: 'type'
+			// ,activeItem: 0
+			// ,menu: {
+				// plain: true
+				// ,defaults: {
+					// handler: this.onItemClick
+					// ,scope: this
+				// }
+				// ,items: [{
+					// text: 'Default'
+                    // ,filter: 'default'
+				// },{
+					// text: 'Cliche Thumbnail TV'
+                    // ,filter: 'clichethumbnail'
+				// }]
+			// }
+        // }
+		// , '	','Albums Sorted by : '
+		// ,{
+            // text: 'Creation date'
+			// ,id: 'cliche-filter-album'
+            // ,param: 'sortby'
+			// ,activeItem: 0
+			// ,menu: {
+				// plain: true
+				// ,defaults: {
+					// handler: this.onSortByItemClick
+					// ,scope: this
+				// }
+				// ,items: [{
+					// text: 'Name'
+                    // ,filter: 'name'
+				// },{
+					// text: 'Creation date'
+                    // ,filter: 'createdon'
+				// },{
+					// text: 'Author'
+                    // ,filter: 'createdby'
+				// }]
+			// }
+		// },'-',{
 			xtype: 'trigger'
-			,id: 'album-searchfield'
+			,id: 'albums-searchfield'
 			,ctCls: 'customsearchfield'
 			,emptyText: 'Search...'
 			,onTriggerClick: function(){

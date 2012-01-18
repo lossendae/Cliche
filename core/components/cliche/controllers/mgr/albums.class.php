@@ -40,7 +40,7 @@ class ClicheMgrAlbumsManagerController extends ClicheManagerController {
 				$f = $this->cliche->config['controllers_path'].'mgr/cmp/'. $albumType .'.inc.php';
 				if(file_exists($f)){
 					// @TODO use the dynamic feature
-					require_once $this->cliche->config['controllers_path'].'mgr/cmp/default.inc.php';
+					require_once $f;
 				}
 			}
 		}
