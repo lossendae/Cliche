@@ -36,20 +36,21 @@ if($rows){
 	}
 	unset($rows);
 	
-	/* Retreive the album owner informations */
-	$owner = $modx->getObjectGraph('ClicheAlbums', '{ "CreatedBy": {}, "Cover":{} }', $pic['album_id']);
-	$album = $owner->toArray();
-	$album['createdby'] = $owner->CreatedBy->get('username');
-	$album['createdon'] = date('j M Y',strtotime($album['createdon']));
-	if($album['cover_id'] != 0){			
-		$album['image'] = $owner->Cover->get('image');
-		$album['thumbnail'] = $owner->Cover->get('manager_thumbnail');
-	}
-	
 	$results = $pics;
 } else {
 	$results = array();
 }
+
+/* Retreive the album owner informations */
+$owner = $modx->getObjectGraph('ClicheAlbums', '{ "CreatedBy": {}, "Cover":{} }', $albumId);
+$album = $owner->toArray();
+$album['createdby'] = $owner->CreatedBy->get('username');
+$album['createdon'] = date('j M Y',strtotime($album['createdon']));
+if($album['cover_id'] != 0){			
+	$album['image'] = $owner->Cover->get('image');
+	$album['thumbnail'] = $owner->Cover->get('manager_thumbnail');
+}
+	
 $response['success'] = true;
 $response['total'] = $count;
 $response['results'] = $results;
