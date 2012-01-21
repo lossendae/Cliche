@@ -32,8 +32,6 @@ What's next
 ---------------
 
 - Cliche Custom Resource types to manage album per resource which can be useful to manage portfolios
-- Cliche Thumbnail Template variable : An easy way to manage Post thumbnail for your resource
-- Gallerific : It will come in the next release
 - More examples : Coming soon on a dedicated website
 - Custom snippet : To allow easy sidebar integration
 - More complete documentation

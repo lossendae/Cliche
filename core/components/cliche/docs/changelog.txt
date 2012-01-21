@@ -7,6 +7,9 @@ Changelog for Cliche
 	- Added search field
 	- Drag and drop reorder for album
 	- Added Cliche thumbnail Template Variable
+	- Image proloader mask
+	- Height adjustement for long name to assure proper image block alignement
+	- Class refactor for better reuse
 
 *** Cliche 1.0.0 beta 1 ***
 
