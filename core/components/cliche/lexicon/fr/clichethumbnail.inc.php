@@ -36,8 +36,13 @@ $_lang['clichethumbnail.main_empty_msg'] = '<h4>Il n\'y a pas d\'aperçu de déf
 $_lang['clichethumbnail.album_desc'] = '<div class="album-infos"><tpl if="cover_id == 0">
 		<span class="no-preview">Aucun aperçu</span>
 	</tpl>
-	<tpl if="cover_id">
-		<img src="{thumbnail}" title="Couverture de l\'album {name}" alt="Couverture de l\'album {name}" />
+	<tpl if="cover_id">		
+		<tpl if="thumbnail">
+			<img src="{thumbnail}" title="Couverture pour l\'album {name}" alt="Image de couverture pour l\'album {name}" />
+		</tpl>
+		<tpl if="!thumbnail">
+			<span class="no-preview error"><strong>Error</strong>Image not found</span>
+		</tpl>
 	</tpl>
 	<div class="album-name"><h3>Album : <span>{name}</span></h3>
 		Crée le <strong>{createdon}</strong> par <strong>{createdby}</strong><br/>

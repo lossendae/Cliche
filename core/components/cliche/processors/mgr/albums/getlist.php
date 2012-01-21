@@ -33,10 +33,10 @@ if($rows){
 		$album = $row->toArray();
 		$album['createdby'] = $row->CreatedBy->get('username');
 		$album['createdon'] = date('j M Y',strtotime($album['createdon']));
-		if($row->cover_id != 0){
+		$image = $modx->cliche->config['images_path'] . $row->Cover->get('filename');
+		if($row->cover_id != 0 && file_exists($image)){
 			$album['image'] = $modx->cliche->config['images_url'] . $row->Cover->get('filename');
-			$album['thumbnail'] = $row->Cover->get('manager_thumbnail');
-//			$album['phpthumb'] = $modx->cliche->config['phpthumb'] . urlencode($album['image']);
+			$album['thumbnail'] = $row->Cover->get('manager_thumbnail');		
 		}
 		$albums[] = $album;
 	}

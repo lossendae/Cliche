@@ -52,8 +52,13 @@ $_lang['cliche.album_list_total_pics'] = '{total} Obrázků';
 $_lang['cliche.album_desc'] = '<div class="album-infos"><tpl if="cover_id == 0">
 		<span class="no-preview">Bez náhledu</span>
 	</tpl>
-	<tpl if="cover_id">
-		<img src="{thumbnail}" title="Titulní obrázek alba {name}" alt="Titulní obrázek alba {name}" />
+	<tpl if="cover_id">		
+		<tpl if="thumbnail">
+			<img src="{thumbnail}" title="Titulní obrázek alba {name}" alt="Titulní obrázek alba {name}" />
+		</tpl>
+		<tpl if="!thumbnail">
+			<span class="no-preview error"><strong>Error</strong>Image not found</span>
+		</tpl>
 	</tpl>
 	<div class="album-name"><h3>Album : <span>{name}</span></h3>
 		Vytvořeno: <strong>{createdon}</strong>, autor: <strong>{createdby}</strong><br/>

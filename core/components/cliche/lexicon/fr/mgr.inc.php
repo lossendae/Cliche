@@ -23,8 +23,13 @@ $_lang['cliche.album_list_total_pics'] = '{total} images';
 $_lang['cliche.album_desc'] = '<div class="album-iinfos"><tpl if="cover_id == 0">
 		<span class="no-preview">Auncun aperçu</span>
 	</tpl>
-	<tpl if="cover_id">
-		<img src="{thumbnail}" title="Couverture pour l\'album {name}" alt="Image de couverture pour l\'album {name}" />
+	<tpl if="cover_id">		
+		<tpl if="thumbnail">
+			<img src="{thumbnail}" title="Couverture pour l\'album {name}" alt="Image de couverture pour l\'album {name}" />
+		</tpl>
+		<tpl if="!thumbnail">
+			<span class="no-preview error"><strong>Error</strong>Image not found</span>
+		</tpl>
 	</tpl>
 	<div class="album-name"><h3>Album : <span>{name}</span></h3>
 		Créé le <strong>{createdon}</strong> par <strong>{createdby}</strong><br/>
