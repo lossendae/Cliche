@@ -7,6 +7,8 @@
 * @subpackage controllers
 */
 class ClicheMgrAlbumsManagerController extends ClicheManagerController {
+	public $type;
+	public $panels = array();
 
     public function process(array $scriptProperties = array()) {}
     public function getPageTitle() { return $this->modx->lexicon('cliche'); }
@@ -20,30 +22,59 @@ class ClicheMgrAlbumsManagerController extends ClicheManagerController {
 		}
 		$this->addJavascript($this->cliche->config['assets_url'].'mgr/libs/plupload.js');
 		$this->addJavascript($this->cliche->config['assets_url'].'mgr/libs/plupload.html5.js');
-		$this->addJavascript($this->cliche->config['assets_url'].'mgr/libs/plupload.html4.js');
-		$this->addJavascript($this->cliche->config['assets_url'].'mgr/libs/DataViewTransition.js');
-        $this->addJavascript($this->cliche->config['assets_url'].'mgr/manage/albums/list.js');
-        $this->addJavascript($this->cliche->config['assets_url'].'mgr/manage/main.panel.js');
+        $this->addJavascript($this->cliche->config['assets_url'].'mgr/core/windows.js');
+        $this->addJavascript($this->cliche->config['assets_url'].'mgr/core/albums.js');
+        $this->addJavascript($this->cliche->config['assets_url'].'mgr/core/album.js');
+		$this->addJavascript($this->cliche->config['assets_url'].'mgr/core/upload.js');
+		$this->addJavascript($this->cliche->config['assets_url'].'mgr/core/main.panel.js');	
 		
-		$this->addHtml('<script type="text/javascript">Ext.onReady(function() {	MODx.add("cliche-main-panel"); Ext.ux.Lightbox.register("a.lightbox"); });</script>');
-
-		$panels = array();	
+		$this->type = 'default';
+		$this->addPanel('album');
+		$this->addPanel('upload');
 		
 		/* Load each types controller separately */
 		$c = $this->modx->newQuery('ClicheAlbums');
 		$c->select(array('type'));
 		$c->query['distinct'] = 'DISTINCT';
+		$c->where(array(
+			'`type` != "default"'
+		));
 		if ($c->prepare() && $c->stmt->execute()) {
 			$results = $c->stmt->fetchAll(PDO::FETCH_ASSOC);
 			foreach($results as $result){
-				$albumType = $result['type'];
-				$f = $this->cliche->config['controllers_path'].'mgr/cmp/'. $albumType .'.inc.php';
+				$this->type = $result['type'];
+				$f = $this->cliche->config['controllers_path'].'mgr/cmp/'. $this->type .'.inc.php';
 				if(file_exists($f)){
-					// @TODO use the dynamic feature
 					require_once $f;
 				}
 			}
 		}
+		
+		$this->loadPanels();
+		$this->addHtml('<script type="text/javascript">Ext.onReady(function() {	
+			Ext.ns("Cliche"); Cliche.getPanels = function(){ return '. $this->loadPanels() .'; }(); 
+			MODx.add("cliche-main-panel"); Ext.ux.Lightbox.register("a.lightbox"); 
+});</script>');
     }
     public function getTemplateFile() { return ''; }
+	
+	public function addPanel($xtype){
+		switch($xtype){
+			case 'album':
+				$xtype = 'cliche-album-panel';
+				break;
+			case 'upload':
+				$xtype = 'cliche-upload-panel';
+				break;
+			default:break;
+		}
+		$this->panels[] = array(
+			'xtype' => $xtype,
+			'uid' => $this->type,
+		);
+	}
+	
+	public function loadPanels(){
+		return $this->modx->toJSON($this->panels);
+	}
 }
