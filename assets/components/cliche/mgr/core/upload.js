@@ -1,36 +1,38 @@
 /**
- * The package browser detail panel
+ * The base class for upload panel
  *
- * @class MODx.panel.ClicheDefaultItemPanelUpload
+ * @class MODx.panel.ClicheUploadPanel
  * @extends MODx.Panel
  * @param {Object} config An object of options.
- * @xtype cliche-item-default-upload-panel
+ * @xtype cliche-upload-panel
  */
-MODx.panel.ClicheDefaultItemPanelUpload = function(config) {
+MODx.panel.ClicheUploadPanel = function(config) {
 	config = config || {};
+	if(typeof(config.uid) == 'undefined'){ config.uid = 'default' }
 	this._initTemplates();
 	Ext.applyIf(config,{
-		id: 'default-uploader'
+		id: 'cliche-uploader-'+config.uid
 		,cls: 'main-wrapper'
 		,layout: 'form'
 		,uploadListData: {}
 		,tbar: [{
 			xtype: 'button'
 			,text: _('cliche.btn_back_to_album')
-			,id: 'default-back-to-album-btn'
+			,id: 'cliche-uploader-back-to-album-btn-'+config.uid
 			,iconCls:'icon-back'
 			,handler: function(){
-				Ext.getCmp('cliche-album-default').activate();
+				Ext.getCmp('cliche-album-'+config.uid).activate(this.album);
 			}
+			,scope: this
 		},{
 			xtype: 'button'
 			,text: _('cliche.btn_browse')
-			,id: 'default-browse-btn'
+			,id: 'cliche-uploader-browse-btn-'+config.uid
 			,iconCls:'icon-add'
 		},'-',{
 			xtype: 'button'
 			,text: _('cliche.btn_start_upload')
-			,id: 'default-start-upload-btn'
+			,id: 'cliche-uploader-start-upload-btn-'+config.uid
 			,iconCls:'icon-add-white'
 			,handler: this.onStartUpload
 			,cls: 'green'
@@ -41,61 +43,39 @@ MODx.panel.ClicheDefaultItemPanelUpload = function(config) {
 			unstyled: true
 		}
 		,autoHeight: true
-		,items:[{
+		,items:[]
+	});
+	MODx.panel.ClicheUploadPanel.superclass.constructor.call(this,config);
+	this._init();
+};
+Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
+	_init: function(){
+		this.add({
 			xtype: 'modx-template-panel'
-			,id: 'default-upload-list'
+			,id: 'cliche-uploader-upload-list-'+this.uid
 			,startingText: _('cliche.upload_desc')
 			,startingMarkup: '<tpl for="."><div class="empty-msg">{text}</div></tpl>'
-			,markup: [
-				'<p class="upload-ready-msg">'+_('cliche.upload_ready_msg')+'</p>'
-				,'<ul class="upload-list">'
-					,'<tpl for="files">'
-						,'<li id="{id}">'	
-							,'<div class="inner-content upload-content">'	
-								,'<span class="upload-file">{name:ellipsis(60)}</span>'	
-								,'<span class="upload-spinner hidden"></span>'	
-								,'<span class="upload-percent hidden">0%</span>'	
-								,'<span class="upload-size">{[values.size < 1024 ? values.size+" bytes" : (Math.round(((values.size*10) / 1024))/10)+" KB" ]}</span>'							
-								,'<button class="upload-cancel" onclick="Ext.getCmp(\'default-uploader\').removeFile(\'{id}\'); return false;">'+_('cliche.upload_cancel_msg')+'</button>'
-								,'<span class="upload-success-hint">&nbsp;</span>'
-							,'</div>'	
-							,'<div class="inner-content upload-progress">&nbsp;</div>'		
-						,'</li>'
-					,'</tpl>'					
-				,'</ul>'
-			]
-		}]
-	});
-	MODx.panel.ClicheDefaultItemPanelUpload.superclass.constructor.call(this,config);
-};
-Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
-	activate: function(rec){
-		Ext.getCmp('default-start-upload-btn').disable();		
-		this.album = rec;
-		Ext.getCmp('card-container').getLayout().setActiveItem(this.id);
-		this.updateBreadcrumbs(_('cliche.upload_items_for') + this.album.name +'</strong></p>');
-		if(this.uploader !== null){
-			this.resetUploader();
-		} else {
-			this._initUploader();
-		}
-		Ext.getCmp('default-upload-list').reset();
-	}
-
-	,updateBreadcrumbs: function(msg, highlight){
-		var bd = { text: msg };
-        if(highlight){ bd.className = 'highlight'; }
-		bd.trail = [{
-			text : this.album.name
-			,pnl : 'cliche-album-default'
-		},{
-			text : _('cliche.breadcrumb_upload_images')
-		}];
-		Ext.getCmp('cliche-breadcrumbs').updateDetail(bd);
+			,markup: this._uploadListTpl()
+		});
 	}
 	
-	,deactivateBreadcrumbs: function(){
-		Ext.getCmp('cliche-breadcrumbs').updateDetail({text: _('cliche.upload_in_progress'), className:'highlight'});
+	,_uploadListTpl: function(){
+		return '<p class="upload-ready-msg">'+_('cliche.upload_ready_msg')+'</p>'
+			+'<ul class="upload-list">'
+				+'<tpl for="files">'
+					+'<li id="{id}">'	
+						+'<div class="inner-content upload-content">'	
+							+'<span class="upload-file">{name:ellipsis(60)}</span>'	
+							+'<span class="upload-spinner hidden"></span>'	
+							+'<span class="upload-percent hidden">0%</span>'	
+							+'<span class="upload-size">{[values.size < 1024 ? values.size+" bytes" : (Math.round(((values.size*10) / 1024))/10)+" KB" ]}</span>'							
+							+'<button class="upload-cancel" onclick="Ext.getCmp(\''+this.id+'\').removeFile(\'{id}\'); return false;">'+_('cliche.upload_cancel_msg')+'</button>'
+							+'<span class="upload-success-hint">&nbsp;</span>'
+						+'</div>'	
+						+'<div class="inner-content upload-progress">&nbsp;</div>'		
+					+'</li>'
+				+'</tpl>'					
+			+'</ul>';
 	}
 	
 	,_initTemplates: function() {
@@ -111,20 +91,22 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 	,uploader: null
 	,_initUploader: function(){
 		var params = {
-			action: 'actions/default-upload'
+			action: 'actions/upload'
 			,album: this.album.id
 			,ctx: 'mgr'
 			,HTTP_MODAUTH:MODx.siteId
 		};
 		var extras = Ext.urlEncode(params);
 		var connector = MODx.ClicheConnectorUrl + '?' + extras;
+		
+		
 
 		this.uploader = new plupload.Uploader({
             url: connector
             ,runtimes: 'html5'
-            ,browse_button: Ext.getCmp('default-browse-btn').getEl().dom.id
-            ,container: 'default-uploader'
-            ,drop_element: 'default-upload-list'
+            ,browse_button: Ext.getCmp('cliche-uploader-browse-btn-'+this.uid).getEl().dom.id
+            ,container: this.id
+            ,drop_element: 'cliche-uploader-upload-list-'+this.uid
             ,multipart: false
         });
 		
@@ -136,9 +118,43 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 		this.uploader.init();	
 	}
 	
+	,activate: function(rec){
+		Ext.getCmp('cliche-uploader-start-upload-btn-'+this.uid).disable();		
+		this.album = rec;
+		Ext.getCmp('card-container').getLayout().setActiveItem(this.id);
+		this.updateBreadcrumbs(_('cliche.upload_items_for') + this.album.name +'</strong></p>');
+		if(this.uploader !== null){
+			this.resetUploader();
+		} else {
+			this._initUploader();
+		}
+		Ext.getCmp('cliche-uploader-upload-list-'+this.uid).reset();
+	}
+
+	,updateBreadcrumbs: function(msg, highlight){
+		var bd = { text: msg };
+        if(highlight){ bd.className = 'highlight'; }
+		bd.trail = [{
+			text : this.album.name
+			,pnl : 'cliche-album-'+this.uid
+		},{
+			text : _('cliche.breadcrumb_upload_images')
+		}];
+		Ext.getCmp('cliche-breadcrumbs').updateDetail(bd);
+	}
+	
+	,deactivateBreadcrumbs: function(){
+		Ext.getCmp('cliche-breadcrumbs').updateDetail({text: _('cliche.upload_in_progress'), className:'highlight'});
+	}	
+	
 	,onInit: function(uploader, data){}
 	,onFilesAdded: function(up, files){
 			this.uploadListData.files = up.files;
+	}
+		
+	,removeFile: function(id){
+		var f = this.uploader.getFile(id);
+		this.uploader.removeFile(f);
 	}
 	
 	,onFilesRemoved: function(up, files){
@@ -166,17 +182,14 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 		}
 		Ext.getCmp('modx-content').doLayout();
 	}
-	
-	,removeFile: function(id){
-		var f = this.uploader.getFile(id);
-		this.uploader.removeFile(f);
-	}
 		
 	,onQueueChanged: function(up){
 		if(this.uploadListData.files.length > 0){
-			var btn = Ext.getCmp('default-start-upload-btn');
-			Ext.getCmp('default-upload-list').updateDetail(this.uploadListData);
+			var btn = Ext.getCmp('cliche-uploader-start-upload-btn-'+this.uid);
+			Ext.getCmp('cliche-uploader-upload-list-'+this.uid).updateDetail(this.uploadListData);
 			if(btn.disabled){ btn.enable() }	
+		} else {
+			Ext.getCmp('cliche-uploader-upload-list-'+this.uid).reset();
 		}
 		up.refresh();
 	}
@@ -204,9 +217,9 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 	,onError: function(up, error){}	
 	,onStartUpload: function(btn, e){
 		this.deactivateBreadcrumbs();
-		Ext.getCmp('default-start-upload-btn').disable();
-		Ext.getCmp('default-browse-btn').hide();
-		Ext.getCmp('default-back-to-album-btn').disable();
+		Ext.getCmp('cliche-uploader-start-upload-btn-'+this.uid).disable();
+		Ext.getCmp('cliche-uploader-browse-btn-'+this.uid).hide();
+		Ext.getCmp('cliche-uploader-back-to-album-btn-'+this.uid).disable();
 		this.uploader.start();
 	}
 	
@@ -218,8 +231,8 @@ Ext.extend(MODx.panel.ClicheDefaultItemPanelUpload,MODx.Panel,{
 		this.uploader.destroy();
 		this.uploadListData.files = [];
 		this._initUploader();
-		Ext.getCmp('default-browse-btn').show();
-		Ext.getCmp('default-back-to-album-btn').enable();
+		Ext.getCmp('cliche-uploader-browse-btn-'+this.uid).show();
+		Ext.getCmp('cliche-uploader-back-to-album-btn-'+this.uid).enable();
 	}
 });
-Ext.reg('cliche-item-default-upload-panel',MODx.panel.ClicheDefaultItemPanelUpload);
+Ext.reg('cliche-upload-panel',MODx.panel.ClicheUploadPanel);

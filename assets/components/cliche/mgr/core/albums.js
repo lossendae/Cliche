@@ -8,7 +8,6 @@
  */
 MODx.ClicheAlbumsListView = function(config) {
     config = config || {};
-
     this._initTemplates();
     Ext.applyIf(config,{
         url: MODx.ClicheConnectorUrl
@@ -29,17 +28,17 @@ MODx.ClicheAlbumsListView = function(config) {
     });
     MODx.ClicheAlbumsListView.superclass.constructor.call(this,config);
     this.on('selectionchange',this.onSelect,this,{buffer: 100});
+	this.store.on('load',this.onStoreLoad,this);
 };
 Ext.extend(MODx.ClicheAlbumsListView,MODx.DataView,{
     templates: {}
-
     ,run: function(p) {
         var v = {};
         Ext.applyIf(v,this.store.baseParams);
         Ext.applyIf(v,p);
         this.store.load({
             params: v
-			/* Fix layout after the store's loaded */
+			/* Fix layout after the store's been loaded */
 			,callback: function(rec, options, success){
 				setTimeout(function(){
 					Ext.getCmp('modx-content').doLayout();
@@ -64,9 +63,8 @@ Ext.extend(MODx.ClicheAlbumsListView,MODx.DataView,{
         if(selNode && selNode.length > 0){
             selNode = selNode[0];
             var data = this.lookup[selNode.id];
-        }		
-		/* @TODO : this should be supplied in separate column for better abstraction */
-		if(data != undefined){
+        }
+		if(data !== undefined){
 			Ext.getCmp('cliche-album-' + data.type).activate(data);
 		}		
     }
@@ -78,14 +76,16 @@ Ext.extend(MODx.ClicheAlbumsListView,MODx.DataView,{
 
     ,_initTemplates: function() {
 		this.templates.thumb = new Ext.XTemplate('<tpl for=".">'
-			+'<div class="thumb-wrapper" id="album-list-thumb-{id}">'
+			+'<div class="thumb-wrapper thumb-{type}" id="album-list-thumb-{id}">'
+				+'<span class="type-{type}">&nbsp;</span>'
 				+'<div class="thumb">'
-					+'<tpl if="cover_id.length == 0">'
-							+'<span class="no-preview">'+_('cliche.no_preview')+'</span>'
+					+'<tpl if="cover_id == 0">'
+						+'<span class="no-preview">'+_('cliche.no_preview')+'</span>'
 					+'</tpl>'
 					+'<tpl if="cover_id">'
 						+'<img src="{thumbnail}" title="{name}" alt="{name}" />'
 					+'</tpl>'
+					+'<span class="img-loading-mask">&nbsp;</span>'
 				+'</div>'
 				+'<span class="name">{name}</span>'
 				+'<span class="total-pics">'+_('cliche.album_list_total_pics')+'</span>'
@@ -118,6 +118,44 @@ Ext.extend(MODx.ClicheAlbumsListView,MODx.DataView,{
         });
         this.store.load();
     }
+		
+	,onStoreLoad: function( ds, rec, options ){		
+		var container = Ext.fly('cliche-albums-list-view-'+this.uid);					
+		var uid = this.uid;					
+		if( container !== null ){
+			if(container.hasClass('loaded')){
+				container.removeClass('loaded');
+			}
+			var images = container.select('img');			
+			var count = images.getCount();
+			if(count == 0){ 
+				container.addClass('loaded');					
+			}
+			images.on('load', function(e){
+				count--; 			
+				if(count == 0){ 
+					setTimeout(function(){
+						Ext.fly('cliche-albums-list-view-'+uid).addClass('loaded');
+					}, 500);					
+				}
+				/* Hide the loading spinner */
+				var loader = e.getTarget().parentElement.lastChild;
+				Ext.get(loader).fadeOut();					
+			});
+			
+			/* Set all thumb wrappers to the height of the collection's tallest item */
+			var wrapper = container.query('.thumb-wrapper');
+			var currentTallest = 0;
+			Ext.each(wrapper, function(v){
+				var current = Ext.fly(v);
+				if (current.getHeight() > currentTallest) { currentTallest = current.getHeight(); }
+			});
+			Ext.each(wrapper, function(v){
+				var itm = Ext.fly(v);
+				itm.setHeight(currentTallest);
+			});
+		}		
+	}
 });
 Ext.reg('cliche-albums-list-view',MODx.ClicheAlbumsListView);
 
@@ -131,15 +169,6 @@ Ext.reg('cliche-albums-list-view',MODx.ClicheAlbumsListView);
  */
 MODx.panel.ClicheAlbumsList = function(config) {
     config = config || {};
-	this.ident = config.ident || 'cliche-al-'+Ext.id();
-	this.view = MODx.load({
-        id: 'cliche-albums-list-view'
-		,xtype: 'cliche-albums-list-view'
-		,containerScroll: true
-		,ident: this.ident
-		,border: false
-    });
-
 	Ext.applyIf(config,{
 		xtype: 'panel'
 		,cls: 'main-wrapper'
@@ -223,7 +252,15 @@ MODx.panel.ClicheAlbumsList = function(config) {
 		}]
 		,border: false
 		,autoHeight: true
-		,items:[{
+		,items:[]
+	});
+	MODx.panel.ClicheAlbumsList.superclass.constructor.call(this,config);
+	this._loadView();
+	this._init();
+};
+Ext.extend(MODx.panel.ClicheAlbumsList,MODx.Panel,{
+	_init: function(){		
+		this.add({
 			items: this.view
 			,border: false
 			,bbar: new Ext.PagingToolbar({
@@ -232,12 +269,21 @@ MODx.panel.ClicheAlbumsList = function(config) {
 				,displayInfo: true
 				,autoLoad: true
 			})
-		}]
-	});
-	MODx.panel.ClicheAlbumsList.superclass.constructor.call(this,config);
-};
-Ext.extend(MODx.panel.ClicheAlbumsList,MODx.Panel,{
-	activate: function(){
+		});			
+	}
+	
+	,_loadView: function(){
+		this.ident = 'cliche-albums-list-ident-'+this.uid;		
+		this.view = MODx.load({
+			id: 'cliche-albums-list-view-'+this.uid
+			,xtype: 'cliche-albums-list-view'
+			,containerScroll: true
+			,ident: this.ident
+			,border: false
+		});
+	}	
+	
+	,activate: function(){
 		Ext.getCmp('card-container').getLayout().setActiveItem(this.id);
 		this.updateBreadcrumbs(_('cliche.breadcrumb_album_list_desc'));
 		this.view.run();

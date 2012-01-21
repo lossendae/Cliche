@@ -1,10 +1,10 @@
 /**
  * The panel container for Cliche TV thumbnail
- * @class MODx.ClicheThumbMainCard
+ * @class MODx.ClicheThumbnailMainCard
  * @extend MODx.TemplatePanel
- * @xtype cliche-thumbnail-tv
+ * @xtype clichethumbnail-main-panel
  */
-MODx.ClicheThumbMainCard = function(config) {
+MODx.ClicheThumbnailMainCard = function(config) {
     config = config || {};
     Ext.applyIf(config,{
 		bodyCssClass: 'cliche-pw-panel'
@@ -39,9 +39,9 @@ MODx.ClicheThumbMainCard = function(config) {
 			,scope: this
 		}]
 	});
-	MODx.ClicheThumbMainCard.superclass.constructor.call(this,config);
+	MODx.ClicheThumbnailMainCard.superclass.constructor.call(this,config);
 }
-Ext.extend(MODx.ClicheThumbMainCard, MODx.TemplatePanel,{
+Ext.extend(MODx.ClicheThumbnailMainCard, MODx.TemplatePanel,{
 	activate: function(){
 		Ext.getCmp(this.breadcrumbs).reset(_('clichethumbnail.breadcrumb_root_desc'));
 		Ext.getCmp(this.cardContainer).setActiveItem(this.id);        
@@ -100,4 +100,4 @@ Ext.extend(MODx.ClicheThumbMainCard, MODx.TemplatePanel,{
         Ext.getCmp('modx-panel-resource').markDirty();
     }
 });
-Ext.reg("cliche-thumb-main-card", MODx.ClicheThumbMainCard);
+Ext.reg("clichethumbnail-main-panel", MODx.ClicheThumbnailMainCard);

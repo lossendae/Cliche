@@ -1,10 +1,10 @@
 /**
  * The panel container for Cliche TV thumbnail
- * @class MODx.ClicheThumbCropper
+ * @class MODx.ClicheThumbnailCropperPanel
  * @extend MODx.Panel
- * @xtype cliche-panel-cropper
+ * @xtype clichethumbnail-cropper-panel
  */
-MODx.ClicheThumbCropper = function(config) {
+MODx.ClicheThumbnailCropperPanel = function(config) {
     config = config || {};
     Ext.applyIf(config,{
 		coords: null
@@ -53,9 +53,9 @@ MODx.ClicheThumbCropper = function(config) {
 			,scope: this
 		}]
 	});
-	MODx.ClicheThumbCropper.superclass.constructor.call(this,config);
+	MODx.ClicheThumbnailCropperPanel.superclass.constructor.call(this,config);
 }
-Ext.extend(MODx.ClicheThumbCropper, MODx.Panel,{
+Ext.extend(MODx.ClicheThumbnailCropperPanel, MODx.Panel,{
 	activate: function(record, initial){
         this.image = record;
         if(record !== undefined) this.updateCropper(record, initial);
@@ -159,4 +159,4 @@ Ext.extend(MODx.ClicheThumbCropper, MODx.Panel,{
         return obj3;
     }
 });
-Ext.reg("cliche-panel-cropper", MODx.ClicheThumbCropper);
+Ext.reg("clichethumbnail-cropper-panel", MODx.ClicheThumbnailCropperPanel);

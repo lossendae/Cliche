@@ -1,4 +1,5 @@
 Ext.ns('MODx');
+Ext.ns('Cliche');
 
 /**
  * Loads the main panel for Cliche cmp.
@@ -12,7 +13,7 @@ MODx.panel.cliche = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         id: 'cliche-main-panel'
-        ,cls: 'container'
+        ,cls: 'container cliche'
         ,unstyled: true
         ,defaults: { collapsible: false ,autoHeight: true }
         ,items: [{
@@ -62,7 +63,7 @@ MODx.panel.cliche = function(config) {
 					,id: 'album-list'
 				}]
 				,listeners:{
-					afterrender: this.addPanels
+					afterrender: this.loadPanels
 					,scope: this
 				}
 			}]
@@ -71,16 +72,16 @@ MODx.panel.cliche = function(config) {
     MODx.panel.cliche.superclass.constructor.call(this,config);
 };
 Ext.extend(MODx.panel.cliche,MODx.Panel,{
-	addPanels: function(){
-		var p = MODx.config['cliche.album_mgr_panels'].split(',');
+	loadPanels: function(){
+		var p = Cliche.getPanels;
 		Ext.each(p, function(value){
-			Ext.getCmp('card-container').add({ xtype: value });	
+			Ext.getCmp('card-container').add(value);	
 		});
 	}
 	
 	,loadCreateUpdateWindow: function(title, action, btn, returnTo, data){
 		if(!this.win){			
-			this.win = new MODx.window.ClicheAlbumsWindow();
+			this.win = new MODx.window.ClicheAlbumEditWindow({ uid: this.uid });
 		}
 		this.win.setTitle(title);
 		this.win.show(btn.id);	
@@ -93,111 +94,6 @@ Ext.extend(MODx.panel.cliche,MODx.Panel,{
 	}
 });
 Ext.reg('cliche-main-panel',MODx.panel.cliche);
-
-/**
- * @class MODx.window.ClicheAlbumsWindow
- * @extends Ext.Window
- * @param {Object} config An object of configuration parameters
- * @xtype modx-window-albums
- */
-MODx.window.ClicheAlbumsWindow = function(config) {
-    config = config || {};
-	
-    Ext.applyIf(config,{ 
-		layout: 'form'
-		,border: false		
-		,width: 350
-		,items:[{
-			xtype: 'form'
-			,id: 'create-update-form'
-			,cls:'main-wrapper'
-			,labelAlign: 'top'
-			,unstyled: true 
-			,defaults:{
-				msgTarget: 'under'
-				,anchor: '100%'
-			}
-			,items:[{
-				fieldLabel: _('cliche.field_album_name_label')
-				,name: 'name'
-				,id: 'album_name'
-				,xtype: 'textfield'			
-				,allowBlank: false
-			},{
-				fieldLabel: _('cliche.field_album_desc_label')
-				,name: 'description'
-				,id: 'album_description'
-				,xtype: 'textarea'
-				,minHeight: 150
-				,grow: true
-			},{
-				name: 'id'
-				,id: 'album_id'
-				,xtype: 'hidden'
-			}]						
-		}]
-		,buttons :[{
-			text: config.cancelBtnText || _('cancel')
-            ,scope: this
-            ,handler: function() { this.hide(); }
-		},{
-			text: _('cliche.btn_save_album')
-			,id: 'create-album-window-btn'
-			,cls: 'green'
-			,handler: this.save
-			,scope: this
-		}]
-    });
-    MODx.window.ClicheAlbumsWindow.superclass.constructor.call(this,config);
-	
-	this.formId = 'create-update-form';
-};
-Ext.extend(MODx.window.ClicheAlbumsWindow,Ext.Window,{
-	save: function(b,t){	
-		Ext.getCmp(this.formId).getForm().submit({
-			waitMsg: _('cliche.saving_msg')
-			,url     : MODx.ClicheConnectorUrl
-			,params : {
-				action: 'album/'+ this.saveAction
-				,ctx: 'mgr'
-			}
-			,success: function( form, action ) {				
-				response = action.result
-				data = response.object
-				msg = response.message
-				if(response.success && this.returnTo != undefined){
-					Ext.getCmp(this.returnTo).activate(data);										
-				}				
-				this.hide();
-			}
-			,failure: function( form, action ){
-				response = action.result
-				errors = response.object
-				msg = response.message				
-				//Show error messages under specified field
-				for(var key in errors){
-					if (errors.hasOwnProperty(key)) {
-						fld = errors[key];
-						f = form.findField(fld.name);
-						if(f){ f.markInvalid(fld.msg) }
-					}
-				}
-			}
-			,scope: this
-		});
-	}
-	
-	,reset: function(action, returnTo){
-		this.saveAction = action;
-		this.returnTo = returnTo;
-		Ext.getCmp(this.formId).getForm().reset();
-	}
-	
-	,load: function(data){
-		Ext.getCmp(this.formId).getForm().setValues(data);
-	}
-});
-Ext.reg('modx-window-cu-albums', MODx.window.ClicheAlbumsWindow);
 
 /**
  * @class MODx.clicheSortableDataView

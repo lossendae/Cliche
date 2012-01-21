@@ -51,6 +51,12 @@ Ext.extend(MODx.ClicheThumbnailTV, MODx.TemplatePanel,{
                 ,image: this.image
 				,tvConfig: this.tvConfig
 				,tv: this.tv
+				,listeners:{
+					show: function(w){
+						//Fix for webkit browsers
+						w.setHeight('auto');
+					}
+				}
 			});
 		}
 		this.win.show(btn.id);
