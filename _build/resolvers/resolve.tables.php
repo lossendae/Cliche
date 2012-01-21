@@ -13,12 +13,20 @@ if ($object->xpdo) {
             $modx->addPackage('cliche',$modelPath);
 
             $manager = $modx->getManager();
-
-            $manager->createObjectContainer('ClicheAlbums');
-            $manager->createObjectContainer('ClicheItems');
+            $manager->createObjectContainer('ClicheAlbums');           
+            $manager->createObjectContainer('ClicheItems');            
 
             break;
         case xPDOTransport::ACTION_UPGRADE:
+            break; 
+		case xPDOTransport::ACTION_UNINSTALL:
+			$modx =& $object->xpdo;
+            $modelPath = $modx->getOption('cliche.core_path',null,$modx->getOption('core_path').'components/cliche/').'model/';
+            $modx->addPackage('cliche',$modelPath);
+
+            $manager = $modx->getManager();
+			$manager->removeObjectContainer('ClicheAlbums');
+			$manager->removeObjectContainer('ClicheItems');
             break;
     }
 }

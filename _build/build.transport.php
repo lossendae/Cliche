@@ -60,22 +60,6 @@ $builder->registerNamespace(PKG_NAMESPACE,false,true,'{core_path}components/'.PK
 $modx->getService('lexicon','modLexicon');
 $modx->lexicon->load('cliche:default,mgr');
 
-/* load system settings */
-$modx->log(modX::LOG_LEVEL_INFO,'Packaging in System Settings...');
-$settings = include $sources['data'].'transport.settings.php';
-if (empty($settings)) $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in settings.');
-$attributes= array(
-    xPDOTransport::UNIQUE_KEY => 'key',
-    xPDOTransport::PRESERVE_KEYS => true,
-    xPDOTransport::UPDATE_OBJECT => false,
-);
-foreach ($settings as $setting) {
-    $vehicle = $builder->createVehicle($setting,$attributes);
-    $builder->putVehicle($vehicle);
-}
-$modx->log(modX::LOG_LEVEL_INFO,'<strong>Packaged in '.count($settings).' system settings.</strong>'); flush();
-unset($settings,$setting,$attributes);
-
 /* load action/menu */
 $menus = include $sources['data'].'transport.menu.php';
 $vehicle= $builder->createVehicle($menu,array (

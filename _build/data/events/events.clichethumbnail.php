@@ -13,6 +13,8 @@ $evs = array(
     'OnTVOutputRenderList',
     'OnTVOutputRenderPropertiesList',
     'OnDocFormPrerender',
+    'OnTemplateVarSave',
+    'OnTemplateVarBeforeRemove',
 );
 
 foreach ($evs as $ev) {
