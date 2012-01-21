@@ -79,12 +79,15 @@ Ext.extend(MODx.ClicheAlbumViewPanel,MODx.DataView,{
 		});
     }
 	
-	,onStoreLoad: function( ds, rec, options ){		
-		this.beautify();
-		var album = ds.reader.jsonData.album;
-		if(album !== null){
-			this.ownerCt.ownerCt.setRecord(album);
-		}		
+	,onStoreLoad: function( ds, rec, options ){	
+		var owner = this.ownerCt.ownerCt;
+		if(owner.isVisible()){
+			this.beautify();
+			var album = ds.reader.jsonData.album;
+			if(album !== null){
+				this.ownerCt.ownerCt.setRecord(album);
+			}
+		}				
 	}
 	
 	,beautify: function(){
