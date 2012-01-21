@@ -20,20 +20,22 @@ $_lang['cliche.field_image_desc_label'] = 'Description';
 $_lang['cliche.album_list_empty_msg'] = '<h4>There are no albums created yet</h4><p>Create your first album using the button above, then click the newly created item to view its content.<br/>Use the breadcrumbs to navigate back and forth in the albums (The current green element is not clickable)</p>';
 $_lang['cliche.album_list_total_pics'] = '{total} Images';
 
-$_lang['cliche.album_desc'] = '<div class="album-desc"><tpl if="cover_id == 0">
+$_lang['cliche.album_desc'] = '<div class="album-infos"><tpl if="cover_id == 0">
 		<span class="no-preview">No preview</span>
 	</tpl>
 	<tpl if="cover_id">
 		<img src="{thumbnail}" title="Image Cover for the album {name}" alt="Image Cover for the album {name}" />
 	</tpl>
-	<div class="album_name"><h3>Album : <span>{name}</span></h3>
+	<div class="album-name"><h3>Album : <span>{name}</span></h3>
 		Created on <strong>{createdon}</strong> by <strong>{createdby}</strong><br/>
 		Album id : #<strong>{id}</strong>
 	</div>
-	<div class="album_meta">
+	<div class="album-meta">
 		<span>{total}</span>
 		Images
-	</div></div>';
+	</div></div>
+	<tpl if="description">
+	</div><div class="album-desc"><p>{description}</p></tpl>';
 $_lang['cliche.album_item_cover_alt_msg'] = '{name} preview';
 $_lang['cliche.album_item_created_by'] = 'Created by';
 $_lang['cliche.album_item_created_on'] = 'Created on';

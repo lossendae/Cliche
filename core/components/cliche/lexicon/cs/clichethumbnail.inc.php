@@ -57,6 +57,29 @@ $_lang['clichethumbnail.btn_start_upload'] = 'Začít nahrávání';
 // $_lang['clichethumbnail.main_empty_msg'] = '<h4>There is no thumbnail set yet for this document</p>';
 $_lang['clichethumbnail.main_empty_msg'] = '<h4>Pro tento dokument ještě nebyla vybrána miniatura</p>';
 
+
+// $_lang['clichethumbnail.album_desc'] = '<div class="album-infos"><tpl if="cover_id == 0">
+		// <span class="no-preview">No preview</span>
+	// </tpl>
+	// <tpl if="cover_id">
+		// <img src="{thumbnail}" title="Image Cover for the album {name}" alt="Image Cover for the album {name}" />
+	// </tpl>
+	// <div class="album-name"><h3>Album : <span>{name}</span></h3>
+		// Created on <strong>{createdon}</strong> by <strong>{createdby}</strong><br/>
+		// Album id : #<strong>{id}</strong>
+	// </div>
+	// <div class="album-meta">
+		// <span>{total}</span>
+		// Images
+	// </div></div>
+	// <tpl if="description">
+	// </div>
+	// <div class="album-desc">
+		// <p class="ct_info">This album is reserved for clichethumbnail. You cannot edit or remove it from this panel.<br/> 
+		// However you can still upload pictures to be used for the template variable attached.
+		// </p>
+	// </tpl>';
+	
 // $_lang['clichethumbnail.album_empty_msg'] = '<h4>There are no images in this album</h4><p>Upload images by clicking on "Add images"</p>';
 $_lang['clichethumbnail.album_empty_msg'] = '<h4>Album neobsahuje žádné obrázky</h4><p>Obrázky přidáte kliknutím na zelené tlačítko "Přidat obrázky"';
 // $_lang['clichethumbnail.album_loading'] = '<div class="centered empty-msg">Loading...</div>';

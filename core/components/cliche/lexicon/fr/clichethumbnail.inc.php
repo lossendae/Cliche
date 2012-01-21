@@ -33,6 +33,27 @@ $_lang['clichethumbnail.btn_start_upload'] = 'Démarrer l\'upload';
 
 $_lang['clichethumbnail.main_empty_msg'] = '<h4>Il n\'y a pas d\'aperçu de défini pour ce document</p>';
 
+$_lang['clichethumbnail.album_desc'] = '<div class="album-infos"><tpl if="cover_id == 0">
+		<span class="no-preview">Aucun aperçu</span>
+	</tpl>
+	<tpl if="cover_id">
+		<img src="{thumbnail}" title="Couverture de l\'album {name}" alt="Couverture de l\'album {name}" />
+	</tpl>
+	<div class="album-name"><h3>Album : <span>{name}</span></h3>
+		Crée le <strong>{createdon}</strong> par <strong>{createdby}</strong><br/>
+		Album id : #<strong>{id}</strong>
+	</div>
+	<div class="album-meta">
+		<span>{total}</span>
+		Images
+	</div></div>
+	<tpl if="description">
+	</div>
+	<div class="album-desc">
+		<p class="ct_info">Cet album est réservé par CLicheThumbnail. Vous ne pouvez pas l\'editer ou l\'effacer à partir de cet écran.<br/> 
+		Cependant, vous avez toujours la possibilité de rajoutez des images pour utiliser avec la Variable de Modèle attachée.
+		</p>
+	</tpl>';
 $_lang['clichethumbnail.album_empty_msg'] = '<h4>Il n\'y a pas d\'image dans cet album</h4><p>Ajoutez des images en cliquant sur « Ajouter des images »</p>';
 $_lang['clichethumbnail.album_loading'] = '<div class="centered empty-msg">Chargement…</div>';
 

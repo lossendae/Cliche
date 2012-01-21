@@ -20,20 +20,22 @@ $_lang['cliche.field_image_desc_label'] = 'Description';
 $_lang['cliche.album_list_empty_msg'] = '<h4>Il n\'a aucun album de créé pour le moment</h4><p>Créez votre premier album en utilisant le bouton ci-dessous. Cliquez ensuite sur l\'objet nouvellement créé pour voir son contenu.<br/>Utilisez le fil d\'arianne pour naviguer au sein des albums (l\'élément actuellement vert n\'est pas cliquable)</p>';
 $_lang['cliche.album_list_total_pics'] = '{total} images';
 
-$_lang['cliche.album_desc'] = '<div class="album-desc"><tpl if="cover_id == 0">
+$_lang['cliche.album_desc'] = '<div class="album-iinfos"><tpl if="cover_id == 0">
 		<span class="no-preview">Auncun aperçu</span>
 	</tpl>
 	<tpl if="cover_id">
 		<img src="{thumbnail}" title="Couverture pour l\'album {name}" alt="Image de couverture pour l\'album {name}" />
 	</tpl>
-	<div class="album_name"><h3>Album : <span>{name}</span></h3>
+	<div class="album-name"><h3>Album : <span>{name}</span></h3>
 		Créé le <strong>{createdon}</strong> par <strong>{createdby}</strong><br/>
 		Album id : #<strong>{id}</strong>
 	</div>
-	<div class="album_meta">
+	<div class="album-meta">
 		<span>{total}</span>
 		Images
-	</div></div>';
+	</div></div>
+	<tpl if="description">
+	</div><div class="album-desc"><p>{description}</p></tpl>';
 $_lang['cliche.album_item_cover_alt_msg'] = '{name} aperçu';
 $_lang['cliche.album_item_created_by'] = 'Créé par';
 $_lang['cliche.album_item_created_on'] = 'Créé le';

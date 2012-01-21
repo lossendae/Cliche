@@ -33,34 +33,38 @@ $_lang['cliche.album_list_empty_msg'] = '<h4>Doposud nebylo vytvořeno žádné 
 // $_lang['cliche.album_list_total_pics'] = '{total} Images';
 $_lang['cliche.album_list_total_pics'] = '{total} Obrázků';
 
-// $_lang['cliche.album_desc'] = '<div class="album-desc"><tpl if="cover_id == 0">
-// 		<span class="no-preview">No preview</span>
-// 	</tpl>
-// 	<tpl if="cover_id">
-// 		<img src="{thumbnail}" title="Image Cover for the album {name}" alt="Image Cover for the album {name}" />
-// 	</tpl>
-// 	<div class="album_name"><h3>Album : <span>{name}</span></h3>
-// 		Created on <strong>{createdon}</strong> by <strong>{createdby}</strong><br/>
-// 		Album id : #<strong>{id}</strong>
-// 	</div>
-// 	<div class="album_meta">
-// 		<span>{total}</span>
-// 		Images
-// 	</div></div>';
-$_lang['cliche.album_desc'] = '<div class="album-desc"><tpl if="cover_id == 0">
+// $_lang['cliche.album_desc'] = '<div class="album-infos"><tpl if="cover_id == 0">
+		// <span class="no-preview">No preview</span>
+	// </tpl>
+	// <tpl if="cover_id">
+		// <img src="{thumbnail}" title="Image Cover for the album {name}" alt="Image Cover for the album {name}" />
+	// </tpl>
+	// <div class="album-name"><h3>Album : <span>{name}</span></h3>
+		// Created on <strong>{createdon}</strong> by <strong>{createdby}</strong><br/>
+		// Album id : #<strong>{id}</strong>
+	// </div>
+	// <div class="album-meta">
+		// <span>{total}</span>
+		// Images
+	// </div></div>
+	// <tpl if="description">
+	// </div><div class="album-desc"><p>{description}</p></tpl>';
+$_lang['cliche.album_desc'] = '<div class="album-infos"><tpl if="cover_id == 0">
 		<span class="no-preview">Bez náhledu</span>
 	</tpl>
 	<tpl if="cover_id">
 		<img src="{thumbnail}" title="Titulní obrázek alba {name}" alt="Titulní obrázek alba {name}" />
 	</tpl>
-	<div class="album_name"><h3>Album : <span>{name}</span></h3>
+	<div class="album-name"><h3>Album : <span>{name}</span></h3>
 		Vytvořeno: <strong>{createdon}</strong>, autor: <strong>{createdby}</strong><br/>
 		ID alba : #<strong>{id}</strong>
 	</div>
-	<div class="album_meta">
+	<div class="album-meta">
 		<span>{total}</span>
-		Obrázků
-	</div></div>';
+		Images
+	</div></div>
+	<tpl if="description">
+	</div><div class="album-desc"><p>{description}</p></tpl>';
 // $_lang['cliche.album_item_cover_alt_msg'] = '{name} preview';
 $_lang['cliche.album_item_cover_alt_msg'] = '{name} náhled';
 // $_lang['cliche.album_item_created_by'] = 'Created by';
