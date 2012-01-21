@@ -31,7 +31,7 @@ Ext.onReady(function() {
         return parent::initialize();
     }
     public function getLanguageTopics() {
-        return array('cliche:albums');
+        return array('cliche:mgr');
     }
     public function checkPermissions() { return true;}
 }
