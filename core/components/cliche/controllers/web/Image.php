@@ -38,8 +38,6 @@ class ImageController extends ClicheController {
             'thumbHeight' => 120,			
             'itemTpl' => 'image',
 			
-            'display' => 'default',	
-			
 			'idParam' => 'cid',
 			
 			'loadCSS' => true,
@@ -86,19 +84,12 @@ class ImageController extends ClicheController {
 		$phs['height'] = $this->getProperty('thumbHeight');
 		$phs['image'] = $this->config['images_url'] . $item->filename;
 		$phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
-        
-        $fileName = str_replace(' ', '_', $item->get('name'));
-        $mask = $fileName .'-'. $phs['width'] .'x'. $phs['height'] .'-zc.png';
-        $file = $item->getCacheDir() . $mask;
-        if(!file_exists($file)){
-            $thumb = $item->loadThumbClass( $this->config['images_path'] . $item->filename, array(
-                'resizeUp' => true,
-                'jpegQuality' => 90,
-             ));
-            $thumb->adaptiveResize($phs['width'], $phs['height']);
-            $thumb->save($file, 'png');
-        }
-        $phs['thumbnail'] = $item->getCacheDir(false) . $mask;
+		
+		/* Let the used plugin do its magic */
+		$returned = $this->fireEvent('setItemPlaceholder', array($phs, & $item));
+		if(is_array($returned)){
+			$phs = $returned;
+		}
 
 		$item = $this->getChunk($this->getProperty('itemTpl'), $phs);
 

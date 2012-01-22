@@ -36,10 +36,7 @@ class AlbumsController extends ClicheController {
         $this->setDefaultProperties(array(
             'thumbWidth' => 120,
             'thumbHeight' => 120,
-			
-            'columns' => 3,
-            'columnBreak' => '<br style="clear: both;">',
-			
+						
             'wrapperTpl' => 'albumwrapper',
             'itemTpl' => 'albumcover',
 			
@@ -72,8 +69,6 @@ class AlbumsController extends ClicheController {
      */
 	private function getSets(){
 		$list = '';
-		$columns = $this->getProperty('columns');
-		$columnCount = 0;
 		$rows = $this->modx->getCollectionGraph('ClicheAlbums', '{ "Cover":{} }');
 		
 		if(!$rows) return $this->modx->lexicon('cliche.no_albums');
@@ -81,10 +76,10 @@ class AlbumsController extends ClicheController {
 		foreach($rows as $row){
 			$data = $row->toArray();
 			$list .= $this->getItem($data, $row);
-			$columnCount++;
-			if($columnCount == $columns){
-				$list .=  $this->getProperty('columnBreak');
-				$columnCount = 0;
+			/* We pass the processed string to the plugin ? */
+			$modified = $this->fireEvent('afterItemRendered', array(&$list));	
+			if($modified){
+				$list = $modified;
 			}	
 		}
 		$phs['items'] = $list;
@@ -112,30 +107,22 @@ class AlbumsController extends ClicheController {
 		$phs['image'] = $this->config['images_url'] . $obj->Cover->filename;
 		$phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
 		$phs['albumname'] = $obj->name;
-
-        $fileName = str_replace(' ', '_', $obj->get('name'));
-        $mask = $fileName .'-'. $phs['width'] .'x'. $phs['height'] .'-zc.png';
-        $file = $obj->Cover->getCacheDir() . $mask;
-        if(!file_exists($file)){
-            $thumb = $obj->Cover->loadThumbClass( $this->config['images_path'] . $obj->Cover->filename, array(
-                'resizeUp' => true,
-                'jpegQuality' => 90,
-             ));
-            $thumb->adaptiveResize($phs['width'], $phs['height']);
-            $thumb->save($file, 'png');
-        }
-        $phs['thumbnail'] = $obj->Cover->getCacheDir(false) . $mask;
+		
+		$returned = $this->fireEvent('setItemPlaceholder', array($phs, & $obj->Cover));
+		if(is_array($returned)){
+			$phs = $returned;
+		}
 
 		/* Not used yet */
 		unset($phs['options']);
 		
 		$cover = $obj->Cover->toArray();
-		foreach($cover['metas'] as $k => $v){
-			$name = strtolower(str_replace(' ','',$v['name']));
-			$cover['cover.'. $name] = $v['value'];
-		}
-		unset($cover['id']);
-		unset($cover['metas']);
+		// foreach($cover['metas'] as $k => $v){
+			// $name = strtolower(str_replace(' ','',$v['name']));
+			// $cover['cover.'. $name] = $v['value'];
+		// }
+		// unset($cover['id']);
+		// unset($cover['metas']);
 		$phs = array_merge($phs, $cover);	
 
 		$processed = $this->getChunk($this->getProperty('itemTpl'), $phs);			

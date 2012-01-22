@@ -17,6 +17,42 @@ abstract class ClichePlugin {
         $this->controller =& $controller;
         $this->modx =& $controller->modx;
     }
+	
+	 /**
+     * Set an option for this module
+     * @param string $key
+     * @param mixed $value
+     * @return void
+     */
+    public function setProperty($key,$value) {
+        $this->controller->setProperty($key,$value);
+    }
+    /**
+     * Set an array of options
+     * @param array $array
+     * @return void
+     */
+    public function setProperties($array) {
+        $this->controller->setProperties($array);
+    }
+
+    /**
+     * Return an array of REQUEST options
+     * @return array
+     */
+    public function getProperties() {
+        return $this->controller->scriptProperties;
+    }
+
+    /**
+     * @param $key
+     * @param null $default
+     * @param string $method
+     * @return mixed
+     */
+    public function getProperty($key,$default = null,$method = 'isset') {
+		return $this->controller->getProperty($key,$default,$method);
+	}
 }
 /**
  * @package cliche
@@ -82,7 +118,7 @@ abstract class ClicheController {
     /**
      * Set the default options for this module
      * @param string $event The event name
-     * @param mixes $args Optional arguments to pass to the plugin class
+     * @param mixed $args Optional arguments to pass to the plugin class
      * @return mixed/void if $args is not supplied else the processed $args
      */
     public function fireEvent($event, $args = null){	
@@ -90,11 +126,13 @@ abstract class ClicheController {
 			if(is_callable(array($this->plugin, $event))){
 				if($args == null){
 					call_user_func( array($this->plugin, $event) );
+					return true;
 				} else {
-					return call_user_func_array( array($this->plugin, $event), array($args) );
+					return call_user_func_array( array($this->plugin, $event), $args );
 				}
-			}
-        }		
+			}			
+        }	
+		return false;
     }
 
     /**

@@ -20,21 +20,6 @@ class ClicheItems extends xPDOSimpleObject {
                 $assetsUrl = $this->xpdo->cliche->config['images_url'];
                 $value = $assetsUrl . $this->get('filename');
                 break;
-//            case 'absoluteImage':
-//                $siteUrl = $this->getSiteUrl();
-//                $value = $siteUrl.$this->xpdo->getOption('gallery.files_url').$this->get('filename');
-//                break;
-//            case 'relativeImage':
-//                $value = ltrim($this->xpdo->getOption('gallery.files_url').$this->get('filename'),'/');
-//                break;
-//            case 'filesize':
-//                $filename = $this->xpdo->getOption('gallery.files_path').$this->get('filename');
-//                $value = @filesize($filename);
-//                $value = $this->formatFileSize($value);
-//                break;
-//            case 'image_path':
-//                $value = $this->xpdo->getOption('gallery.files_path').$this->get('filename');
-//                break;
             default:
                 $value = parent::get($k,$format,$formatTemplate);
                 break;
@@ -86,11 +71,14 @@ class ClicheItems extends xPDOSimpleObject {
 
     public function getCacheDir($path = true){
         if($path){
-            $assetsPath = $this->xpdo->cliche->config['cache_path'];
-            return $assetsPath .'/'. $this->get('album_id') .'/'. $this->get('id') .'/';
+            $cacheDir = $this->xpdo->cliche->config['cache_path'] . $this->get('album_id') .'/'. $this->get('id') .'/';
+			if(!is_dir($cacheDir)){
+				$cacheDir = $this->createDir($cacheDir);
+			}			
+            return $cacheDir ;
         } else {
             $assetsUrl = $this->xpdo->cliche->config['cache_url'];
-            return $assetsUrl .'/'. $this->get('album_id') .'/'. $this->get('id') .'/';
+            return $assetsUrl . $this->get('album_id') .'/'. $this->get('id') .'/';
         }
     }
 
