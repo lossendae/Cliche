@@ -1,5 +1,9 @@
 Changelog for Cliche
 
+*** Cliche 1.0.1 RC1 ***
+
+	- Bug fix
+	
 *** Cliche 1.0.1 beta 3 ***
 
 	- Fix error while loading album when image has not been found
