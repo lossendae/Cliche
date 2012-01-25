@@ -1,128 +1,91 @@
 <?php
 /**
- * Cliche build script
+ * Discuss
  *
- * @package Cliche
+ * Copyright 2010-11 by Shaun McCormick <shaun@modx.com>
+ *
+ * This file is part of Discuss, a native forum for MODx Revolution.
+ *
+ * Discuss is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * Discuss is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * Discuss; if not, write to the Free Software Foundation, Inc., 59 Temple Place,
+ * Suite 330, Boston, MA 02111-1307 USA
+ *
+ * @package discuss
+ */
+/**
+ * Discuss build script
+ *
+ * @package discuss
  * @subpackage build
  */
 $mtime = microtime();
-$mtime = explode(" ", $mtime);
+$mtime = explode(' ', $mtime);
 $mtime = $mtime[1] + $mtime[0];
 $tstart = $mtime;
 set_time_limit(0);
 
-/* define package */
-define('PKG_NAME','Cliche');
-define('PKG_NAMESPACE',strtolower(PKG_NAME));
-define('PKG_VERSION','1.0.1');
-define('PKG_RELEASE','rc1');
+define('PKG_NAME','Discuss');
+define('PKG_NAME_LOWER','discuss');
 
-function getSnippetContent($path, $name, $debug = false) {
-	$filename = $path . $name .'.php';
-    $o = file_get_contents($filename);
-    $o = str_replace('<?php','',$o);
-    $o = str_replace('?>','',$o);
-    $o = trim($o);
-    return $o;
-}
+/* do not forget to change in discuss.class.php too!! */
+define('PKG_VERSION','1.0.11');
+define('PKG_RELEASE','pl');
 
-$root = dirname(dirname(__FILE__)).'/';
-$sources= array (
-    'debug' => false,
-    'root' => $root,
-    'files' => $root .'files/',
-    'build' => $root .'_build/',
-	'data' => $root .'_build/data/',
-    'resolvers' => $root . '_build/resolvers/',
-    'core' => $root.'core/components/'.PKG_NAMESPACE,
-    'snippets' => $root.'core/components/'.PKG_NAMESPACE.'/elements/snippets/',
-	'plugins' => $root.'core/components/'.PKG_NAMESPACE.'/elements/plugins/',
-    'assets' => $root.'assets/components/'.PKG_NAMESPACE,
-	'lexicon' => $root . 'core/components/'.PKG_NAMESPACE.'/lexicon/',
-    'docs' => $root.'core/components/'.PKG_NAMESPACE.'/docs/',
-    'model' => $root.'core/components/'.PKG_NAMESPACE.'/model/',
-);
-unset($root);
-
+/* override with your own defines here (see build.config.sample.php) */
 require_once dirname(__FILE__) . '/build.config.php';
 require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
 
+$root = dirname(dirname(__FILE__)).'/';
+$sources = array(
+    'root' => $root,
+    'build' => $root . '_build/',
+    'data' => $root . '_build/data/',
+    'resolvers' => $root . '_build/resolvers/',
+    'lexicon' => $root . 'core/components/discuss/lexicon/',
+    'docs' => $root.'core/components/discuss/docs/',
+    'chunks' => $root.'core/components/discuss/themes/default/chunks/',
+    'pages' => $root.'core/components/discuss/themes/default/pages/',
+    'source_assets' => $root.'assets/components/discuss',
+    'source_core' => $root.'core/components/discuss',
+);
+unset($root);
+
 $modx= new modX();
 $modx->initialize('mgr');
+echo '<pre>'; /* used for nice formatting of log messages */
 $modx->setLogLevel(modX::LOG_LEVEL_INFO);
-echo XPDO_CLI_MODE ? '' : '<pre>';
 $modx->setLogTarget('ECHO');
 
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 $builder = new modPackageBuilder($modx);
-$builder->createPackage(PKG_NAMESPACE,PKG_VERSION,PKG_RELEASE);
-$builder->registerNamespace(PKG_NAMESPACE,false,true,'{core_path}components/'.PKG_NAMESPACE.'/');
-$modx->getService('lexicon','modLexicon');
-$modx->lexicon->load('cliche:default,mgr');
-
-/* load action/menu */
-$menus = include $sources['data'].'transport.menu.php';
-$vehicle= $builder->createVehicle($menu,array (
-    xPDOTransport::PRESERVE_KEYS => true,
-    xPDOTransport::UPDATE_OBJECT => true,
-    xPDOTransport::UNIQUE_KEY => 'text',
-    xPDOTransport::RELATED_OBJECTS => true,
-    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
-        'Action' => array (
-            xPDOTransport::PRESERVE_KEYS => false,
-            xPDOTransport::UPDATE_OBJECT => true,
-            xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
-        ),
-    ),
-));
-$builder->putVehicle($vehicle);
-unset($vehicle,$action);
-$modx->log(modX::LOG_LEVEL_INFO,'<strong>Packaged in '.count($menus).' menus.</strong>'); flush();
+$builder->createPackage(PKG_NAME_LOWER,PKG_VERSION,PKG_RELEASE);
+$builder->registerNamespace(PKG_NAME_LOWER,false,true,'{core_path}components/discuss/');
 
 /* create category */
 $category= $modx->newObject('modCategory');
 $category->set('id',1);
 $category->set('category',PKG_NAME);
-$modx->log(modX::LOG_LEVEL_INFO,'Packaged in category.'); flush();
 
 /* add snippets */
-$modx->log(modX::LOG_LEVEL_INFO,'Adding snippets...');
+$modx->log(modX::LOG_LEVEL_INFO,'Packaging in snippets...');
 $snippets = include $sources['data'].'transport.snippets.php';
 if (empty($snippets)) $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in snippets.');
 $category->addMany($snippets);
-$modx->log( xPDO::LOG_LEVEL_INFO, '<strong>Packaged in '. count( $snippets ) .' snippets.</strong>' ); flush();
 
-/* add tv plugin */
-$modx->log(modX::LOG_LEVEL_INFO,'Adding in TV Plugin...');
-$plugin= $modx->newObject('modPlugin');
-$plugin->fromArray(array(
-    'id' => 1,
-    'name' => 'ClicheThumbnail',
-    'description' => 'Resource Thumbnail Manager via Cliche 3rd party component',
-    'plugincode' => getSnippetContent($sources['plugins'], 'plugin.clichethumbnail'),
-),'',true,true);
-$events = include $sources['data'].'events/events.clichethumbnail.php';
-if (is_array($events) && !empty($events)) {
-    $modx->log(modX::LOG_LEVEL_INFO,'<strong>Added '.count($events).' events to ClicheThumbnail plugin.</strong>');
-    $plugin->addMany($events);
-}
-unset($events);
-$attributes = array (
-    xPDOTransport::PRESERVE_KEYS => false,
-    xPDOTransport::UPDATE_OBJECT => true,
-    xPDOTransport::UNIQUE_KEY => 'name',
-    xPDOTransport::RELATED_OBJECTS => true,
-    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
-        'PluginEvents' => array(
-            xPDOTransport::PRESERVE_KEYS => true,
-            xPDOTransport::UPDATE_OBJECT => false,
-            xPDOTransport::UNIQUE_KEY => array('pluginid','event'),
-        ),
-    ),
-);
-$vehicle = $builder->createVehicle($plugin, $attributes);
-$builder->putVehicle($vehicle);
-unset($vehicle,$attributes,$plugin);
+/* add chunks */
+/*$modx->log(modX::LOG_LEVEL_INFO,'Packaging in chunks...');
+$chunks = include $sources['data'].'transport.chunks.php';
+if (empty($chunks)) $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in chunks.');
+$category->addMany($chunks);*/
 
 /* create category vehicle */
 $attr = array(
@@ -142,9 +105,19 @@ $attr = array(
                     xPDOTransport::UPDATE_OBJECT => true,
                     xPDOTransport::UNIQUE_KEY => 'name',
                 ),
+                'Chunks' => array(
+                    xPDOTransport::PRESERVE_KEYS => false,
+                    xPDOTransport::UPDATE_OBJECT => true,
+                    xPDOTransport::UNIQUE_KEY => 'name',
+                ),
             ),
         ),
         'Snippets' => array(
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => 'name',
+        ),
+        'Chunks' => array (
             xPDOTransport::PRESERVE_KEYS => false,
             xPDOTransport::UPDATE_OBJECT => true,
             xPDOTransport::UNIQUE_KEY => 'name',
@@ -153,41 +126,155 @@ $attr = array(
 );
 $vehicle = $builder->createVehicle($category,$attr);
 
-$modx->log(modX::LOG_LEVEL_INFO, 'Adding file resolvers to category...');
-
+$modx->log(modX::LOG_LEVEL_INFO,'Adding file resolvers to category...');
 $vehicle->resolve('file',array(
-    'source' => $sources['core'],
-    'target' => "return MODX_CORE_PATH . 'components/';",
-));
-
-$vehicle->resolve('file',array(
-    'source' => $sources['assets'],
+    'source' => $sources['source_assets'],
     'target' => "return MODX_ASSETS_PATH . 'components/';",
 ));
+$vehicle->resolve('file',array(
+    'source' => $sources['source_core'],
+    'target' => "return MODX_CORE_PATH . 'components/';",
+));
+$builder->putVehicle($vehicle);
 
+/* package in default access policy */
+$attributes = array (
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UNIQUE_KEY => array('name'),
+    xPDOTransport::UPDATE_OBJECT => true,
+);
+$policies = include $sources['data'].'transport.policies.php';
+if (!is_array($policies)) { $modx->log(modX::LOG_LEVEL_FATAL,'Adding policies failed.'); }
+foreach ($policies as $policy) {
+    $vehicle = $builder->createVehicle($policy,$attributes);
+    $builder->putVehicle($vehicle);
+}
+$modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($policies).' Access Policies.'); flush();
+unset($policies,$policy,$attributes);
+
+/* package in default access policy template */
+$templates = include dirname(__FILE__).'/data/transport.policytemplates.php';
+$attributes = array (
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UNIQUE_KEY => array('name'),
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'Permissions' => array (
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => array ('template','name'),
+        ),
+    )
+);
+if (is_array($templates)) {
+    foreach ($templates as $template) {
+        $vehicle = $builder->createVehicle($template,$attributes);
+        $builder->putVehicle($vehicle);
+    }
+    $modx->log(modX::LOG_LEVEL_INFO,'Packaged in '.count($templates).' Access Policy Templates.'); flush();
+} else {
+    $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in Access Policy Templates.');
+}
+unset ($templates,$template,$idx,$ct,$attributes);
+
+/* load system settings */
+$modx->log(modX::LOG_LEVEL_INFO,'Packaging in System Settings...');
+$settings = include $sources['data'].'transport.settings.php';
+if (empty($settings)) $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in settings.');
+$attributes= array(
+    xPDOTransport::UNIQUE_KEY => 'key',
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => false,
+);
+foreach ($settings as $setting) {
+    $vehicle = $builder->createVehicle($setting,$attributes);
+    $builder->putVehicle($vehicle);
+}
+unset($settings,$setting,$attributes);
+
+/* load user groups  */
+$userGroups = include $sources['data'].'transport.usergroups.php';
+if (empty($userGroups)) $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in User Groups.');
+$attributes = array (
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::UNIQUE_KEY => array ('name'),
+);
+foreach ($userGroups as $userGroup) {
+    $vehicle = $builder->createVehicle($userGroup,$attributes);
+    $builder->putVehicle($vehicle);
+}
+$modx->log(xPDO::LOG_LEVEL_INFO,'Packaged in '.count($userGroups).' default User Groups.'); flush();
+unset ($userGroups,$userGroup,$attributes);
+
+/* load events */
+$events = include $sources['data'].'transport.events.php';
+if (empty($events)) $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in events.');
+$attributes = array (
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::UNIQUE_KEY => array ('name'),
+);
+foreach ($events as $event) {
+    $vehicle = $builder->createVehicle($event,$attributes);
+    $builder->putVehicle($vehicle);
+}
+$modx->log(xPDO::LOG_LEVEL_INFO,'Packaged in '.count($events).' default events.'); flush();
+unset ($events,$event,$attributes);
+
+/* load menu */
+$modx->log(modX::LOG_LEVEL_INFO,'Packaging in menu...');
+$menu = include $sources['data'].'transport.menu.php';
+if (empty($menu)) $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in menu.');
+$vehicle= $builder->createVehicle($menu,array (
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::UNIQUE_KEY => 'text',
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'Action' => array (
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::UNIQUE_KEY => array ('namespace','controller'),
+        ),
+    ),
+));
+$modx->log(modX::LOG_LEVEL_INFO,'Adding in PHP resolvers...');
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'resolve.dbchanges.php',
+));
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'resolve.policies.php',
+));
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'resolve.paths.php',
+));
 $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'resolve.tables.php',
 ));
-
-// $vehicle->resolve('php',array(
-    // 'source' => $sources['resolvers'].'resolve.options.php',
-// ));
-
-$modx->log(modX::LOG_LEVEL_INFO,'Packaged in resolvers.'); flush();
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'resolve.demodata.php',
+));
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'resolve.options.php',
+));
 $builder->putVehicle($vehicle);
+unset($vehicle,$menu);
 
-/* Pack in the license file, readme and setup options */
+/* now pack in the license file, readme and setup options */
+$modx->log(modX::LOG_LEVEL_INFO,'Adding package attributes and setup options...');
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
     'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
-    // 'setup-options' => array(
-        // 'source' => $sources['build'].'setup.options.php',
-    // ),
+    'setup-options' => array(
+        'source' => $sources['build'].'setup.options.php',
+    ),
 ));
-$modx->log(modX::LOG_LEVEL_INFO,'Packaged in package attributes.'); flush();
 
-$modx->log(modX::LOG_LEVEL_INFO,'Packing...'); flush();
+/* zip up package */
+$modx->log(modX::LOG_LEVEL_INFO,'Packing up transport package zip...');
 $builder->pack();
 
 $mtime= microtime();
