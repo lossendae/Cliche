@@ -87,6 +87,7 @@ class Cliche {
 			'tpl_suffix' => '.tpl',	
 				
 			'request_file_var' => 'name',
+			'allowed_extension' => 'jpg,jpeg,gif,png,zip',
 			
 			//Debug is on for development
 			'debug' => true,

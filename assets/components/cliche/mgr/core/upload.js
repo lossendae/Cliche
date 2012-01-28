@@ -64,7 +64,7 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
 				setTimeout(function(){
 					Ext.getCmp('modx-content').doLayout();
 				}, 500);
-				this.ownerCt.preCheckFilesAdded();
+				this.ownerCt.clientSideValidation();
 			}
 		});
 	}
@@ -120,7 +120,7 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
             ,multipart: false
         });
 		
-		var uploaderEvents = ['Init', 'FilesAdded', 'FilesRemoved', 'FileUploaded', 'QueueChanged', 'StateChanged', 'UploadFile', 'UploadProgress', 'Error', 'UploadComplete' ];
+		var uploaderEvents = ['FilesAdded', 'FileUploaded', 'QueueChanged', 'UploadFile', 'UploadProgress', 'UploadComplete' ];
 		Ext.each(uploaderEvents, function (v) { 
 			var fn = 'on' + v;
 			this.uploader.bind(v, this[fn], this); 
@@ -157,83 +157,15 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
 		Ext.getCmp('cliche-breadcrumbs').updateDetail({text: _('cliche.upload_in_progress'), className:'highlight'});
 	}	
 	
-	,onInit: function(uploader, data){}
 	,onFilesAdded: function(up, files){
 		this.uploadListData.files = up.files;
 		this.updateList = true;
-	}
-	
-	,preCheckFilesAdded: function(){
-		var maxSize = (Cliche.uploadMaxFilesize > Cliche.postMaxSize) ? Cliche.uploadMaxFilesize : Cliche.postMaxSize ;
-		var pnl = this;
-		var files = this.uploader.files;
-		var toRemove = [];
-		Ext.each(files, function(file){
-			var ext = file.name.split('.').pop();	
-			var del = false;	
-			// First, let's check if it's a valid extension
-			if (!Cliche.allowedExtensions[ext]) {
-				var del = pnl.addItemErrorMessage(file.id, 'Invalid file extension, only the following extensions are accepted : "jpg, jpeg, gif, png, zip"');
-				pnl.updateList = false;
-				if(del){						
-					toRemove.push(file);
-				}				
-			}
-			
-			if (file.size > maxSize && !del){
-				var del = pnl.addItemErrorMessage(file.id, 'File is too large');
-				pnl.updateList = false;
-				if(del){						
-					toRemove.push(file);
-				}
-			}
-		});
-		// Delay file removing from the queue cause it's causing the uplaoder to crash
-		Ext.each(toRemove, function(f){
-			pnl.uploader.removeFile(f);
-		})
-	}
-	
-	,addItemErrorMessage: function(id, message){
-		var desc = {
-			'message' : message,
-			'className' : 'what_happened'
-		};
-		var descTpl = this.errorTpl.apply(desc);
-		var content = Ext.select('.upload-list li#' + id + ' .upload-content');
-		content.createChild(descTpl);
-		var item = Ext.select('.upload-list li#' + id);		
-		item.removeClass('active').addClass('upload-fail');			
-		return true;
 	}
 		
 	,removeFile: function(id){
 		this.updateList = true;
 		var f = this.uploader.getFile(id);
 		this.uploader.removeFile(f);		
-	}
-	
-	,onFilesRemoved: function(up, files){}
-	,onFileUploaded: function(uploader, file, xhr){
-		var r = Ext.util.JSON.decode( xhr.response );
-		var current = Ext.select(this.getCurrent(file.id));
-		var content = Ext.select(this.getCurrent(file.id) + ' .upload-content');
-		if(!r.success){						
-			current.removeClass('active').addClass('upload-fail');	
-			r.className = 'what_happened';
-			var s = this.errorTpl.apply(r);
-			content.createChild(s);
-		} else {
-			current.setWidth(this.containerWidth);
-			r.className = 'pw';
-			var s = this.successTpl.apply(r);
-			setTimeout(function(){
-				current.removeClass('active').addClass('upload-success');							
-				content.createChild(s);
-				Ext.getCmp('modx-content').doLayout();
-			}, 1000);			
-		}
-		Ext.getCmp('modx-content').doLayout();
 	}
 		
 	,onQueueChanged: function(up){
@@ -249,7 +181,6 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
 		}	
 	}
 	
-	,onStateChanged: function(uploader){}
 	,onUploadFile: function(uploader, file){
 		Ext.select(this.getCurrent(file.id)).addClass('active');
 		Ext.select(this.getCurrent(file.id) + ' .upload-progress').setWidth(0);
@@ -269,7 +200,6 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
 		this.updateBreadcrumbs(_('cliche.upload_items_for') + this.album.name);
 	}
 	
-	,onError: function(up, error){}	
 	,onStartUpload: function(btn, e){
 		this.deactivateBreadcrumbs();
 		Ext.getCmp('cliche-uploader-start-upload-btn-'+this.uid).disable();
@@ -278,8 +208,73 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
 		this.uploader.start();
 	}
 	
+	,onFileUploaded: function(uploader, file, xhr){
+		var r = Ext.util.JSON.decode( xhr.response );
+		if(!r.success){	
+			this.addItemErrorMessage(file.id, r.message);
+		} else {
+			this.addItemSuccessMessage(file.id, r);		
+		}
+		Ext.getCmp('modx-content').doLayout();
+	}
+	
 	,getCurrent: function(id){
 		return '.upload-list li#' + id;
+	}
+	
+	,clientSideValidation: function(){
+		var maxSize = (Cliche.uploadMaxFilesize > Cliche.postMaxSize) ? Cliche.uploadMaxFilesize : Cliche.postMaxSize ;
+		var pnl = this;
+		var files = this.uploader.files;
+		var toRemove = [];
+		Ext.each(files, function(file){
+			var ext = file.name.split('.').pop();	
+			var del = false;	
+			// First, let's check if it's a valid extension
+			if (!Cliche.allowedExtensions[ext]) {
+				var del = pnl.addItemErrorMessage(file.id, _('cliche.upload_extensions_error') + Cliche.config['allowed_extension']);
+				pnl.updateList = false;
+				if(del){						
+					toRemove.push(file);
+				}				
+			}
+			// Is the file too large 
+			if (file.size > maxSize && !del){
+				var del = pnl.addItemErrorMessage(file.id, _('cliche.upload_file_too_large_error'));
+				pnl.updateList = false;
+				if(del){						
+					toRemove.push(file);
+				}
+			}
+		});
+		// Delay file removing from the queue cause it's causing the uploader to crash
+		Ext.each(toRemove, function(f){
+			pnl.uploader.removeFile(f);
+		})
+	}
+	
+	,addItemErrorMessage: function(id, message){
+		var desc = {
+			'message' : message,
+			'className' : 'what_happened'
+		};
+		var descTpl = this.errorTpl.apply(desc);
+		var content = Ext.select('.upload-list li#' + id + ' .upload-content');
+		content.createChild(descTpl);
+		var item = Ext.select('.upload-list li#' + id);		
+		item.removeClass('active').addClass('upload-fail');			
+		return true;
+	}
+	
+	,addItemSuccessMessage: function(id, desc){
+		desc.className = 'pw';
+		var descTpl = this.successTpl.apply(desc);
+		var content = Ext.select('.upload-list li#' + id + ' .upload-content');
+		content.createChild(descTpl);
+		var item = Ext.select('.upload-list li#' + id);		
+		item.setWidth(this.containerWidth);
+		item.removeClass('active').addClass('upload-success');			
+		return true;	
 	}
 	
 	,resetUploader: function(){

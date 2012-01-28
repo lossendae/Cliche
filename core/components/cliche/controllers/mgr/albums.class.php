@@ -59,6 +59,7 @@ class ClicheMgrAlbumsManagerController extends ClicheManagerController {
 		$this->loadPanels();
 		$this->addHtml('<script type="text/javascript">Ext.onReady(function() {	
 			Ext.ns("Cliche"); Cliche.getPanels = function(){ return '. $this->loadPanels() .'; }(); 
+			Cliche.config = '. $this->modx->toJSON($this->cliche->config) .';
 			Cliche.allowedExtensions = '. $this->modx->toJSON($allowedExtensions) .';
 			Cliche.postMaxSize = '. $this->_toBytes(ini_get('post_max_size')) .';
 			Cliche.uploadMaxFilesize = '. $this->_toBytes(ini_get('upload_max_filesize')) .';

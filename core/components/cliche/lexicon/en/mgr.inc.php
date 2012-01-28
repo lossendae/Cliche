@@ -77,6 +77,8 @@ $_lang['cliche.window_update_album'] = 'Update Current Album';
 
 $_lang['cliche.upload_cancel_msg'] = 'Cancel';
 $_lang['cliche.upload_desc'] = '<h4>Select files from your computer</h4><p>You can select several files at a time by holding the shift key.</p>';
+$_lang['cliche.upload_extensions_error'] = 'Invalid file extension, only the following extensions are accepted : ';
+$_lang['cliche.upload_file_too_large_error'] = 'File is too large';
 $_lang['cliche.upload_in_progress'] = 'Upload in progress...'; 
 $_lang['cliche.upload_items_for'] = '<h3>Images Uploader</h3><p>Upload new images for the album <strong>'; 
 $_lang['cliche.upload_ready_msg'] = 'Files ready to be uploaded :';
