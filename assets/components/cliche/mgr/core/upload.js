@@ -56,6 +56,16 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
 			,startingText: _('cliche.upload_desc')
 			,startingMarkup: '<tpl for="."><div class="empty-msg">{text}</div></tpl>'
 			,markup: this._uploadListTpl()
+			//Override defaut updateDetail method implementation for adding callback
+			,updateDetail: function(data) {	
+				this.body.hide();
+				this.tpl.overwrite(this.body, data);
+				this.body.slideIn('r', {stopFx:true, duration:.2});
+				setTimeout(function(){
+					Ext.getCmp('modx-content').doLayout();
+				}, 500);
+				this.ownerCt.preCheckFilesAdded();
+			}
 		});
 	}
 	
@@ -149,18 +159,61 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
 	
 	,onInit: function(uploader, data){}
 	,onFilesAdded: function(up, files){
-			this.uploadListData.files = up.files;
+		this.uploadListData.files = up.files;
+		this.updateList = true;
+	}
+	
+	,preCheckFilesAdded: function(){
+		var maxSize = (Cliche.uploadMaxFilesize > Cliche.postMaxSize) ? Cliche.uploadMaxFilesize : Cliche.postMaxSize ;
+		var pnl = this;
+		var files = this.uploader.files;
+		var toRemove = [];
+		Ext.each(files, function(file){
+			var ext = file.name.split('.').pop();	
+			var del = false;	
+			// First, let's check if it's a valid extension
+			if (!Cliche.allowedExtensions[ext]) {
+				var del = pnl.addItemErrorMessage(file.id, 'Invalid file extension, only the following extensions are accepted : "jpg, jpeg, gif, png, zip"');
+				pnl.updateList = false;
+				if(del){						
+					toRemove.push(file);
+				}				
+			}
+			
+			if (file.size > maxSize && !del){
+				var del = pnl.addItemErrorMessage(file.id, 'File is too large');
+				pnl.updateList = false;
+				if(del){						
+					toRemove.push(file);
+				}
+			}
+		});
+		// Delay file removing from the queue cause it's causing the uplaoder to crash
+		Ext.each(toRemove, function(f){
+			pnl.uploader.removeFile(f);
+		})
+	}
+	
+	,addItemErrorMessage: function(id, message){
+		var desc = {
+			'message' : message,
+			'className' : 'what_happened'
+		};
+		var descTpl = this.errorTpl.apply(desc);
+		var content = Ext.select('.upload-list li#' + id + ' .upload-content');
+		content.createChild(descTpl);
+		var item = Ext.select('.upload-list li#' + id);		
+		item.removeClass('active').addClass('upload-fail');			
+		return true;
 	}
 		
 	,removeFile: function(id){
+		this.updateList = true;
 		var f = this.uploader.getFile(id);
-		this.uploader.removeFile(f);
+		this.uploader.removeFile(f);		
 	}
 	
-	,onFilesRemoved: function(up, files){
-		this.uploadListData.files = up.files;
-	}
-	
+	,onFilesRemoved: function(up, files){}
 	,onFileUploaded: function(uploader, file, xhr){
 		var r = Ext.util.JSON.decode( xhr.response );
 		var current = Ext.select(this.getCurrent(file.id));
@@ -184,14 +237,16 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
 	}
 		
 	,onQueueChanged: function(up){
-		if(this.uploadListData.files.length > 0){
-			var btn = Ext.getCmp('cliche-uploader-start-upload-btn-'+this.uid);
-			Ext.getCmp('cliche-uploader-upload-list-'+this.uid).updateDetail(this.uploadListData);
-			if(btn.disabled){ btn.enable() }	
-		} else {
-			Ext.getCmp('cliche-uploader-upload-list-'+this.uid).reset();
-		}
-		up.refresh();
+		if(this.updateList){
+			if(this.uploadListData.files.length > 0){
+				var btn = Ext.getCmp('cliche-uploader-start-upload-btn-'+this.uid);
+				Ext.getCmp('cliche-uploader-upload-list-'+this.uid).updateDetail(this.uploadListData);
+				if(btn.disabled){ btn.enable() }	
+			} else {
+				Ext.getCmp('cliche-uploader-upload-list-'+this.uid).reset();
+			}
+			up.refresh();
+		}	
 	}
 	
 	,onStateChanged: function(uploader){}

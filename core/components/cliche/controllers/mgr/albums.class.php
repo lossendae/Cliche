@@ -49,10 +49,19 @@ class ClicheMgrAlbumsManagerController extends ClicheManagerController {
 				}
 			}
 		}
+		$allowedExtensions = explode(',', 'jpg,jpeg,gif,png,zip');
+		foreach($allowedExtensions as $key => $value){
+			$allowedExtensions[$value] = 1;
+			unset($allowedExtensions[$key]);
+		}
+		
 		
 		$this->loadPanels();
 		$this->addHtml('<script type="text/javascript">Ext.onReady(function() {	
 			Ext.ns("Cliche"); Cliche.getPanels = function(){ return '. $this->loadPanels() .'; }(); 
+			Cliche.allowedExtensions = '. $this->modx->toJSON($allowedExtensions) .';
+			Cliche.postMaxSize = '. $this->_toBytes(ini_get('post_max_size')) .';
+			Cliche.uploadMaxFilesize = '. $this->_toBytes(ini_get('upload_max_filesize')) .';
 			MODx.add("cliche-main-panel"); Ext.ux.Lightbox.register("a.lightbox"); 
 });</script>');
     }
@@ -77,4 +86,22 @@ class ClicheMgrAlbumsManagerController extends ClicheManagerController {
 	public function loadPanels(){
 		return $this->modx->toJSON($this->panels);
 	}
+	
+	/**
+     * Check the value of a server parameter.
+	 *
+     * @access protected
+     * @param string $str The php parameter to check. Defaults to web.
+     * @return int The value in byte format.
+     */
+    protected function _toBytes($str){
+        $val = trim($str);
+        $last = strtolower($str[strlen($str)-1]);
+        switch($last) {
+            case 'g': $val *= 1024;
+            case 'm': $val *= 1024;
+            case 'k': $val *= 1024;        
+        }
+        return $val;
+    }
 }
