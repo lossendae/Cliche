@@ -90,6 +90,7 @@ class Cliche {
 			
 			//Debug is on for development
 			'debug' => true,
+			'debugUser' => $this->modx->user->get('username'),
         ), $config);
 
         $this->modx->addPackage('cliche',$this->config['model_path']);
@@ -103,7 +104,7 @@ class Cliche {
             $this->modx->setLogTarget('HTML');
             $this->modx->setLogLevel(MODX_LOG_LEVEL_ERROR);
 
-            $debugUser = $this->config['debugUser'] == '' ? $this->modx->user->get('username') : 'anonymous';
+            $debugUser = $this->config['debugUser'] != '' ? $this->config['debugUser'] : 'anonymous';
             $user = $this->modx->getObject('modUser',array('username' => $debugUser));
             if ($user == null) {
                 $this->modx->user->set('id',$this->modx->getOption('debugUserId',$this->config,1));
