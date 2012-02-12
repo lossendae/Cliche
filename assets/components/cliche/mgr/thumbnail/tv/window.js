@@ -1,10 +1,11 @@
+Ext.ns('Cliche');
 /**
- * @class MODx.window.ClicheThumbnailManager
+ * @class Cliche.WindowThumbnailManager
  * @extends Ext.Window
  * @param {Object} config An object of configuration parameters
- * @xtype clichethumbnailnail-manager
+ * @xtype clichethumbnail-manager
  */
-MODx.window.ClicheThumbnailManager = function(config) {
+Cliche.WindowThumbnailManager = function(config) {
     config = config || {};	
     Ext.applyIf(config,{ 
 		title: _('clichethumbnail.window_title')
@@ -50,6 +51,7 @@ MODx.window.ClicheThumbnailManager = function(config) {
                 ,albumViewCard: 'clichethumbnail-album-panel-'+config.tv
                 ,uploadCard: 'clichethumbnail-upload-panel-'+config.tv
                 ,cropperCard: 'clichethumbnail-cropper-'+config.tv
+                ,previewPanel: config.previewPanel
 			}
 			,items: [{
 				xtype: 'clichethumbnail-main-panel'
@@ -83,9 +85,9 @@ MODx.window.ClicheThumbnailManager = function(config) {
 			,hidden: true
 		}]
 	});
-    MODx.window.ClicheThumbnailManager.superclass.constructor.call(this,config);
+    Cliche.WindowThumbnailManager.superclass.constructor.call(this,config);
 };
-Ext.extend(MODx.window.ClicheThumbnailManager,Ext.Window,{
+Ext.extend(Cliche.WindowThumbnailManager,Ext.Window,{
 	onSelect: function(btn, e){
 		Ext.getCmp('clichethumbnail-main-'+this.tv).getThumb();
 		this.hide();		
@@ -99,4 +101,4 @@ Ext.extend(MODx.window.ClicheThumbnailManager,Ext.Window,{
 		Ext.getCmp('clichethumbnail-main-'+this.tv).updateThumbnail(data.id, initial);
 	}
 });
-Ext.reg("clichethumbnailnail-manager", MODx.window.ClicheThumbnailManager);
+Ext.reg("clichethumbnail-manager", Cliche.WindowThumbnailManager);

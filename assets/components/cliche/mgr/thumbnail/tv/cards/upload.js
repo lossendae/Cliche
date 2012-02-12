@@ -1,12 +1,12 @@
 /**
  * The package browser detail panel
  *
- * @class MODx.panel.ClicheThumbnailUploadPanel
+ * @class Cliche.ThumbnailUploadPanel
  * @extends MODx.Panel
  * @param {Object} config An object of options.
  * @xtype clichethumbnail-upload-panel
  */
-MODx.panel.ClicheThumbnailUploadPanel = function(config) {
+Cliche.ThumbnailUploadPanel = function(config) {
 	config = config || {};
 	Ext.applyIf(config,{
 		tbar: [{
@@ -32,9 +32,9 @@ MODx.panel.ClicheThumbnailUploadPanel = function(config) {
 			,scope: this
 		}]
 	});
-	MODx.panel.ClicheThumbnailUploadPanel.superclass.constructor.call(this,config);
+	Cliche.ThumbnailUploadPanel.superclass.constructor.call(this,config);
 };
-Ext.extend(MODx.panel.ClicheThumbnailUploadPanel,MODx.panel.ClicheUploadPanel,{
+Ext.extend(Cliche.ThumbnailUploadPanel,MODx.panel.ClicheUploadPanel,{
 	_init: function(){
 		this.add({
 			xtype: 'modx-template-panel'
@@ -94,4 +94,4 @@ Ext.extend(MODx.panel.ClicheThumbnailUploadPanel,MODx.panel.ClicheUploadPanel,{
 		Ext.getCmp(this.breadcrumbs).updateDetail({text: _('clichethumbnail.upload_in_progress'), className:'highlight'});
 	}
 });
-Ext.reg('clichethumbnail-upload-panel',MODx.panel.ClicheThumbnailUploadPanel);
+Ext.reg('clichethumbnail-upload-panel',Cliche.ThumbnailUploadPanel);

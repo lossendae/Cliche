@@ -1,28 +1,17 @@
-<div id="tv{$tv->id}-form"></div>
-<input type="hidden" id="tv{$tv->id}" name="tv{$tv->id}" value="{$tv->get('value')|escape}" />
 <div id="clichethumbnail-{$tv->id}"></div>
-
 <script type="text/javascript">
 Ext.onReady(function() {
 // <![CDATA[
 	{literal}
 	MODx.load({
 	{/literal}
-		xtype: 'panel'
-		,tv: '{$tv->id}'
-		,tvValue: '{$tv->value|escape}'
+		xtype: 'clichethumbnail'
 		,renderTo: 'clichethumbnail-{$tv->id}'
-		,tvId: '{$tv->id}'
-		,width: '97%'
-        ,border: false
-		,items: [{
-			xtype: 'cliche-thumbnail-tv'
-			,id: 'clichethumbnail-pw-{$tv->id}'
-			,tv: '{$tv->id}'
-			,resourceId: '{$resourceId}'
-		}]
-		{if $itemjson},data: {$itemjson}{/if}
-		{if $configjson},config: {$configjson}{/if}
+		,tv: {
+			id: '{$tv->id}'
+			,value: {if $itemjson}{$itemjson}{else}''{/if}
+			,output_properties: {if $configjson}{$configjson}{else}''{/if}	
+		}	
 	{literal}
 	});
 	{/literal}

@@ -1,10 +1,10 @@
 /**
  * The panel container for Cliche TV thumbnail
- * @class MODx.ClicheThumbnailMainCard
+ * @class Cliche.ThumbnailMainCard
  * @extend MODx.TemplatePanel
  * @xtype clichethumbnail-main-panel
  */
-MODx.ClicheThumbnailMainCard = function(config) {
+Cliche.ThumbnailMainCard = function(config) {
     config = config || {};
     Ext.applyIf(config,{
 		bodyCssClass: 'cliche-pw-panel'
@@ -39,9 +39,9 @@ MODx.ClicheThumbnailMainCard = function(config) {
 			,scope: this
 		}]
 	});
-	MODx.ClicheThumbnailMainCard.superclass.constructor.call(this,config);
+	Cliche.ThumbnailMainCard.superclass.constructor.call(this,config);
 }
-Ext.extend(MODx.ClicheThumbnailMainCard, MODx.TemplatePanel,{
+Ext.extend(Cliche.ThumbnailMainCard, MODx.TemplatePanel,{
 	activate: function(){
 		Ext.getCmp(this.breadcrumbs).reset(_('clichethumbnail.breadcrumb_root_desc'));
 		Ext.getCmp(this.cardContainer).setActiveItem(this.id);        
@@ -93,11 +93,11 @@ Ext.extend(MODx.ClicheThumbnailMainCard, MODx.TemplatePanel,{
     }
 	
 	,getThumb: function(){
-        Ext.getCmp('clichethumbnail-pw-'+this.tv).updateDetail(this.image);
-        Ext.getCmp('clichethumbnail-pw-'+this.tv).onUpdateThumbnailPreview();
-        tv = Ext.select('#tv'+this.tv);
-        tv.elements[0].value = Ext.encode(this.image);
-        Ext.getCmp('modx-panel-resource').markDirty();
+        Ext.getCmp(this.previewPanel).onUpdateThumbnailPreview(this.image);
+		tv = Ext.getCmp('tv'+this.tv).setValue(Ext.encode(this.image));
+		if(typeof Ext.getCmp('modx-panel-resource').markDirty == "function"){
+			Ext.getCmp('modx-panel-resource').markDirty();
+		}        
     }
 });
-Ext.reg("clichethumbnail-main-panel", MODx.ClicheThumbnailMainCard);
+Ext.reg("clichethumbnail-main-panel", Cliche.ThumbnailMainCard);

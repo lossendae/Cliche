@@ -1,56 +1,71 @@
+Ext.ns('Cliche');
+
 /**
  * The panel container for Cliche TV thumbnail
- * @class MODx.ClicheThumbnailTV
- * @extend MODx.TemplatePanel
- * @xtype cliche-thumbnail-tv
+ * @class Cliche.Thumbnail
+ * @extend Ext.Panel
+ * @xtype clichethumbnail
  */
-MODx.ClicheThumbnailTV = function(config) {
+Cliche.Thumbnail = function(config) {
     config = config || {};
     Ext.applyIf(config,{
-		startingMarkup: '<div class="cropped">{text}</div>'
-		,startingText: _('clichethumbnail.main_default_text')
-		,markup: '<div class="cropped">'
-			+'<img src="{thumbnail}?t={timestamp}" alt="'+ _('clichethumbnail.main_your_preview') +'" class="thumb_pw"/>'
-		+'</div>'
+		layout: 'form'
+		,id: 'clichethumbnail-panel-'+config.tv.id
+		,items:[{
+			xtype: 'hidden'
+			,name: 'tv'+config.tv.id
+			,id: 'tv'+config.tv.id
+		},{
+			xtype : 'modx-template-panel'
+			,id: 'clichethumbnail-pw-'+config.tv.id
+			,startingMarkup: '<div class="cropped">{text}</div>'
+			,startingText: _('clichethumbnail.main_default_text')
+			,markup: '<div class="cropped">'
+				+'<img src="{thumbnail}?t={timestamp}" alt="'+ _('clichethumbnail.main_your_preview') +'" class="thumb_pw"/>'
+			+'</div>'
+			,listeners:{
+				afterrender: this.init
+				,scope: this
+			}
+		}]	
 		,win: false
 		,tv: null
 		,tbar : [{
 			xtype: 'button'
 			,text: _('clichethumbnail.btn_browse')
-            ,id: 'manage-thumb-btn-'+ config.tv
+            ,id: 'manage-thumb-btn-'+config.tv.id
 			,handler: this.showThumbnailManager
 			,scope: this
 		},{
             xtype: 'button'
             ,text: _('clichethumbnail.btn_remove_thumbnail')
-            ,id: 'remove-thumb-btn-'+ config.tv
+            ,id: 'remove-thumb-btn-'+config.tv.id
             ,handler: this.onRemoveThumbnail
             ,hidden: true
             ,scope: this
         }]
 	});
-	MODx.ClicheThumbnailTV.superclass.constructor.call(this,config);
-	this.on('render', this.initData, this);
+	Cliche.Thumbnail.superclass.constructor.call(this,config);
 }
-Ext.extend(MODx.ClicheThumbnailTV, MODx.TemplatePanel,{
-	initData: function(){
-        this.image = this.ownerCt.data;
-        this.tvConfig = this.ownerCt.config;
-		
-		if(typeof(this.image) == "object" &&  typeof(this.image.thumbnail) !== "undefined"){
-            Ext.getCmp('remove-thumb-btn-'+ this.tv).show();
-            Ext.getCmp('manage-thumb-btn-'+ this.tv).setText(_('clichethumbnail.btn_replace_thumbnail'));
-			this.updateDetail(this.image);
+Ext.extend(Cliche.Thumbnail, Ext.Panel,{
+	init: function(){	
+		if(typeof(this.tv.value) == "string")
+			this.tv.value = Ext.util.JSON.decode(this.tv.value);
+		if(typeof(this.tv.value) == "object" &&  typeof(this.tv.value.thumbnail) !== "undefined"){
+            Ext.getCmp('remove-thumb-btn-'+ this.tv.id).show();
+            Ext.getCmp('manage-thumb-btn-'+ this.tv.id).setText(_('clichethumbnail.btn_replace_thumbnail'));
+			Ext.getCmp('clichethumbnail-pw-'+this.tv.id).updateDetail(this.tv.value);
 		}
-	} // eo function initData
+	} // eo function init
 	
 	,showThumbnailManager: function(btn,e){
 		if(!this.win){
-			this.win = new MODx.window.ClicheThumbnailManager({
-				id: 'cliche-thumb-manager-window-'+ this.tv
-                ,image: this.image
-				,tvConfig: this.tvConfig
-				,tv: this.tv
+			this.win = new Cliche.WindowThumbnailManager({
+				id: 'cliche-thumb-manager-window-'+ this.tv.id
+                ,image: this.tv.value
+				,tvConfig: this.tv.output_properties
+				,tv: this.tv.id
+				,previewPanel: this.id
 				,listeners:{
 					show: function(w){
 						//Fix for webkit browsers
@@ -62,7 +77,7 @@ Ext.extend(MODx.ClicheThumbnailTV, MODx.TemplatePanel,{
 		this.win.show(btn.id);
 		var pos = this.win.getPosition(true);
 		this.win.setPosition(pos[0], 35);
-		if(typeof(this.image) == "object" &&  typeof(this.image.thumbnail) !== "undefined"){
+		if(typeof(this.tv.value) == "object" &&  typeof(this.tv.value.thumbnail) !== "undefined"){
 			this.win.setCurrentThumb();
 		}
 	} // eo function showThumbnailManager
@@ -74,22 +89,25 @@ Ext.extend(MODx.ClicheThumbnailTV, MODx.TemplatePanel,{
 		}
 		return true;
     } // eo function isEmpty
-
-    ,onRemoveThumbnail: function(btn, e){
-        Ext.getCmp('manage-thumb-btn-'+ this.tv).setText(_('clichethumbnail.btn_browse'));
-        this.reset();
-        btn.hide();
-        var tv = Ext.select('#tv'+this.tv);
-        tv.elements[0].value = Ext.encode({});
-        Ext.getCmp('modx-panel-resource').markDirty();
-    } // eo function onRemoveThumbnail
-
-    ,onUpdateThumbnailPreview: function(){
-        var btn = Ext.getCmp('remove-thumb-btn-'+ this.tv);
-        if(btn.hidden){
-            btn.show();
-            Ext.getCmp('manage-thumb-btn-'+ this.tv).setText(_('clichethumbnail.btn_replace_thumbnail'));
-        }
-    } // eo function onUpdateThumbnailPreview
+	
+	,onRemoveThumbnail: function(btn, e){
+		Ext.getCmp('manage-thumb-btn-'+ this.tv.id).setText(_('clichethumbnail.btn_browse'));
+		this.reset();
+		btn.hide();
+		var tv = Ext.select('#tv'+this.tv.id);
+		tv.elements[0].value = Ext.encode({});
+		if(typeof Ext.getCmp('modx-panel-resource').markDirty == "function"){
+			Ext.getCmp('modx-panel-resource').markDirty();
+		}  
+	} // eo function onRemoveThumbnail
+	
+	,onUpdateThumbnailPreview: function(image){
+		Ext.getCmp('clichethumbnail-pw-'+this.tv.id).updateDetail(image);
+		var btn = Ext.getCmp('remove-thumb-btn-'+ this.tv.id);
+		if(btn.hidden){
+			btn.show();
+			Ext.getCmp('manage-thumb-btn-'+ this.tv.id).setText(_('clichethumbnail.btn_replace_thumbnail'));
+		}
+	} // eo function onUpdateThumbnailPreview
 });	
-Ext.reg('cliche-thumbnail-tv',MODx.ClicheThumbnailTV);
+Ext.reg('clichethumbnail',Cliche.Thumbnail);

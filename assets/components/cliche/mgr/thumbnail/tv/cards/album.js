@@ -1,12 +1,12 @@
 /**
  * The view panel for the default album type
  *
- * @class MODx.ClicheThumbnailAlbumView
+ * @class Cliche.ThumbnailAlbumView
  * @extends MODx.ClicheAlbumViewPanel
  * @param {Object} config An object of options.
  * @xtype clichethumbnail-album-view
  */
-MODx.ClicheThumbnailAlbumView = function(config) {
+Cliche.ThumbnailAlbumView = function(config) {
     config = config || {};
     Ext.applyIf(config,{
         fields: ['id','name','description','createdon','createdby','protected','album_id','image','thumbnail','phpthumb','metas','tv']
@@ -19,9 +19,9 @@ MODx.ClicheThumbnailAlbumView = function(config) {
 		,loadingText : '<div class="empty-msg"><h4>'+_('clichethumbnail.album_loading')+'</h4></div>'
 		,emptyText : '<div class="empty-msg"><h4>'+_('clichethumbnail.album_empty_msg')+'</h4></div>'
     });
-    MODx.ClicheThumbnailAlbumView.superclass.constructor.call(this,config);
+    Cliche.ThumbnailAlbumView.superclass.constructor.call(this,config);
 };
-Ext.extend(MODx.ClicheThumbnailAlbumView,MODx.ClicheAlbumViewPanel,{
+Ext.extend(Cliche.ThumbnailAlbumView,MODx.ClicheAlbumViewPanel,{
     showDetails : function(){
         var selNode = this.getSelectedNodes();
         if(selNode && selNode.length > 0){
@@ -31,17 +31,17 @@ Ext.extend(MODx.ClicheThumbnailAlbumView,MODx.ClicheAlbumViewPanel,{
         }
     }
 });
-Ext.reg('clichethumbnail-album-view',MODx.ClicheThumbnailAlbumView);
+Ext.reg('clichethumbnail-album-view',Cliche.ThumbnailAlbumView);
 
 /**
  * The album panel
  *
- * @class MODx.panel.ClicheThumbnailAlbumPanel
+ * @class Cliche.ThumbnailAlbumPanel
  * @extends MODx.panel.ClicheAlbumPanel
  * @param {Object} config An object of options.
  * @xtype clichethumbnail-album-panel
  */
-MODx.panel.ClicheThumbnailAlbumPanel = function(config) {
+Cliche.ThumbnailAlbumPanel = function(config) {
     config = config || {};
 	Ext.applyIf(config,{
 		issettv: false
@@ -61,9 +61,9 @@ MODx.panel.ClicheThumbnailAlbumPanel = function(config) {
 			,scope: this
 		}]
 	});
-	MODx.panel.ClicheThumbnailAlbumPanel.superclass.constructor.call(this,config);
+	Cliche.ThumbnailAlbumPanel.superclass.constructor.call(this,config);
 };
-Ext.extend(MODx.panel.ClicheThumbnailAlbumPanel,MODx.panel.ClicheAlbumPanel,{
+Ext.extend(Cliche.ThumbnailAlbumPanel,MODx.panel.ClicheAlbumPanel,{
 	_loadView: function(){
 		this.ident = 'cliche-album-ident-'+this.uid;
 		this.view = MODx.load({
@@ -138,4 +138,4 @@ Ext.extend(MODx.panel.ClicheThumbnailAlbumPanel,MODx.panel.ClicheAlbumPanel,{
 		Ext.getCmp(this.uploadCard).activate(this.album);
 	}
 });
-Ext.reg('clichethumbnail-album-panel',MODx.panel.ClicheThumbnailAlbumPanel);
+Ext.reg('clichethumbnail-album-panel',Cliche.ThumbnailAlbumPanel);
