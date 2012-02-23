@@ -79,21 +79,46 @@
 	position: absolute;
     width: 72px;
 }
+.cliche .thumb-wrapper .thumb .no-preview {
+    display: inline;
+    font-size: 9px;
+    height: 75px;    
+    width: 100px;
+}
 .cliche .album-infos .no-preview{
 	background-color: #FAFAFA;
+    border: 1px solid #CCCCCC;
+    font-size: 8px;    
+    min-height: 52px;
+    position: absolute;    
+    width: 70px;
+}
+.cliche .aside-details .selected .no-preview span{
 	border: 1px solid #CCCCCC;
-    color: #AAAAAA;
-    font-size: 8px;
+    font-size: 9px;
     font-weight: bold;
-    padding: 17px 0;
-    position: absolute;
-    text-align: center;
-    text-transform: uppercase;
-    width: 65px;
+    height: 75px;
+    width: 100px;
+}
+.cliche .no-preview{
+	padding: 0 !important;
+	text-align: center;
+	text-transform: uppercase;
+}
+.cliche .no-preview span{	
+	display: table-cell;
+    vertical-align: middle;
+}
+.cliche .thumb-wrapper .thumb .no-preview span{
+	height: 75px;
+	line-height: 1.5;
+}
+.cliche .album-infos .no-preview span{ 
+	height: 52px; 
+	width: 70px;
 }
 .no-preview.error{
 	color: #888888 !important;
-    padding: 13px 15px !important;
 }
 .no-preview.error strong{
 	color: #CF0000;

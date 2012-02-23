@@ -72,7 +72,7 @@ Ext.extend(MODx.ClicheAlbumViewPanel,MODx.DataView,{
 						+'<img src="{thumbnail}" title="{name}" alt="{name}" />'
 					+'</tpl>'
 					+'<tpl if="!thumbnail">'
-						+'<span class="no-preview error"><strong>Error</strong>Image not found</span>'
+						+'<span class="no-preview error"><span><strong>Error</strong>Image not found</span></span>'
 					+'</tpl>'
 					+'<span class="img-loading-mask">&nbsp;</span>'
 				+'</div>'
@@ -81,6 +81,10 @@ Ext.extend(MODx.ClicheAlbumViewPanel,MODx.DataView,{
 		+'</tpl>'
 		+'<div class="clear"></div>', {
 			compiled: true
+			,checkThumb: function(v){
+				console.log(typeof v);
+				return v;
+			}
 		});
     }
 	
@@ -264,14 +268,21 @@ Ext.extend(MODx.panel.ClicheAlbumPanel,MODx.Panel,{
 		return '<div class="details">'
 			+'<tpl for=".">'
 				+'<div class="selected">'
-					+'<a href="{image}" title="Album {name} preview" alt="'+_('cliche.album_item_cover_alt_msg')+'" class="lightbox" />'
-						+'<img src="{image}" alt="{name}" />'
-					+'</a>'
+					+'<tpl if="thumbnail">'
+						+'<a href="{image}" title="Album {name} preview" alt="'+_('cliche.album_item_cover_alt_msg')+'" class="lightbox" />'
+							+'<img src="{image}" alt="{name}" />'
+						+'</a>'
+					+'</tpl>'
+					+'<tpl if="!thumbnail">'
+						+'<span class="no-preview error"><span><strong>Error</strong>Image not found</span></span>'
+					+'</tpl>'
 					+'<h5>{name}</h5>'
 					+'<ul class="splitbuttons">'
-						+'<li class="inline-button edit"><button ext:qtip="'+_('cliche.btn_edit_image')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').editImage(\'{id}\'); return false;">'+_('cliche.btn_edit_image')+'</button></li>'
-						+'<tpl if="!is_cover">'								
-							+'<li class="inline-button set-as-cover"><button ext:qtip="'+_('cliche.btn_set_as_album_cover')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').setAsCover(\'{id}\'); return false;">'+_('cliche.btn_set_as_album_cover')+'</button></li>'
+						+'<tpl if="thumbnail">'
+							+'<li class="inline-button edit"><button ext:qtip="'+_('cliche.btn_edit_image')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').editImage(\'{id}\'); return false;">'+_('cliche.btn_edit_image')+'</button></li>'
+							+'<tpl if="!is_cover">'								
+								+'<li class="inline-button set-as-cover"><button ext:qtip="'+_('cliche.btn_set_as_album_cover')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').setAsCover(\'{id}\'); return false;">'+_('cliche.btn_set_as_album_cover')+'</button></li>'
+							+'</tpl>'
 						+'</tpl>'
 						+'<li class="inline-button delete"><button ext:qtip="'+_('cliche.btn_delete_image')+'" ext:trackMouse=true ext:anchorToTarget=false" onclick="Ext.getCmp(\'cliche-album-default\').deleteImage(\'{id}\'); return false;">'+_('cliche.btn_delete_image')+'</button></li>'
 					+'</ul>'
