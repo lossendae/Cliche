@@ -23,14 +23,17 @@ $_lang['cliche.album_list_total_pics'] = '{total} Images';
 $_lang['cliche.album_desc'] = '<div class="album-infos"><tpl if="cover_id == 0">
 		<span class="no-preview">No preview</span>
 	</tpl>
-	<tpl if="cover_id">		
+	<tpl if="cover_id == 0">
+		<span class="no-preview"><span>No preview</span></span>
+	</tpl>
+	<tpl if="cover_id">
 		<tpl if="thumbnail">
 			<img src="{thumbnail}" title="Image Cover for the album {name}" alt="Image Cover for the album {name}" />
 		</tpl>
 		<tpl if="!thumbnail">
-			<span class="no-preview error"><strong>Error</strong>Image not found</span>
+			<span class="no-preview error"><span><strong>Error</strong>Image not found</span></span>
 		</tpl>
-	</tpl>
+	</tpl>			
 	<div class="album-name"><h3>Album : <span>{name}</span></h3>
 		Created on <strong>{createdon}</strong> by <strong>{createdby}</strong><br/>
 		Album id : #<strong>{id}</strong>
@@ -77,8 +80,6 @@ $_lang['cliche.window_update_album'] = 'Update Current Album';
 
 $_lang['cliche.upload_cancel_msg'] = 'Cancel';
 $_lang['cliche.upload_desc'] = '<h4>Select files from your computer</h4><p>You can select several files at a time by holding the shift key.</p>';
-$_lang['cliche.upload_extensions_error'] = 'Invalid file extension, only the following extensions are accepted : ';
-$_lang['cliche.upload_file_too_large_error'] = 'File is too large';
 $_lang['cliche.upload_in_progress'] = 'Upload in progress...'; 
 $_lang['cliche.upload_items_for'] = '<h3>Images Uploader</h3><p>Upload new images for the album <strong>'; 
 $_lang['cliche.upload_ready_msg'] = 'Files ready to be uploaded :';

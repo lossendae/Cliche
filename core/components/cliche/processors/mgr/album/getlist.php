@@ -33,6 +33,8 @@ if($rows){
 		if(file_exists($image)){
 			$pic['image'] = $row->get('image');
 			$pic['thumbnail'] = $row->get('manager_thumbnail');
+		} else {
+			$pic['image'] = $pic['thumbnail'] = false;
 		}
 		$pics[] = $pic;	
 	}
@@ -57,6 +59,10 @@ if($owner->Cover){
 		$album['image'] = false;
 		$album['thumbnail'] = false;
 	}
+}
+if(!isset($album['thumbnail'])){
+	$album['image'] = '';
+	$album['thumbnail'] = '';
 }
 $response['success'] = true;
 $response['total'] = $count;
