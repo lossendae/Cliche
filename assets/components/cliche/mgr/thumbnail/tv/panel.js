@@ -15,6 +15,7 @@ Cliche.Thumbnail = function(config) {
             xtype: 'hidden'
             ,name: 'tv'+config.tv.id
             ,id: 'tv'+config.tv.id
+            ,value: Ext.encode(config.tv.value)
         },{
             xtype : 'modx-template-panel'
             ,id: 'clichethumbnail-pw-'+config.tv.id

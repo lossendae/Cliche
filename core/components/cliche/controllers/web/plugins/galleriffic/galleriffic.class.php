@@ -35,9 +35,9 @@ class Galleriffic extends ClichePlugin {
             $this->modx->regClientStartupScript('http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js');
         }
         
-        $this->modx->regClientStartupScript($this->controller->config['plugins_url'] . 'galleriffic/libs/jquery.galleriffic.js');
-        $this->modx->regClientStartupScript($this->controller->config['plugins_url'] . 'galleriffic/libs/jquery.history.js');
-        $this->modx->regClientStartupScript($this->controller->config['plugins_url'] . 'galleriffic/libs/jquery.opacityrollover.js');
+        $this->modx->regClientStartupScript($this->controller->config['plugin_assets_url'] . 'libs/jquery.galleriffic.js');
+        $this->modx->regClientStartupScript($this->controller->config['plugin_assets_url'] . 'libs/jquery.history.js');
+        $this->modx->regClientStartupScript($this->controller->config['plugin_assets_url'] . 'libs/jquery.opacityrollover.js');
                 
         $script = $this->getProperty('js', 'script');
         $this->modx->regClientHTMLBlock('<script type="text/javascript">'. $this->controller->getChunk($script) .'</script>');

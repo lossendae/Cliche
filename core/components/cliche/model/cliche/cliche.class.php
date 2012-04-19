@@ -54,34 +54,33 @@ class Cliche {
     function __construct(modX &$modx, array $config = array()) {
         $this->modx =& $modx;
 
-        $core = $this->modx->getOption('core_path').'components/cliche/';
-        $assets_url = $this->modx->getOption('assets_url').'components/cliche/';
-        $assets_path = $this->modx->getOption('assets_path').'components/cliche/';
+        $corePath = $this->modx->getOption('core_path').'components/cliche/';
+        $assetsUrl = $this->modx->getOption('assets_url').'components/cliche/';
+        $assetsPath = $this->modx->getOption('assets_path').'components/cliche/';
 
         $this->config = array_merge(array(
-            'core_path' => $core,
-            'model_path' => $core.'model/',
-            'processors_path' => $core.'processors/',
-            'controllers_path' => $core.'controllers/',
-
+            'core_path' => $corePath,
+            'model_path' => $corePath.'model/',
+            'processors_path' => $corePath.'processors/',
+            'controllers_path' => $corePath.'controllers/',
             
-            'assets_path' => $assets_path,            
-            'images_path' => $assets_path.'albums/',
-            'cache_path' => $assets_path.'cache/',
-            'plugins_path' => $assets_path.'plugins/',
+            'assets_path' => $assetsPath,            
+            'images_path' => $assetsPath.'albums/',
+            'cache_path' => $assetsPath.'cache/',
             
-            'assets_url' => $assets_url,
-            'images_url' => $assets_url.'albums/',
-            'cache_url' => $assets_url.'cache/',
-            'css_url' => $assets_url.'css/',
-            'plugins_url' => $assets_url.'plugins/',
+            'assets_url' => $assetsUrl,
+            'images_url' => $assetsUrl.'albums/',
+            'cache_url' => $assetsUrl.'cache/',
+            'css_url' => $assetsUrl.'css/',
             
-            'connector_url' => $assets_url.'connector.php',
+            'plugins_path' => $corePath.'controllers/web/plugins/',
+            'plugins_url' => $assetsUrl.'plugins/',
+            
+            'connector_url' => $assetsUrl.'connector.php',
             
             'mgr_thumb_mask' => 'mgr-thumb-75x103.jpg',
-            'phpthumb' => $assets_url.'connector.php?action=web/phpthumb&src=',
-            'thumb' => $assets_url.'connector.php?action=web/thumb',
-            'chunks_prefix' => 'Cliche',
+            'phpthumb' => $assetsUrl.'connector.php?action=web/phpthumb&src=',
+            'thumb' => $assetsUrl.'connector.php?action=web/thumb',
             
             'use_filebased_chunks' => 0,            
             'tpl_suffix' => '.tpl',    
@@ -156,7 +155,7 @@ class Cliche {
      * @return null|clicheController
      */
     public function loadController($controller) {
-        if ($this->modx->loadClass('clicheController',$this->config['model_path'].'cliche/request/',true,true)) {
+        if ($this->modx->loadClass('clicheController',$this->config['controllers_path'],true,true)) {
             $classPath = $this->config['controllers_path'].'web/'.$controller.'.php';
             $className = $controller.'Controller';
             if (file_exists($classPath)) {

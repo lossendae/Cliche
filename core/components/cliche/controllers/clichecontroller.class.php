@@ -92,7 +92,7 @@ abstract class ClicheController {
         $this->loadPlugin();   
         $this->initialize();
         /* chunks_path is not overridable by script properties - better for multi instance call */
-        $chunksPath = $this->config['chunks_path'];
+        $chunksPath = isset( $this->config['chunks_path'] ) ? $this->config['chunks_path'] :  null;
         if(empty($chunksPath)){
             $this->_setDefaultChunksPath();
         }
@@ -106,9 +106,8 @@ abstract class ClicheController {
     public function loadPlugin(){
         $plugin = $this->getProperty('plugin');
         if(!empty($plugin)){
-            $dir = $config['plugins_path'] . $this->getProperty('plugin');
-            if (!$this->modx->loadClass($dir.'.'. $dir, $this->config['plugins_path'],true,true)) {
-                $this->modx->log(modX::LOG_LEVEL_ERROR, '[Cliche] Could not load '.$plugin.' plugin in: '. $this->config['plugins_path'] . $dir .'/'. $plugin .'.class.php');
+            if (!$this->modx->loadClass("{$plugin}.{$plugin}", $this->config['plugins_path'],true,true)) {
+                $this->modx->log(modX::LOG_LEVEL_ERROR, '[Cliche] Could not load '.$plugin.' plugin in: '. $this->config['plugins_path'] . $plugin .'/'. $plugin .'.class.php');
             }
             $className = empty($plugin) || $plugin == 'default' ? 'DefaultPlugin' : ucfirst($plugin);
             $this->plugin = new $className($this);
@@ -140,7 +139,7 @@ abstract class ClicheController {
      * @return void
      */
     public function loadCSS($name) {
-        $this->modx->regClientCSS($this->config['chunks_url'] . $name .'.css');
+        $this->modx->regClientCSS($this->config['plugin_assets_url'] . $name .'.css');
     }    
 
     abstract public function initialize();
@@ -260,7 +259,7 @@ abstract class ClicheController {
         ), $this->config);
         
         $config['chunks_path'] = $config['plugins_path'] . $this->getProperty('plugin') . '/';
-        $config['chunks_url'] = $config['plugins_url'] . $this->getProperty('plugin') . '/';
+        $config['plugin_assets_url'] = $config['plugins_url'] . $this->getProperty('plugin') . '/';
         
         $this->config = array_merge($this->config, $config);    
         $this->cliche->config = $this->config;    

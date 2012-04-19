@@ -37,7 +37,7 @@ class AlbumsController extends ClicheController {
             'thumbWidth' => 120,
             'thumbHeight' => 120,
                         
-            'wrapperTpl' => 'albumwrapper',
+            'wrapperTpl' => 'albumswrapper',
             'itemTpl' => 'albumcover',
             
             'idParam' => 'cid',
@@ -58,7 +58,7 @@ class AlbumsController extends ClicheController {
      * @return string
      */
     public function process() {
-        $output = $this->getSets();    
+        $output = $this->getSets();  
         $this->fireEvent('render');
         return $output;
     }
@@ -82,7 +82,7 @@ class AlbumsController extends ClicheController {
                 $list = $modified;
             }    
         }
-        $phs['items'] = $list;
+        $phs['items'] = $list;       
         $sets = $this->getChunk($this->getProperty('wrapperTpl'), $phs);
         return $sets;
     }
