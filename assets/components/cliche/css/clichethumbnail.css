@@ -67,3 +67,6 @@
     width: 60px;
     z-index: 1;
 }
+.cliche-thumb-pw{
+    width: auto !important;
+}

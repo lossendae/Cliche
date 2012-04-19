@@ -5,7 +5,7 @@
  * @package cliche
  * @subpackage tv
  */
-$cliche = $modx->getService('cliche','Cliche',$modx->getOption('cliche.core_path',null,$modx->getOption('core_path').'components/cliche/').'model/cliche/',$scriptProperties);
+$cliche = $modx->getService('cliche','Cliche',$modx->getOption('cliche.core_path',null,$modx->getOption('core_path').'components/cliche/').'model/cliche/',null);
 if (!($cliche instanceof Cliche)) return 'Could not load Cliche class';
 
 if (!empty($value) && $value != '{}') {

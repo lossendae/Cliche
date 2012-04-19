@@ -18,6 +18,7 @@ Cliche.Thumbnail = function(config) {
         },{
             xtype : 'modx-template-panel'
             ,id: 'clichethumbnail-pw-'+config.tv.id
+            ,cls: 'cliche-thumb-pw'
             ,startingMarkup: '<div class="cropped">{text}</div>'
             ,startingText: _('clichethumbnail.main_default_text')
             ,markup: '<div class="cropped">'
