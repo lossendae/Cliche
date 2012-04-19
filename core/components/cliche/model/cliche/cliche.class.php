@@ -90,7 +90,7 @@ class Cliche {
             'allowed_extension' => 'jpg,jpeg,gif,png,zip',
             
             //Debug is on for development
-            'debug' => true,
+            'debug' => false,
         ), $config);
 
         $this->modx->addPackage('cliche',$this->config['model_path']);

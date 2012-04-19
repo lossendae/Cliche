@@ -2,7 +2,8 @@ Changelog for Cliche
 
 *** Cliche 1.0.1 RC1 ***
 
-    - Bug fix
+    - Fix indentation for IDE (OS related)
+    - Set debug mode to false per default
     
 *** Cliche 1.0.1 beta 3 ***
 
