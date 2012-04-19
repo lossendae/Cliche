@@ -1,4 +1,4 @@
 <div class="cliche" id="albums_list">
-	[[+items]]
+    [[+items]]
 </div>
 <!-- End #albums_list -->

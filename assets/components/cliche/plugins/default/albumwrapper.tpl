@@ -1,4 +1,4 @@
 <div class="cliche galleryid-[[+id]]" id="album-[[+id]]">
-	[[+items]]
+    [[+items]]
 </div>
 <!-- End #album-[[+id]] -->

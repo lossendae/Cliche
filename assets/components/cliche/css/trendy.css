@@ -1,9 +1,9 @@
 /* To add to modx css's */
 .modx-template-detail .selected h5 {
-	word-wrap: break-word;
+    word-wrap: break-word;
 }
 .panel-desc {
-	background-color: #FAFAFA;
+    background-color: #FAFAFA;
     border: 1px solid #D5D5D5;
     color: #5A5A5A;
     line-height: 1.5;
@@ -11,19 +11,19 @@
     padding: 12px 15px !important;
 }
 .panel-desc p{
-	background-color: transparent;
+    background-color: transparent;
     border: 0 none !important;
     padding: 0;
 }
 .thumb-wrapper,
 .thumb-wrapper.selected {
-	padding: 15px;
-	width: 105px;
+    padding: 15px;
+    width: 105px;
 }
 .thumb-wrapper .thumb {
-	border: 1px solid #CCCCCC;
-	height: 75px;
-	width: auto;
+    border: 1px solid #CCCCCC;
+    height: 75px;
+    width: auto;
 }
 .thumb-wrapper .total_pics {
     color: #999999;
@@ -31,10 +31,10 @@
     text-transform: uppercase;
 }
 .thumb-wrapper .thumb img {
-	-moz-border-radius: 0 0 0 0;
-	-webkit-border-radius: 0 0 0 0;
-	border-radius: 0 0 0 0;
-	height: 75px;
+    -moz-border-radius: 0 0 0 0;
+    -webkit-border-radius: 0 0 0 0;
+    border-radius: 0 0 0 0;
+    height: 75px;
     width: 103px;
 }
 .body-wrapper{ margin-top:10px; }
@@ -60,25 +60,25 @@
 .icon-options { background:url("../images/options.png") no-repeat scroll 5px 4px transparent !important; }
 .custom-menu .x-menu-item-icon,
 .ext-strict .custom-menu .x-menu-item-icon { 
-	background-position: 0 0 !important; 
-	left: 6px; 
+    background-position: 0 0 !important; 
+    left: 6px; 
 }
 /* To fix */
-.x-btn-text-icon .x-btn-icon-small-left .x-btn-text{	padding-left: 26px !important; }
+.x-btn-text-icon .x-btn-icon-small-left .x-btn-text{    padding-left: 26px !important; }
 
 /* Album desc */
 .album-desc { 
-	min-height: 55px;
+    min-height: 55px;
     position: relative;
 }
 .album-desc img{
-	border: 1px solid #CCCCCC;
-	position: absolute;
+    border: 1px solid #CCCCCC;
+    position: absolute;
     width: 72px;
 }
 .album-desc .no-preview{
-	background-color: #FAFAFA;
-	border: 1px solid #CCCCCC;
+    background-color: #FAFAFA;
+    border: 1px solid #CCCCCC;
     color: #AAAAAA;
     font-size: 8px;
     font-weight: bold;
@@ -94,21 +94,21 @@
     margin-left: 80px;
 }
 .album_name h3{
-	color: #555555;
+    color: #555555;
     font-size: 18px;
     margin-bottom: 0;   
 }
 .album_name h3 span{ color: #888888; }
 .album_name strong{ color: #555555; }
 .album-desc .icon-add-white{
-	background-position: 0 0 !important;
+    background-position: 0 0 !important;
     float: left;
     height: 16px;
     margin: -2px 8px 0 0;
     width: 16px;
 }
 .album_meta{
-	border-left: 1px solid #E5E5E5;
+    border-left: 1px solid #E5E5E5;
     color: #AAAAAA;
     font-size: 10px;
     font-weight: bold;
@@ -121,7 +121,7 @@
     top: -15px;
 }
 .album_meta span{
-	color: #555555;
+    color: #555555;
     display: block;
     font-size: 18px;
 }
@@ -164,7 +164,7 @@
 .upload-list li.active .upload-progress {
     background-color:#eaefc2;
     border-right:2px solid #a1af2b;
-	line-height: 16px;
+    line-height: 16px;
 }
 .upload-file, 
 .upload-spinner, 
@@ -180,15 +180,15 @@
 .upload-spinner, 
 .upload-percent { display:none; }
 .upload-percent { 
-	margin: 0 10px 0 5px; 
-	color: #4D535F;
+    margin: 0 10px 0 5px; 
+    color: #4D535F;
 }
 .upload-spinner {
     background:url("../images/fu-loading.gif");
     width:15px;
     height:15px;
     vertical-align:text-bottom;  
-	margin: 0 5px 0 5px;
+    margin: 0 5px 0 5px;
 }
 .active .upload-spinner,
 .active .upload-percent { display:inline-block; }
@@ -202,7 +202,7 @@
 }
 .upload-failed-text, .upload-success-hint { display:none; }
 .upload-success-hint {
-	background: url("../images/success24.png") no-repeat scroll left top #FFFFFF;
+    background: url("../images/success24.png") no-repeat scroll left top #FFFFFF;
     height: 25px;
     margin: 0;
     position: absolute;
@@ -216,12 +216,12 @@
 .upload-success .upload-file { margin-left: 10px; }
 .upload-success .upload-size {}
 .upload-content .pw { 
-	height: 45px;
-	float: left; 
+    height: 45px;
+    float: left; 
 }
 .upload-content .pw  img { border: 1px solid #ccc; }
 .upload-content .pw span {
-	color: #698F2C;
+    color: #698F2C;
     font-size: 11px;
     font-weight: bold;
     left: 68px;
@@ -247,7 +247,7 @@
 .upload-fail .upload-cancel { display:none; }
 .active .upload-button, .upload-fail .upload-button, .upload-success .upload-button { display:none; }
 .what_happened {
-	color: #8F0000;
+    color: #8F0000;
     font-size: 11px;
     font-weight: bold;
     padding-top: 4px;
@@ -271,29 +271,29 @@
 
 /* Buttons */
 .x-btn.green {
-	background:#9fcb57;
-	background:-moz-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%) repeat scroll 0 0 transparent;
-	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#d7e9a4),color-stop(100%,#9fcb57));
-	background:-webkit-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
-	background:-o-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
-	background:-ms-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#d7e9a4,endColorstr=#9fcb57,GradientType=0);
-	background:linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
-	border:1px solid #85a948;	
+    background:#9fcb57;
+    background:-moz-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%) repeat scroll 0 0 transparent;
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#d7e9a4),color-stop(100%,#9fcb57));
+    background:-webkit-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
+    background:-o-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
+    background:-ms-linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#d7e9a4,endColorstr=#9fcb57,GradientType=0);
+    background:linear-gradient(center bottom,#9fcb57 0%,#d7e9a4 100%);
+    border:1px solid #85a948;    
 }
 .x-btn.green button{
-	color:#556f14 !important;
-	text-shadow:0 1px 0 #d7e9a4;
+    color:#556f14 !important;
+    text-shadow:0 1px 0 #d7e9a4;
 }
 .x-btn.green:hover {
-	background:#9fcb57;
-	background:-moz-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%) repeat scroll 0 0 transparent;
-	background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e6efd1),color-stop(100%,#9fcb57));
-	background:-webkit-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
-	background:-o-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
-	background:-ms-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6efd1,endColorstr=#9fcb57,GradientType=0);
-	background:linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
+    background:#9fcb57;
+    background:-moz-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%) repeat scroll 0 0 transparent;
+    background:-webkit-gradient(linear,left top,left bottom,color-stop(0%,#e6efd1),color-stop(100%,#9fcb57));
+    background:-webkit-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
+    background:-o-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
+    background:-ms-linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#e6efd1,endColorstr=#9fcb57,GradientType=0);
+    background:linear-gradient(center bottom,#9fcb57 0%,#e6efd1 100%);
 }
 .modx-template-detail .selected .lightbox img {
     border: 1px solid #AAAAAA;
@@ -306,12 +306,12 @@
 
 /* Custom splitbuttons */
 .splitbuttons{
-	border: 1px solid #CCCCCC;
+    border: 1px solid #CCCCCC;
     border-radius: 3px 3px 3px 3px;
     -moz-border-radius: 3px 3px 3px 3px;
     -webkit-border-radius: 3px 3px 3px 3px;
-	display: inline-block;
-	overflow: hidden;
+    display: inline-block;
+    overflow: hidden;
 }
 .splitbuttons li{
     border-color: transparent #CCCCCC transparent transparent;
@@ -324,16 +324,16 @@
     padding: 0;
 }
 .splitbuttons li:last-child{
-	border:0 none;
+    border:0 none;
 }
 .splitbuttons button{
-	background-color: transparent;
+    background-color: transparent;
     border: 0 none;
     display: inline-block;
     height: 32px;
     text-indent: -999em;
     width: 36px;
-	cursor: pointer;
+    cursor: pointer;
 }
 .splitbuttons .edit button{ background:url("../images/item_options.png") no-repeat scroll center center transparent !important; }
 .splitbuttons .set-as-cover button{ background:url("../images/set_as_cover.png") no-repeat scroll center center transparent !important; }

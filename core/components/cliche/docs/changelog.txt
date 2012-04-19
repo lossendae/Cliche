@@ -2,35 +2,35 @@ Changelog for Cliche
 
 *** Cliche 1.0.1 RC1 ***
 
-	- Bug fix
-	
+    - Bug fix
+    
 *** Cliche 1.0.1 beta 3 ***
 
-	- Fix error while loading album when image has not been found
-	- Fix default plugin loader for front end 
+    - Fix error while loading album when image has not been found
+    - Fix default plugin loader for front end 
 
 *** Cliche 1.0.1 beta 2 ***
 
-	- Fix breacrumbs update to fire only when the panel is visible
+    - Fix breacrumbs update to fire only when the panel is visible
 
 *** Cliche 1.0.0 beta 2 ***
 
-	- Added album id informations and description on album cmp panel
-	- Added image edit window
-	- Added search field
-	- Drag and Drop upload
-	- Drag and Drop reorder on album panel
-	- Added Cliche thumbnail Template Variable
-	- Added Gallerific plugin
-	- Added Image preloading mask on cmp
-	- Height auto adjustement for long names to assure proper image alignement on albums/album list panels
-	- Lot of refactor and fixes
+    - Added album id informations and description on album cmp panel
+    - Added image edit window
+    - Added search field
+    - Drag and Drop upload
+    - Drag and Drop reorder on album panel
+    - Added Cliche thumbnail Template Variable
+    - Added Gallerific plugin
+    - Added Image preloading mask on cmp
+    - Height auto adjustement for long names to assure proper image alignement on albums/album list panels
+    - Lot of refactor and fixes
 
 *** Cliche 1.0.0 beta 1 ***
 
-	- Refactor for MODx 2.2 (JS & PHP)
-	- Switch from valum fileuploader to PLUpload for better control of upload process
+    - Refactor for MODx 2.2 (JS & PHP)
+    - Switch from valum fileuploader to PLUpload for better control of upload process
 
 *** Cliche 0.1 ***
 
-	- Initial release
+    - Initial release

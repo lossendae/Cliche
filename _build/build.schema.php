@@ -26,8 +26,8 @@ $sources = array(
     'root' => $root,
     'core' => $root.'core/components/cliche/',
     // 'model' => $root.'core/components/cliche/model/',
-	'schema' => $root.'_build/schema/',
-	'model' => $rootCore.'core/components/cliche/model/',
+    'schema' => $root.'_build/schema/',
+    'model' => $rootCore.'core/components/cliche/model/',
 );
 
 $manager= $modx->getManager();

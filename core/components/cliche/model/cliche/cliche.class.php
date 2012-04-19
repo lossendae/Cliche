@@ -68,29 +68,29 @@ class Cliche {
             'assets_path' => $assets_path,            
             'images_path' => $assets_path.'albums/',
             'cache_path' => $assets_path.'cache/',
-			'plugins_path' => $assets_path.'plugins/',
-			
-			'assets_url' => $assets_url,
-			'images_url' => $assets_url.'albums/',
+            'plugins_path' => $assets_path.'plugins/',
+            
+            'assets_url' => $assets_url,
+            'images_url' => $assets_url.'albums/',
             'cache_url' => $assets_url.'cache/',
             'css_url' => $assets_url.'css/',
-			'plugins_url' => $assets_url.'plugins/',
-			
+            'plugins_url' => $assets_url.'plugins/',
+            
             'connector_url' => $assets_url.'connector.php',
-			
-			'mgr_thumb_mask' => 'mgr-thumb-75x103.jpg',
-			'phpthumb' => $assets_url.'connector.php?action=web/phpthumb&src=',
-			'thumb' => $assets_url.'connector.php?action=web/thumb',
-			'chunks_prefix' => 'Cliche',
-			
-			'use_filebased_chunks' => 0,			
-			'tpl_suffix' => '.tpl',	
-				
-			'request_file_var' => 'name',
-			'allowed_extension' => 'jpg,jpeg,gif,png,zip',
-			
-			//Debug is on for development
-			'debug' => true,
+            
+            'mgr_thumb_mask' => 'mgr-thumb-75x103.jpg',
+            'phpthumb' => $assets_url.'connector.php?action=web/phpthumb&src=',
+            'thumb' => $assets_url.'connector.php?action=web/thumb',
+            'chunks_prefix' => 'Cliche',
+            
+            'use_filebased_chunks' => 0,            
+            'tpl_suffix' => '.tpl',    
+                
+            'request_file_var' => 'name',
+            'allowed_extension' => 'jpg,jpeg,gif,png,zip',
+            
+            //Debug is on for development
+            'debug' => true,
         ), $config);
 
         $this->modx->addPackage('cliche',$this->config['model_path']);
@@ -100,17 +100,17 @@ class Cliche {
 
         $this->initDebug();
     }
-	
-	/**
-	* Load debugging settings
-	*/
+    
+    /**
+    * Load debugging settings
+    */
     public function initDebug() {
         if ($this->modx->getOption('debug',$this->config,false)) {
             error_reporting(E_ALL); ini_set('display_errors',true);
             $this->modx->setLogTarget('HTML');
             $this->modx->setLogLevel(modX::LOG_LEVEL_ERROR);
 
-            $debugUser = $this->config['debugUser'] == '' ? $this->modx->user->get('username') : 'anonymous';
+            $debugUser = !isset($this->config['debugUser']) ? $this->modx->user->get('username') : 'anonymous';
             $user = $this->modx->getObject('modUser',array('username' => $debugUser));
             if ($user == null) {
                 $this->modx->user->set('id',$this->modx->getOption('debugUserId',$this->config,1));
@@ -120,37 +120,37 @@ class Cliche {
             }
         }
     }
-	
-	/**
+    
+    /**
      * Load an helper class to load phpThumb Class
      *
      * @access public
      * @return string The JSON response
-     */	
-	public function loadPhpThumb($src, $options = array()){
-		/* We don't use modx->loadClass cause it put every chars on lower case causing phpThumb to fail lamentably */
-		require_once $this->config['model_path'] . 'cliche/helpers/phpthumb/ThumbLib.class.php';
-		$this->phpThumb = PhpThumbFactory::create( $src, $options );
+     */    
+    public function loadPhpThumb($src, $options = array()){
+        /* We don't use modx->loadClass cause it put every chars on lower case causing phpThumb to fail lamentably */
+        require_once $this->config['model_path'] . 'cliche/helpers/phpthumb/ThumbLib.class.php';
+        $this->phpThumb = PhpThumbFactory::create( $src, $options );
         return $this->phpThumb;
-	}
+    }
 
-	/**
+    /**
      * Load an helper class to handle file upload via Ajax
      *
      * @access public
      * @return string The JSON response
      */
-	public function loadHelper($id){
-		if (!$this->modx->loadClass('cliche.helpers.FileUploader',$this->config['model_path'],true,true)) {
-			$this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Could not load upload helper');
-			return 'Could not load helper class FileUploader.';
-		}
-		$uploader = new FileUploader($this, $this->config);
-		$result = $uploader->handleUpload($id);
-		return $result;
-	}
-	
-	/**
+    public function loadHelper($id){
+        if (!$this->modx->loadClass('cliche.helpers.FileUploader',$this->config['model_path'],true,true)) {
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Could not load upload helper');
+            return 'Could not load helper class FileUploader.';
+        }
+        $uploader = new FileUploader($this, $this->config);
+        $result = $uploader->handleUpload($id);
+        return $result;
+    }
+    
+    /**
      * Load the appropriate controller
      * @param string $controller
      * @return null|clicheController

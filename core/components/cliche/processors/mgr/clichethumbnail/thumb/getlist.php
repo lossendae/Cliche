@@ -13,13 +13,13 @@ if(empty($tvId)){
 }
 
 $tv = $modx->getObject('modTemplateVar', $tvId);
-$properties = $tv->getProperties();	
+$properties = $tv->getProperties();    
 $album = $modx->getObject('ClicheAlbums', $properties['clichealbum']);
 
 
 $c = $modx->newQuery('ClicheItems');
 $c->where(array(
-	'album_id' => $properties['clichealbum'],
+    'album_id' => $properties['clichealbum'],
 ));
 
 /* paginate result */
@@ -31,17 +31,17 @@ $c->limit($limit, $start);
 
 $rows = $modx->getCollectionGraph('ClicheItems', '{ "CreatedBy": {} }',$c);
 if($rows){
-	foreach($rows as $row){
-		$pic = $row->toArray();
-		$pic['createdby'] = $row->CreatedBy->get('username');
-		$pic['createdon'] = date('j M Y',strtotime($pic['createdon']));
-		$pic['image'] = $row->get('image');
-		$pic['thumbnail'] = $row->get('manager_thumbnail');
-		$pic['tv'] = $tvId;
+    foreach($rows as $row){
+        $pic = $row->toArray();
+        $pic['createdby'] = $row->CreatedBy->get('username');
+        $pic['createdon'] = date('j M Y',strtotime($pic['createdon']));
+        $pic['image'] = $row->get('image');
+        $pic['thumbnail'] = $row->get('manager_thumbnail');
+        $pic['tv'] = $tvId;
 
-		$pics[] = $pic;	
-	}
-	unset($rows);
+        $pics[] = $pic;    
+    }
+    unset($rows);
 }
 $response['success'] = true;
 $response['total'] = $count;

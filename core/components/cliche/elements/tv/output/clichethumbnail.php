@@ -11,11 +11,11 @@ if (!($cliche instanceof Cliche)) return 'Could not load Cliche class';
 if (!empty($value) && $value != '{}') {
     $data = $modx->fromJSON($value);
     if (empty($data)){
-		$value = '';
-		return $value;
-	}
+        $value = '';
+        return $value;
+    }
     /* set the cache file as src */
-	$value = '<img src="'. $data['thumbnail'] .'" alt="thumbnail" />';
+    $value = '<img src="'. $data['thumbnail'] .'" alt="thumbnail" />';
 
 } else { /* if empty return blank */
     $value = '';

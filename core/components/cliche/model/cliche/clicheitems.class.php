@@ -8,12 +8,12 @@ class ClicheItems extends xPDOSimpleObject {
         switch ($k) {
             case 'manager_thumbnail':
                 $assetsUrl = $this->xpdo->cliche->config['cache_url'];
-				$assetsPath = $this->xpdo->cliche->config['cache_path'] . $this->get('album_id') .'/'. $this->get('id') .'/';
+                $assetsPath = $this->xpdo->cliche->config['cache_path'] . $this->get('album_id') .'/'. $this->get('id') .'/';
                 $cacheDir = $assetsUrl . $this->get('album_id') .'/'. $this->get('id') .'/';
                 $cacheFilename = $this->xpdo->cliche->config['mgr_thumb_mask'];
                 $cacheFile = $cacheDir . $cacheFilename;
                 $checkFile = $assetsPath . $cacheFilename;
-				if(!file_exists($checkFile)){ $this->addManagerCacheFiles(); }
+                if(!file_exists($checkFile)){ $this->addManagerCacheFiles(); }
                 $value = $cacheFile .'?t='. strtotime('now');
                 break;
             case 'image':
@@ -72,9 +72,9 @@ class ClicheItems extends xPDOSimpleObject {
     public function getCacheDir($path = true){
         if($path){
             $cacheDir = $this->xpdo->cliche->config['cache_path'] . $this->get('album_id') .'/'. $this->get('id') .'/';
-			if(!is_dir($cacheDir)){
-				$cacheDir = $this->createDir($cacheDir);
-			}			
+            if(!is_dir($cacheDir)){
+                $cacheDir = $this->createDir($cacheDir);
+            }            
             return $cacheDir ;
         } else {
             $assetsUrl = $this->xpdo->cliche->config['cache_url'];
@@ -218,11 +218,11 @@ class ClicheItems extends xPDOSimpleObject {
 
     protected function removeFile(){
         $file = $this->xpdo->cliche->config['images_path'] . $this->get('filename');
-		if(file_exists($file)){
-			if(!@unlink($file)){
+        if(file_exists($file)){
+            if(!@unlink($file)){
                 $this->xpdo->log(xPDO::LOG_LEVEL_ERROR,'[Cliche] An error occurred while trying to remove the file at: '. $file);
             }
-		}
+        }
         /* @TODO: Remove cached files as well */
     }
 }

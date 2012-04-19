@@ -24,6 +24,6 @@ if ($_REQUEST['action'] == 'web/phpthumb') {
 $ctx = (!$_REQUEST['ctx']) ? '' : $modx->context->get('key');
 
 $modx->request->handleRequest(array(
-	'processors_path'   => $modx->getOption( 'core_path' ) . 'components/cliche/processors/',
-	'location' => $ctx,
+    'processors_path'   => $modx->getOption( 'core_path' ) . 'components/cliche/processors/',
+    'location' => $ctx,
 ));

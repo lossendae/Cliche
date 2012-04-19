@@ -17,8 +17,8 @@ abstract class ClichePlugin {
         $this->controller =& $controller;
         $this->modx =& $controller->modx;
     }
-	
-	 /**
+    
+     /**
      * Set an option for this module
      * @param string $key
      * @param mixed $value
@@ -51,8 +51,8 @@ abstract class ClichePlugin {
      * @return mixed
      */
     public function getProperty($key,$default = null,$method = 'isset') {
-		return $this->controller->getProperty($key,$default,$method);
-	}
+        return $this->controller->getProperty($key,$default,$method);
+    }
 }
 /**
  * @package cliche
@@ -88,9 +88,9 @@ abstract class ClicheController {
      * @return string The processed content
      */
     public function run($scriptProperties) {
-        $this->setProperties($scriptProperties);		
+        $this->setProperties($scriptProperties);        
         $this->loadPlugin();   
-		$this->initialize();
+        $this->initialize();
         /* chunks_path is not overridable by script properties - better for multi instance call */
         $chunksPath = $this->config['chunks_path'];
         if(empty($chunksPath)){
@@ -110,7 +110,7 @@ abstract class ClicheController {
             if (!$this->modx->loadClass($dir.'.'. $dir, $this->config['plugins_path'],true,true)) {
                 $this->modx->log(modX::LOG_LEVEL_ERROR, '[Cliche] Could not load '.$plugin.' plugin in: '. $this->config['plugins_path'] . $dir .'/'. $plugin .'.class.php');
             }
-			$className = empty($plugin) || $plugin == 'default' ? 'DefaultPlugin' : ucfirst($plugin);
+            $className = empty($plugin) || $plugin == 'default' ? 'DefaultPlugin' : ucfirst($plugin);
             $this->plugin = new $className($this);
         }
     }
@@ -121,27 +121,27 @@ abstract class ClicheController {
      * @param mixed $args Optional arguments to pass to the plugin class
      * @return mixed/void if $args is not supplied else the processed $args
      */
-    public function fireEvent($event, $args = null){	
+    public function fireEvent($event, $args = null){    
         if(isset($this->plugin) && is_object($this->plugin)){
-			if(is_callable(array($this->plugin, $event))){
-				if($args == null){
-					call_user_func( array($this->plugin, $event) );
-					return true;
-				} else {
-					return call_user_func_array( array($this->plugin, $event), $args );
-				}
-			}			
-        }	
-		return false;
+            if(is_callable(array($this->plugin, $event))){
+                if($args == null){
+                    call_user_func( array($this->plugin, $event) );
+                    return true;
+                } else {
+                    return call_user_func_array( array($this->plugin, $event), $args );
+                }
+            }            
+        }    
+        return false;
     }
 
     /**
      * Load a css file in the header if specified in properties
      * @return void
      */
-	public function loadCSS($name) {
-		$this->modx->regClientCSS($this->config['chunks_url'] . $name .'.css');
-	}	
+    public function loadCSS($name) {
+        $this->modx->regClientCSS($this->config['chunks_url'] . $name .'.css');
+    }    
 
     abstract public function initialize();
     abstract public function process();
@@ -244,29 +244,29 @@ abstract class ClicheController {
         }
         return $output;
     }
-	
-	/**
+    
+    /**
      * Convert string params to path for use in file based chunks
      *
-	 * @access private
+     * @access private
      */
-	private function _setDefaultChunksPath(){
-		$config = str_replace(array(
-			'{base_path}',
-			'{assets_path}',
-		),array(
-			$this->modx->getOption('base_path'),
-			$this->modx->getOption('assets_path'),
-		), $this->config);
-		
-		$config['chunks_path'] = $config['plugins_path'] . $this->getProperty('plugin') . '/';
-		$config['chunks_url'] = $config['plugins_url'] . $this->getProperty('plugin') . '/';
-		
-		$this->config = array_merge($this->config, $config);	
-		$this->cliche->config = $this->config;	
-	}	
-	
-	/**
+    private function _setDefaultChunksPath(){
+        $config = str_replace(array(
+            '{base_path}',
+            '{assets_path}',
+        ),array(
+            $this->modx->getOption('base_path'),
+            $this->modx->getOption('assets_path'),
+        ), $this->config);
+        
+        $config['chunks_path'] = $config['plugins_path'] . $this->getProperty('plugin') . '/';
+        $config['chunks_url'] = $config['plugins_url'] . $this->getProperty('plugin') . '/';
+        
+        $this->config = array_merge($this->config, $config);    
+        $this->cliche->config = $this->config;    
+    }    
+    
+    /**
      * Processes the content of a chunk in either of the following ways:
      *
      * Caches the preprocessed chunk content to an array to speed loading
@@ -278,18 +278,18 @@ abstract class ClicheController {
      * @return string The processed content string
      */
     public function getChunk($name, $properties = array()) {
-		$chunk = null;
+        $chunk = null;
         /* first check internal cache */
         if (!isset($this->chunks[$name])) {
             $useFileBasedChunks = $this->getProperty('use_filebased_chunks');
-			if (!$useFileBasedChunks) {
+            if (!$useFileBasedChunks) {
                 $chunk = $this->modx->getObject('modChunk',array('name' => $name));
             }
-			if (empty($chunk)) {	
-				$chunk = $this->_getTplChunk($name);
-				if(!is_object($chunk)) return $chunk;
-			}				
-			$this->chunks[$name] = $chunk->getContent();
+            if (empty($chunk)) {    
+                $chunk = $this->_getTplChunk($name);
+                if(!is_object($chunk)) return $chunk;
+            }                
+            $this->chunks[$name] = $chunk->getContent();
         } else { /* load chunk from cache */
             $o = $this->chunks[$name];
             $chunk = $this->modx->newObject('modChunk');
@@ -298,25 +298,25 @@ abstract class ClicheController {
         $chunk->setCacheable(false);
         return $chunk->process($properties);
     }
-	
-	/**
+    
+    /**
      * Returns a modChunk object from a template file.
      *
      * @access private
      * @param string $name The name of the Chunk. Will parse to name.chunk.tpl
      * @return modChunk/string Returns the modChunk object if found, otherwise an error message with the chunk name
      */
-	private function _getTplChunk($name){
-		$f = $this->config['chunks_path'] . strtolower($name) . $this->config['tpl_suffix'];
-		if (file_exists($f)) {
-			$o = file_get_contents($f);
-			$chunk = $this->modx->newObject('modChunk');
-			$chunk->set('name', $name);
-			$chunk->setContent($o);
-		} else {
-			$this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Chunk : "'.$f.'" not found');
-			return 'Chunk "<strong>'.$f.'</strong>" not found';
-		}
-		return $chunk;
-	}
+    private function _getTplChunk($name){
+        $f = $this->config['chunks_path'] . strtolower($name) . $this->config['tpl_suffix'];
+        if (file_exists($f)) {
+            $o = file_get_contents($f);
+            $chunk = $this->modx->newObject('modChunk');
+            $chunk->set('name', $name);
+            $chunk->setContent($o);
+        } else {
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'[Cliche] Chunk : "'.$f.'" not found');
+            return 'Chunk "<strong>'.$f.'</strong>" not found';
+        }
+        return $chunk;
+    }
 }

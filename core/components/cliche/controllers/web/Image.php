@@ -28,72 +28,72 @@
  * @subpackage controllers
  */
 class ImageController extends ClicheController {
-	/**
+    /**
      * Initialize this controller, setting up default properties
      * @return void
      */
     public function initialize() {
         $this->setDefaultProperties(array(
             'thumbWidth' => 120,
-            'thumbHeight' => 120,			
+            'thumbHeight' => 120,            
             'itemTpl' => 'image',
-			
-			'idParam' => 'cid',
-			
-			'loadCSS' => true,
+            
+            'idParam' => 'cid',
+            
+            'loadCSS' => true,
             'css' => 'default',
-			'config' => null,
-			'browse' => true,
-			'chunk_dirname' => 'default',
+            'config' => null,
+            'browse' => true,
+            'chunk_dirname' => 'default',
         ));
         $this->fireEvent('load');
     }
-	
-	/**
+    
+    /**
      * Process and load an album item
      * @return string
      */
-    public function process() {	
-		$output = $this->getItem();
-		$this->fireEvent('render');
-		return $output;
-	}
-		
-	/**
+    public function process() {    
+        $output = $this->getItem();
+        $this->fireEvent('render');
+        return $output;
+    }
+        
+    /**
      * Get the requested item
      * @return string
      */
-	private function getItem(){			
-		if(!$this->getProperty('browse')){
-			$id = $this->getProperty('id');
-		} else {
-			$request = $this->modx->request->getParameters();
-			$id = $this->modx->getOption($this->getProperty('idParam'), $request, $this->getProperty('id', $this->getProperties(), null));
-		}
-		if(empty($id)){
-			return $this->modx->lexicon('cliche.item_not_specified');
-		}	
-		
-		$item = $this->modx->getObject('ClicheItems', $id);	
-		
-		if(!$item) return $this->modx->lexicon('cliche.item_not_found');
-		
-		$phs = $item->toArray();
+    private function getItem(){            
+        if(!$this->getProperty('browse')){
+            $id = $this->getProperty('id');
+        } else {
+            $request = $this->modx->request->getParameters();
+            $id = $this->modx->getOption($this->getProperty('idParam'), $request, $this->getProperty('id', $this->getProperties(), null));
+        }
+        if(empty($id)){
+            return $this->modx->lexicon('cliche.item_not_specified');
+        }    
+        
+        $item = $this->modx->getObject('ClicheItems', $id);    
+        
+        if(!$item) return $this->modx->lexicon('cliche.item_not_found');
+        
+        $phs = $item->toArray();
 
-		$phs['width'] = $this->getProperty('thumbWidth');
-		$phs['height'] = $this->getProperty('thumbHeight');
-		$phs['image'] = $this->config['images_url'] . $item->filename;
-		$phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
-		
-		/* Let the used plugin do its magic */
-		$returned = $this->fireEvent('setItemPlaceholder', array($phs, & $item));
-		if(is_array($returned)){
-			$phs = $returned;
-		}
+        $phs['width'] = $this->getProperty('thumbWidth');
+        $phs['height'] = $this->getProperty('thumbHeight');
+        $phs['image'] = $this->config['images_url'] . $item->filename;
+        $phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
+        
+        /* Let the used plugin do its magic */
+        $returned = $this->fireEvent('setItemPlaceholder', array($phs, & $item));
+        if(is_array($returned)){
+            $phs = $returned;
+        }
 
-		$item = $this->getChunk($this->getProperty('itemTpl'), $phs);
+        $item = $this->getChunk($this->getProperty('itemTpl'), $phs);
 
-		return $item;
-	}
+        return $item;
+    }
 }
 return 'ImageController';

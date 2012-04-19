@@ -28,7 +28,7 @@
  * @subpackage controllers
  */
 class AlbumController extends ClicheController {
-	/**
+    /**
      * Initialize this controller, setting up default properties
      * @return void
      */
@@ -36,113 +36,113 @@ class AlbumController extends ClicheController {
         $this->setDefaultProperties(array(
             'thumbWidth' => 120,
             'thumbHeight' => 120,          
-			
+            
             'wrapperTpl' => 'albumwrapper',
             'itemTpl' => 'item',
-			
+            
             'idParam' => 'cid',
             'viewParam' => 'view',
             'viewParamName' => 'image',
-			
-			'loadCSS' => true,
+            
+            'loadCSS' => true,
             'css' => 'default',
             'config' => null,
             'browse' => true,
         ));
         $this->fireEvent('load');
     }
-	
-	/**
+    
+    /**
      * Process and load an album sets of items
      * @return string
      */
     public function process() {
-		$output = $this->getItems();
-		$this->fireEvent('render');
-		return $output;
-	}
-		
-	/**
+        $output = $this->getItems();
+        $this->fireEvent('render');
+        return $output;
+    }
+        
+    /**
      * Get the requested items list
      * @return string
      */
-	private function getItems(){
-		/* We don't want the user to be able to browse the current album items */
-		if(!$this->getProperty('browse')){
-			$id = $this->getProperty('id');
-		} else {
-			$request = $this->modx->request->getParameters();
-			$id = $this->modx->getOption($this->getProperty('idParam'), $request, $this->getProperty('id', $this->getProperties(), null));
-		}
-		
-		if(empty($id)){
-			return $this->modx->lexicon('cliche.album_not_specified');
-		}	
-		
-		$list = '';		
-		$c = $this->modx->newQuery('ClicheItems');
-		$c->where(array(
-			'album_id' => $id,
-		));				
-		$rows = $this->modx->getCollectionGraph('ClicheItems', '{ "Album":{} }',$c);
-		
-		if(!$rows) return $this->modx->lexicon('cliche.album_not_found');
-		
-		foreach($rows as $row){
-			$data = $row->toArray();
-			$list .= $this->getItem($data, $row);
-			/* We pass the processed string to the plugin ? */
-			$modified = $this->fireEvent('afterItemRendered', array(&$list));	
-			if($modified){
-				$list = $modified;
-			}
-		}
-		$phs = $row->Album->toArray();
-		$phs['items'] = $list;
-		$items = $this->getChunk($this->getProperty('wrapperTpl'), $phs);
-		return $items;
-	}
-	
-	/**
+    private function getItems(){
+        /* We don't want the user to be able to browse the current album items */
+        if(!$this->getProperty('browse')){
+            $id = $this->getProperty('id');
+        } else {
+            $request = $this->modx->request->getParameters();
+            $id = $this->modx->getOption($this->getProperty('idParam'), $request, $this->getProperty('id', $this->getProperties(), null));
+        }
+        
+        if(empty($id)){
+            return $this->modx->lexicon('cliche.album_not_specified');
+        }    
+        
+        $list = '';        
+        $c = $this->modx->newQuery('ClicheItems');
+        $c->where(array(
+            'album_id' => $id,
+        ));                
+        $rows = $this->modx->getCollectionGraph('ClicheItems', '{ "Album":{} }',$c);
+        
+        if(!$rows) return $this->modx->lexicon('cliche.album_not_found');
+        
+        foreach($rows as $row){
+            $data = $row->toArray();
+            $list .= $this->getItem($data, $row);
+            /* We pass the processed string to the plugin ? */
+            $modified = $this->fireEvent('afterItemRendered', array(&$list));    
+            if($modified){
+                $list = $modified;
+            }
+        }
+        $phs = $row->Album->toArray();
+        $phs['items'] = $list;
+        $items = $this->getChunk($this->getProperty('wrapperTpl'), $phs);
+        return $items;
+    }
+    
+    /**
      * Create the item placeholders
      * @param array $phs the current line placeholders
      * @param object $obj the xPDO object
      * @return string The processed content
      */
-	private function getItem($phs, $obj){		
-		/* Handle url + additionnal field where only the req params are sended back for custom url scheme */
-		if($this->getProperty('browse')){
-			$params = array( 
-				$this->getProperty('viewParam') => $this->getProperty('viewParamName'),  
-				$this->getProperty('idParam') => $obj->id,
-			);			
-			$phs['url'] = $this->modx->makeUrl( $this->modx->resource->get('id'),'',$params);	
-			$phs['reqParams'] = http_build_query($params);	
-		}
-		
-		$phs['width'] = $this->getProperty('thumbWidth');
-		$phs['height'] = $this->getProperty('thumbHeight');
-		
-		/* The image & and the phpthumb ready url string */
-		$phs['image'] = $this->config['images_url'] . $obj->filename;
-		$phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
-		
-		/* Let the used plugin do its magic */
-		$returned = $this->fireEvent('setItemPlaceholder', array($phs, & $obj));
-		if(is_array($returned)){
-			$phs = $returned;
-		}
-		
-		//Not used yet !
-		// $field = $obj->toArray();
-		// foreach($field['metas'] as $k => $v){
-			// $name = strtolower(str_replace(' ','_',$v['name']));
-			// $phs['meta.'. $name] = $v['value'];
-		// }
-		// unset($field['metas']);
-		
-		$processed = $this->getChunk($this->getProperty('itemTpl'), $phs);			
-		return $processed;
-	}
+    private function getItem($phs, $obj){        
+        /* Handle url + additionnal field where only the req params are sended back for custom url scheme */
+        if($this->getProperty('browse')){
+            $params = array( 
+                $this->getProperty('viewParam') => $this->getProperty('viewParamName'),  
+                $this->getProperty('idParam') => $obj->id,
+            );            
+            $phs['url'] = $this->modx->makeUrl( $this->modx->resource->get('id'),'',$params);    
+            $phs['reqParams'] = http_build_query($params);    
+        }
+        
+        $phs['width'] = $this->getProperty('thumbWidth');
+        $phs['height'] = $this->getProperty('thumbHeight');
+        
+        /* The image & and the phpthumb ready url string */
+        $phs['image'] = $this->config['images_url'] . $obj->filename;
+        $phs['phpthumb'] = $this->config['phpthumb'] . $phs['image'];
+        
+        /* Let the used plugin do its magic */
+        $returned = $this->fireEvent('setItemPlaceholder', array($phs, & $obj));
+        if(is_array($returned)){
+            $phs = $returned;
+        }
+        
+        //Not used yet !
+        // $field = $obj->toArray();
+        // foreach($field['metas'] as $k => $v){
+            // $name = strtolower(str_replace(' ','_',$v['name']));
+            // $phs['meta.'. $name] = $v['value'];
+        // }
+        // unset($field['metas']);
+        
+        $processed = $this->getChunk($this->getProperty('itemTpl'), $phs);            
+        return $processed;
+    }
 }
 return 'AlbumController';

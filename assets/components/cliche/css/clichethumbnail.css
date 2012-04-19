@@ -1,69 +1,69 @@
 .win.breadcrumbs{}
 .win.breadcrumbs .crumb_wrapper{ margin-top: 0; }
 .jcrop-holder { 
-	text-align: left; 
-	border: 10px solid #EAEAEA;
+    text-align: left; 
+    border: 10px solid #EAEAEA;
 }
 .jcrop-vline, 
 .jcrop-hline {
-	font-size: 0;
-	position: absolute;
-	background: white url('../images/border.gif') top left repeat;
+    font-size: 0;
+    position: absolute;
+    background: white url('../images/border.gif') top left repeat;
 }
 .jcrop-vline { height: 100%; width: 1px !important; }
 .jcrop-hline { width: 100%; height: 1px !important; }
 .jcrop-handle {
-	font-size: 1px;
-	width: 7px !important;
-	height: 7px !important;
-	border: 1px #eee solid;
-	background-color: #333;
-	*width: 9px;
-	*height: 9px;
+    font-size: 1px;
+    width: 7px !important;
+    height: 7px !important;
+    border: 1px #eee solid;
+    background-color: #333;
+    *width: 9px;
+    *height: 9px;
 }
 .jcrop-tracker { width: 100%; height: 100%; }
 .custom .jcrop-vline,
 .custom .jcrop-hline { background: yellow; }
 .custom .jcrop-handle {
-	border-color: black;
-	background-color: #C7BB00;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+    border-color: black;
+    background-color: #C7BB00;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 .crop_pw {
-	border:10px solid #eaeaea;
+    border:10px solid #eaeaea;
     margin: 0 auto;
 }
 .crop-mask {
-	left:0;
-	opacity:0.4;
-	position:absolute;
-	top:0;
-	background:none repeat scroll 0 0 #000000;
+    left:0;
+    opacity:0.4;
+    position:absolute;
+    top:0;
+    background:none repeat scroll 0 0 #000000;
 }
 .cropped {
     padding: 20px 0 0;
     text-align: center;    
 }
 .cropped img {
-	border: 10px solid #DADADA;
-	max-width: 90%;
+    border: 10px solid #DADADA;
+    max-width: 90%;
 }
 .crop_tpl { padding:0; }
 .icon-crop { background:url("../images/crop.png") no-repeat scroll 5px 4px transparent !important; }
 
 /* Type for cmp */
 .cliche .thumb-clichethumbnail{
-	overflow: visible;
-	margin: 2px 15px 15px 2px;
+    overflow: visible;
+    margin: 2px 15px 15px 2px;
 }
 .cliche .type-clichethumbnail{ 
-	background: url("../images/thumb_mask.png") no-repeat scroll left top transparent;
+    background: url("../images/thumb_mask.png") no-repeat scroll left top transparent;
     height: 55px;
     left: -2px;
     position: absolute;
     top: -2px;
     width: 60px;
-	z-index: 1;
+    z-index: 1;
 }

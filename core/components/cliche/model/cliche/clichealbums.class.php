@@ -45,8 +45,8 @@ class ClicheAlbums extends xPDOSimpleObject {
                     $this->xpdo->log(xPDO::LOG_LEVEL_ERROR,'[Cliche] An error occurred while trying to remove the directory at: '. $dir);
                 }
             }
-			$dir = $this->xpdo->cliche->config['cache_path'] .'/'. $this->get('id') .'/';
-			$this->xpdo->cacheManager->deleteTree($dir, array('deleteTop' => true, 'skipDirs' => false, 'extensions' => '*'));
+            $dir = $this->xpdo->cliche->config['cache_path'] .'/'. $this->get('id') .'/';
+            $this->xpdo->cacheManager->deleteTree($dir, array('deleteTop' => true, 'skipDirs' => false, 'extensions' => '*'));
         }
         return $removed;
     }

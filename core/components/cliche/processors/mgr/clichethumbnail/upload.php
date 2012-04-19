@@ -8,13 +8,13 @@ $tvDesc = $tv->get('description');
 /* Verify if the TV dedicated album exist, else create it */
 $album = $modx->getObject('ClicheAlbums', array('name' => $tvName));
 if(!$album){
-	$album = $modx->newObject('ClicheAlbums');
-	$album->fromArray(array(
-		'name' => $tvName,
-		'description' => $tvDesc,
-		'type' => 'TV',
-	));
-	$album->save();
+    $album = $modx->newObject('ClicheAlbums');
+    $album->fromArray(array(
+        'name' => $tvName,
+        'description' => $tvDesc,
+        'type' => 'TV',
+    ));
+    $album->save();
 }
 $albumId = $album->get('id');
 

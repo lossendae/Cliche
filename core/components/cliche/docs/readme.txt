@@ -89,9 +89,9 @@ To show a single image:
 With the default front end viewer, you can show the image in a lightbox instead of a link to the image by setting "browse" to 0
 Example :
 [[Cliche?
-	&id=`your_album_id`
+    &id=`your_album_id`
     &view=`album`
-	&browse=`0`
+    &browse=`0`
 ]]
 
 Available Parameters
@@ -100,10 +100,10 @@ Available Parameters
 List of the available parameters (and their default values) :
 
 - thumbWidth : (120),
-- thumbHeight : (120),			
+- thumbHeight : (120),            
 - itemTpl,
 - wrapperTpl,
-- plugin : (default),	
+- plugin : (default),    
 - columns : (3),
 - columnBreak : (<br style="clear: both;"/>),
 - idParam : (cid), 

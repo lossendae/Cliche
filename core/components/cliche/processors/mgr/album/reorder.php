@@ -10,27 +10,27 @@ $i = 0;
 /* Get the current record range data */
 $c = $modx->newQuery('ClicheItems');
 $c->where(array(
-	'album_id' => $albumId,
+    'album_id' => $albumId,
 ));
 $c->sortBy($sort,$dir);
 $c->limit($limit, $start);
 $rows = $modx->getCollection('ClicheItems', $c);
 foreach($rows as $row){
-	$id = $row->get('id');
-	$items[$id] = $row->toArray();
-	unset($id);
+    $id = $row->get('id');
+    $items[$id] = $row->toArray();
+    unset($id);
 }
 $dir = $modx->cliche->config['cache_path'] .'/'. $albumId .'/';
 $modx->cacheManager->deleteTree($dir, array('deleteTop' => true, 'skipDirs' => false, 'extensions' => '*'));
 
 foreach($items as $key => $value){
-	$newOrder = $modx->getObject('ClicheItems', $key);	
-	$data = $items[$ids[$i]];
-	$newOrder->fromArray($data);	
-	$newOrder->save();	
-	$ttt[] = $newOrder->toArray();
-	unset($newOrder,$ids[$i]);
-	$i++;
+    $newOrder = $modx->getObject('ClicheItems', $key);    
+    $data = $items[$ids[$i]];
+    $newOrder->fromArray($data);    
+    $newOrder->save();    
+    $ttt[] = $newOrder->toArray();
+    unset($newOrder,$ids[$i]);
+    $i++;
 }
 
 $album = $modx->getObjectGraph('ClicheAlbums', '{"Cover":{}, "CreatedBy":{}}', $albumId);

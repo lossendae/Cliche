@@ -4,11 +4,11 @@
  */
 class UploadFileXhr {   
     private $request;
-	
-	function __construct($rq = 'file'){
-		$this->request = $rq;
-	}
-	/**
+    
+    function __construct($rq = 'file'){
+        $this->request = $rq;
+    }
+    /**
      * Save the file to the specified path
      * @return boolean TRUE on success
      */
