@@ -3,7 +3,7 @@
  * @package modx
  * @subpackage processors.element.tv.renders.mgr.input
  */
-$cliche = $modx->getService('cliche','Cliche',$modx->getOption('cliche.core_path',null,$modx->getOption('core_path').'components/cliche/').'model/cliche/',$scriptProperties);
+$cliche = $modx->getService('cliche','Cliche',$modx->getOption('cliche.core_path',null,$modx->getOption('core_path').'components/cliche/').'model/cliche/',null);
 if (!($cliche instanceof Cliche)) return 'Could not load Cliche class';
 $corePath = $modx->getOption('cliche.core_path',null,$modx->getOption('core_path').'components/cliche/');
 
@@ -15,6 +15,7 @@ $config['tv'] = $this->id;
 $config['resource'] = (int) $_REQUEST['id'];
 $json = $modx->toJSON($config);
 $modx->smarty->assign('configjson',$json);
+$data = array();
 
 $value =  $modx->fromJSON($this->value);
 if(!empty($value)){
