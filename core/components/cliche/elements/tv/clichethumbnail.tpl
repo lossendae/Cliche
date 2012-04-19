@@ -1,7 +1,3 @@
-<div id="tv{$tv->id}-form"></div>
-<input type="hidden" id="tv{$tv->id}" name="tv{$tv->id}" value="{$tv->get('value')|escape}" />
-<div id="thumb-{$tv->id}"></div>
-
 <script type="text/javascript">
 // <![CDATA[
     var win;    
