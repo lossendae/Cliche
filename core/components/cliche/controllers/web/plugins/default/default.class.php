@@ -26,8 +26,8 @@ class DefaultPlugin extends ClichePlugin {
             }                    
         }    
         $this->setProperties(array(
-            'columns' => 3,
-            'columnBreak' => '<br style="clear: both;">',
+            'columns' => $this->getProperty('columns', 3),
+            'columnBreak' => $this->getProperty('columnBreak','<br style="clear: both;">'),
         ));
         $this->useFancyBox = $this->getProperty('useFancyBox', true);    
         $this->columns = $this->getProperty('columns');

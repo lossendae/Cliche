@@ -1,5 +1,9 @@
 Changelog for Cliche
 
+*** Cliche 1.0.1 RC2 ***
+
+    - Fix : Proper columns override in default plugin
+
 *** Cliche 1.0.1 RC1 ***
 
     - Fix indentation for IDE (OS related)

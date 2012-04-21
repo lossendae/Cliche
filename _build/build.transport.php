@@ -15,7 +15,7 @@ set_time_limit(0);
 define('PKG_NAME','Cliche');
 define('PKG_NAMESPACE',strtolower(PKG_NAME));
 define('PKG_VERSION','1.0.1');
-define('PKG_RELEASE','RC1');
+define('PKG_RELEASE','RC2');
 
 function getSnippetContent($path, $name, $debug = false) {
 $filename = $path . $name .'.php';
