@@ -17,15 +17,14 @@ $modx= new modX();
 $modx->initialize('mgr');
 $modx->loadClass('transport.modPackageBuilder','',false, true);
 echo '<pre>';
-$modx->setLogLevel(MODX_LOG_LEVEL_INFO);
-$modx->setLogTarget(XPDO_CLI_MODE ? 'ECHO' : 'HTML');
+$modx->setLogLevel(modX::LOG_LEVEL_INFO);
+$modx->setLogTarget('ECHO');
  
 $root = dirname(dirname(__FILE__)).'/';
 $rootCore = dirname(dirname(dirname(__FILE__))).'/';
 $sources = array(
     'root' => $root,
     'core' => $root.'core/components/cliche/',
-    // 'model' => $root.'core/components/cliche/model/',
     'schema' => $root.'_build/schema/',
     'model' => $rootCore.'core/components/cliche/model/',
 );
@@ -35,39 +34,28 @@ $generator= $manager->getGenerator();
 $generator->classTemplate= <<<EOD
 <?php
 /**
- * [+phpdoc-package+]
- */
-class [+class+] extends [+extends+] {
-    function [+class+](& \$xpdo) {
-        \$this->__construct(\$xpdo);
-    }
-    function __construct(& \$xpdo) {
-        parent :: __construct(\$xpdo);
-    }
-}
+* [+phpdoc-package+]
+* [+phpdoc-subpackage+]
+*/
+class [+class+] extends [+extends+] {}
 ?>
 EOD;
 $generator->platformTemplate= <<<EOD
 <?php
 /**
- * [+phpdoc-package+]
- */
+* [+phpdoc-package+]
+* [+phpdoc-subpackage+]
+*/
 require_once (strtr(realpath(dirname(dirname(__FILE__))), '\\\\', '/') . '/[+class-lowercase+].class.php');
-class [+class+]_[+platform+] extends [+class+] {
-    function [+class+]_[+platform+](& \$xpdo) {
-        \$this->__construct(\$xpdo);
-    }
-    function __construct(& \$xpdo) {
-        parent :: __construct(\$xpdo);
-    }
-}
+class [+class+]_[+platform+] extends [+class+] {}
 ?>
 EOD;
 $generator->mapHeader= <<<EOD
 <?php
 /**
- * [+phpdoc-package+]
- */
+* [+phpdoc-package+]
+* [+phpdoc-subpackage+]
+*/
 EOD;
 
 $generator->parseSchema($sources['schema'].'cliche.mysql.schema.xml', $sources['model']);
