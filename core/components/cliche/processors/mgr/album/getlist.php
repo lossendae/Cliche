@@ -47,17 +47,19 @@ if($rows){
 
 /* Retreive the album owner informations */
 $owner = $modx->getObjectGraph('ClicheAlbums', '{ "CreatedBy": {}, "Cover":{} }', $albumId);
-$album = $owner->toArray();
-$album['createdby'] = $owner->CreatedBy->get('username');
-$album['createdon'] = date('j M Y',strtotime($album['createdon']));
-if($owner->Cover){
-    $image = $modx->cliche->config['images_path'] . $owner->Cover->get('filename');
-    if($album['cover_id'] != 0 && file_exists($image)){            
-        $album['image'] = $owner->Cover->get('image');
-        $album['thumbnail'] = $owner->Cover->get('manager_thumbnail');
-    } else {
-        $album['image'] = false;
-        $album['thumbnail'] = false;
+if($owner){
+    $album = $owner->toArray();
+    $album['createdby'] = $owner->CreatedBy->get('username');
+    $album['createdon'] = date('j M Y',strtotime($album['createdon']));
+    if($owner->Cover){
+        $image = $modx->cliche->config['images_path'] . $owner->Cover->get('filename');
+        if($album['cover_id'] != 0 && file_exists($image)){            
+            $album['image'] = $owner->Cover->get('image');
+            $album['thumbnail'] = $owner->Cover->get('manager_thumbnail');
+        } else {
+            $album['image'] = false;
+            $album['thumbnail'] = false;
+        }
     }
 }
 if(!isset($album['thumbnail'])){
