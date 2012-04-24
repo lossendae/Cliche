@@ -35,7 +35,7 @@ Retreiving an album sets
 
 Retreiving a single item
 ```
-[[ClicheItem? 
+[[ClicheImage? 
     &id=`your_item_id`
 ]]
 ```
@@ -73,7 +73,7 @@ However if you want to use a unordered list of item, you would want to not gener
 In that case, just set the columns parameter to 0 :
 
 ```
-[[ClicheItem? 
+[[ClicheImage? 
     &columns=`0`
 ]]
 ```
