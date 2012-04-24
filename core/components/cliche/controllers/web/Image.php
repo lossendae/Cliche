@@ -43,7 +43,6 @@ class ImageController extends ClicheController {
             'loadCSS' => true,
             'css' => 'default',
             'config' => null,
-            'browse' => true,
             'chunk_dirname' => 'default',
         ));
         $this->fireEvent('load');

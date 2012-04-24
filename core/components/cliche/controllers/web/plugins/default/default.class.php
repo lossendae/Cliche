@@ -12,7 +12,7 @@ class DefaultPlugin extends ClichePlugin {
      */
     public function load(){
         $this->view = $this->getProperty('view');
-        $this->browse = $this->getProperty('browse');
+        $this->browse = $this->getProperty('browse', false);
         if(!$this->browse){
             switch( $this->view ){
                 case 'albums':

@@ -46,7 +46,6 @@ class AlbumsController extends ClicheController {
             
             'loadCSS' => true,
             'css' => 'default',
-            'browse' => true,
             'config' => null,
             'chunk_dirname' => 'default',
         ));

@@ -47,7 +47,6 @@ class AlbumController extends ClicheController {
             'loadCSS' => true,
             'css' => 'default',
             'config' => null,
-            'browse' => true,
         ));
         $this->fireEvent('load');
     }
