@@ -15,7 +15,7 @@
  $Cliche = $modx->getService('cliche','Cliche',$modx->getOption('cliche.core_path',null,$modx->getOption('core_path').'components/cliche/').'model/cliche/',$scriptProperties);
 if (!($Cliche instanceof Cliche)) return 'Cliche could not be loaded';
 $scriptProperties['plugin'] = $modx->getOption('plugin', $scriptProperties, 'default');
-$scriptProperties['view'] = strtolower($controllerName);
+$scriptProperties['view'] = strtolower('Image');
 
 $controller = $Cliche->loadController('Image');
 $output = $controller->run($scriptProperties);
