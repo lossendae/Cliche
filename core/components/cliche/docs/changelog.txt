@@ -2,7 +2,9 @@ Changelog for Cliche
 
 *** Cliche 1.0.1 RC2 ***
 
+    - Added swedish lexicons (thanks to frostraven)
     - Fix : Proper columns override in default plugin
+    - Add basic pagination and limit capabilities
 
 *** Cliche 1.0.1 RC1 ***
 
