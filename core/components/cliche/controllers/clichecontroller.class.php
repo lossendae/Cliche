@@ -70,7 +70,10 @@ abstract class ClicheController {
     /** @var array $scriptProperties */
     protected $scriptProperties = array();
 
-    protected $placeholders = array();
+    protected $placeholders = array();  
+    
+    abstract public function initialize();
+    abstract public function process();
 
     /**
      * @param Cliche $cliche A reference to the Cliche instance
@@ -141,9 +144,6 @@ abstract class ClicheController {
     public function loadCSS($name) {
         $this->modx->regClientCSS($this->config['plugin_assets_url'] . $name .'.css');
     }    
-
-    abstract public function initialize();
-    abstract public function process();
 
     /**
      * Set the default options for this module
@@ -278,6 +278,8 @@ abstract class ClicheController {
      */
     public function getChunk($name, $properties = array()) {
         $chunk = null;
+        $phs = $this->getPlaceholders();
+        $properties = array_merge($properties, $phs);
         /* first check internal cache */
         if (!isset($this->chunks[$name])) {
             $useFileBasedChunks = $this->getProperty('use_filebased_chunks');

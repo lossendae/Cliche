@@ -82,7 +82,11 @@ class AlbumController extends ClicheController {
         $c = $this->modx->newQuery('ClicheItems');
         $c->where(array(
             'album_id' => $id,
-        ));                
+        ));
+        /* Pass the query for modification to the controller class */
+        $modifiedQuery = $this->fireEvent('beforeQuery', array(&$c, 'ClicheItems'));
+        if($modifiedQuery) $c = $modifiedQuery;
+        
         $rows = $this->modx->getCollectionGraph('ClicheItems', '{ "Album":{} }',$c);
         
         if(!$rows) return $this->modx->lexicon('cliche.album_not_found');

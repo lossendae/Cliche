@@ -8,7 +8,6 @@ class DefaultPlugin extends ClichePlugin {
     
     /**
      * The current view class has been loaded, set some additionnal paramters for the plugin use
-     * @return void
      */
     public function load(){
         $this->view = $this->getProperty('view');
@@ -34,7 +33,81 @@ class DefaultPlugin extends ClichePlugin {
     }
     
     /**
+     * The main query event before being executed.
+     * 
+     * @param object $query The xPDO object passed along
+     * @param string $objName The main object queried
+     * @return object $query The modified query object
+     */
+    public function beforeQuery($query, $objName){
+        /* Those informations should be query aware */
+        $sortByColumn = $this->getProperty('sortByColumn', 'id');
+        $sortByDir = $this->getProperty('sortByDir', 'ASC');
+        $query->sortBy($objName .'.'. $sortByColumn, $sortByDir);
+        
+        /* Set a placeholder for total pics info */
+        $total = $this->modx->getCount($objName, $query);
+        $ph = $this->getProperty('totalPicsPlaceholder', 'cliche.total_pics');
+        $this->modx->setPlaceholder($ph, $total);
+        
+        /* Do we wan't to paginate result ? */
+        $paginate = $this->getProperty('paginate', false);
+        if( $paginate ){
+            $pageVar = $this->getProperty('pageVar', 'page');
+            $request = $this->modx->request->getParameters();
+            $page = isset($request[$pageVar]) ? $request[$pageVar] : 1;
+            $start = ceil($paginate * $page  + 1) - $paginate;
+            $query->limit($paginate, $start);
+            
+            /* Prepare pagiantion */
+            $lastPage = ceil($total / $paginate);
+            $prevLink = $this->getPaginationLink($pageVar, $page, $this->getProperty('prevLinkText', '<< prev'));
+            $nextLink = $this->getPaginationLink($pageVar, $page, $this->getProperty('nextLinkText', 'next >>'), 'next', $lastPage);
+            
+            /* Simple pagination */
+            $phs = array(
+                $this->getProperty('totalPagePlaceholder', 'cliche.current_page') => $page,
+                $this->getProperty('nextLinkPlaceholder', 'cliche.page_link_next') => $nextLink,
+                $this->getProperty('prevLinkPlaceholder', 'cliche.page_link_prev') => $prevLink,
+                $this->getProperty('lastPagePlaceholder', 'cliche.last_page') => $lastPage,
+            );            
+            $this->controller->setPlaceholders($phs);
+        }
+        
+        return $query;
+    }
+    
+    
+    /**
+     * Get a simple link for pagination
+     * 
+     * @param string $pageVar The query string variable to use for the link
+     * @param integer $page The current page number
+     * @param string $text The text of the link
+     * @param string $action The action to link to (prev or next page)
+     * @param integer $lastPage The last page number
+     * @return string $link The page link or an empty string
+     */
+    public function getPaginationLink($pageVar, $page, $text, $action = 'prev', $lastPage){        
+        $showParams = true;
+        if($action == 'next'){   
+            $page = $page + 1;
+            if($page > $lastPage) return ''; 
+        } else {   
+            if($page == 1) return '';
+            $page = $page - 1;
+            if($page == 1) $showParams = false;            
+        }
+        $params = $showParams ? array( $pageVar => $page ) : array();
+        
+        $url = $this->modx->makeUrl( $this->modx->resource->get('id'),'',$params); 
+        $link = "<a href=\"{$url}\">{$text}</a>";
+        return $link;
+    }
+    
+    /**
      * The current item has been been processed, do something before going to the next row
+     * 
      * @param string $row The processec item
      * @return string $row 
      */
@@ -49,6 +122,7 @@ class DefaultPlugin extends ClichePlugin {
     
     /**
      * Set the current item placeholders
+     * 
      * @param array $phs The current item already set placeholders
      * @param object $obj A reference to the CLicheItems Object
      * @return array An updated array of placeholders
@@ -74,6 +148,7 @@ class DefaultPlugin extends ClichePlugin {
     
     /**
      * All data have been processed, do the last opeartion before sending the output
+     *
      * @return void
      */
     public function render(){

@@ -68,7 +68,13 @@ class AlbumsController extends ClicheController {
      */
     private function getSets(){
         $list = '';
-        $rows = $this->modx->getCollectionGraph('ClicheAlbums', '{ "Cover":{} }');
+        
+        $c = $this->modx->newQuery('ClicheAlbums');
+        /* Pass the query for modification to the controller class */
+        $modifiedQuery = $this->fireEvent('beforeQuery', array(&$c, 'ClicheAlbums'));
+         if($modifiedQuery) $c = $modifiedQuery;
+         
+        $rows = $this->modx->getCollectionGraph('ClicheAlbums', '{ "Cover":{} }', $c);
         
         if(!$rows) return $this->modx->lexicon('cliche.no_albums');
         
