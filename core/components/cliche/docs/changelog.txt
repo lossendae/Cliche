@@ -1,5 +1,11 @@
 Changelog for Cliche
 
+*** Cliche 1.0.1 RC3 ***
+
+    - Fix issue with CSS override
+    - Removed deprecated properties in front end controllers
+    - Fix issue with image browsing when using galleriffic
+
 *** Cliche 1.0.1 RC2 ***
 
     - Added swedish lexicons (thanks to frostraven)
