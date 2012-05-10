@@ -28,7 +28,8 @@ class Galleriffic extends ClichePlugin {
     }
     
     public function render(){
-        $this->controller->loadCSS('style');
+        $css = $this->getProperty('css', 'style');
+        $this->controller->loadCSS($css);
         
         $this->loadJquery = $this->getProperty('loadJquery', true);
         if($this->loadJquery){
