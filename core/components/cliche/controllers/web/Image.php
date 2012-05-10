@@ -36,14 +36,8 @@ class ImageController extends ClicheController {
         $this->setDefaultProperties(array(
             'thumbWidth' => 120,
             'thumbHeight' => 120,            
-            'itemTpl' => 'image',
-            
+            'itemTpl' => 'image',            
             'idParam' => 'cid',
-            
-            'loadCSS' => true,
-            'css' => 'default',
-            'config' => null,
-            'chunk_dirname' => 'default',
         ));
         $this->fireEvent('load');
     }

@@ -43,11 +43,6 @@ class AlbumsController extends ClicheController {
             'idParam' => 'cid',
             'viewParam' => 'view',
             'viewParamName' => 'album',
-            
-            'loadCSS' => true,
-            'css' => 'default',
-            'config' => null,
-            'chunk_dirname' => 'default',
         ));
         $this->fireEvent('load');
     }

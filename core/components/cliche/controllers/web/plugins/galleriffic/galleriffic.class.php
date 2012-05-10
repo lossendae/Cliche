@@ -28,14 +28,15 @@ class Galleriffic extends ClichePlugin {
     }
     
     public function render(){
-        $css = $this->getProperty('css', 'style');
-        $this->controller->loadCSS($css);
-        
+        $loadCss = $this->getProperty('loadJquery', true);
+        if($loadCss){
+             $css = $this->getProperty('css', 'style');
+            $this->controller->loadCSS($css);
+        }
         $this->loadJquery = $this->getProperty('loadJquery', true);
         if($this->loadJquery){
-            $this->modx->regClientStartupScript('http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js');
-        }
-        
+            $this->modx->regClientStartupScript('http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js');
+        }        
         $this->modx->regClientStartupScript($this->controller->config['plugin_assets_url'] . 'libs/jquery.galleriffic.js');
         $this->modx->regClientStartupScript($this->controller->config['plugin_assets_url'] . 'libs/jquery.history.js');
         $this->modx->regClientStartupScript($this->controller->config['plugin_assets_url'] . 'libs/jquery.opacityrollover.js');

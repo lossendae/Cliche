@@ -11,4 +11,4 @@
         [[+items]]
     </ul>
 </div>
-
+<div style="clear: both;"></div>

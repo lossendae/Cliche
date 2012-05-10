@@ -43,10 +43,6 @@ class AlbumController extends ClicheController {
             'idParam' => 'cid',
             'viewParam' => 'view',
             'viewParamName' => 'image',
-            
-            'loadCSS' => true,
-            'css' => 'default',
-            'config' => null,
         ));
         $this->fireEvent('load');
     }

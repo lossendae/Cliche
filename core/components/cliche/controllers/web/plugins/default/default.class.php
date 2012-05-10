@@ -152,8 +152,11 @@ class DefaultPlugin extends ClichePlugin {
      * @return void
      */
     public function render(){
-        $css = $this->getProperty('css', 'style');
-        $this->controller->loadCSS($css);
+        $loadCss = $this->getProperty('loadJquery', true);
+        if($loadCss){
+             $css = $this->getProperty('css', 'style');
+            $this->controller->loadCSS($css);
+        }
         /* Load fancybox only if we are viewing a single image and/or we're not in browse mode */
         if($this->useFancyBox && $this->view == 'image' || $this->useFancyBox && !$this->browse){
             

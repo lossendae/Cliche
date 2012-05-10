@@ -1,5 +1,5 @@
 <li>
-    <a class="thumb" name="leaf" href="[[+phpthumb]]&w=430" title="[[+name]]">
+    <a class="thumb" name="leaf" href="[[+image]]" title="[[+name]]">
         <img src="[[+thumbnail]]" alt="Title #[[+id]]" />
     </a>
     <div class="caption">
