@@ -138,8 +138,7 @@ class AlbumController extends ClicheController {
             // $name = strtolower(str_replace(' ','_',$v['name']));
             // $phs['meta.'. $name] = $v['value'];
         // }
-        // unset($field['metas']);
-        
+        // unset($field['metas']);       
         $processed = $this->getChunk($this->getProperty('itemTpl'), $phs);            
         return $processed;
     }

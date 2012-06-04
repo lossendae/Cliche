@@ -91,7 +91,7 @@ abstract class ClicheController {
      * @return string The processed content
      */
     public function run($scriptProperties) {
-        $this->setProperties($scriptProperties);        
+        $this->setProperties($scriptProperties);
         $this->loadPlugin();   
         $this->initialize();
         /* chunks_path is not overridable by script properties - better for multi instance call */

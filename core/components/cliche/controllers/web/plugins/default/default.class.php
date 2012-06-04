@@ -11,25 +11,27 @@ class DefaultPlugin extends ClichePlugin {
      */
     public function load(){
         $this->view = $this->getProperty('view');
-        $this->browse = $this->getProperty('browse', false);
-        if(!$this->browse){
-            switch( $this->view ){
-                case 'albums':
-                    $this->setProperty('itemTpl','albumcoverzoom');
-                    break;
-                case 'album':                    
-                    $this->setProperty('itemTpl','itemzoom');
-                    break;
-                default:
-                    break;
-            }                    
-        }    
+        $this->browse = $this->getProperty('browse', false);        
         $this->setProperties(array(
             'columns' => $this->getProperty('columns', 3),
             'columnBreak' => $this->getProperty('columnBreak','<br style="clear: both;">'),
         ));
-        $this->useFancyBox = $this->getProperty('useFancyBox', true);    
+        $this->useFancyBox = $this->getProperty('useFancyBox', true);
         $this->zoomAlbumItem = $this->getProperty('zoomAlbumItem', true);    
+        $itemTpl = $this->getProperty('itemTpl');  
+        if(!$this->browse && $this->useFancyBox && $itemTpl == "item"){
+            switch( $this->view ){
+                case 'albums':
+                    $itemTpl = 'albumcoverzoom';
+                    break;
+                case 'album': 
+                   if($this->zoomAlbumItem) $itemTpl = 'itemzoom';
+                    break;
+                default:
+                    break;
+            } 
+            $this->setProperty('itemTpl', $itemTpl);
+        }        
         $this->columns = $this->getProperty('columns');
     }
     
