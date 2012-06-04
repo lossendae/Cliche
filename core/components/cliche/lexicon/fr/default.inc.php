@@ -5,6 +5,13 @@
  * @package cliche
  * @subpackage lexicon
  */
+/* System settings */
+$_lang['setting_cliche.upload_size_limit'] = 'Taille maximale d\'upload';
+$_lang['setting_cliche.upload_size_limit_desc'] = 'Taille maximale pour l\'upload de fichier';
+
+$_lang['setting_cliche.upload_allowed_extensions'] = 'Extensions autorisées';
+$_lang['setting_cliche.upload_allowed_extensions_desc'] = 'Liste d\'extension autorisée pour l\'upload de fichier séparées par des virgules';
+
 /* TOP MENU */
 
 $_lang['cliche'] = 'Cliche, gestionnaire d\'albums';

@@ -5,7 +5,14 @@
  * @package cliche
  * @subpackage lexicon
  */
-/* TOP MENU */
+/* System settings */
+$_lang['setting_cliche.upload_size_limit'] = 'Upload size limit';
+$_lang['setting_cliche.upload_size_limit_desc'] = 'Maximum file size for file upload';
+
+$_lang['setting_cliche.upload_allowed_extensions'] = 'Allowed Extensions';
+$_lang['setting_cliche.upload_allowed_extensions_desc'] = 'Comma separated list of extension allowed for file upload';
+ 
+/* Top Menu */
 
 $_lang['cliche'] = 'Cliche, Albums manager';
 $_lang['cliche.menu'] = 'Cliche';
