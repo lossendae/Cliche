@@ -88,7 +88,6 @@ class Cliche {
             'request_file_var' => 'name',
             'allowed_extension' => 'jpg,jpeg,gif,png,zip',
             
-            //Debug is on for development
             'debug' => false,
         ), $config);
 

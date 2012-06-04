@@ -41,11 +41,11 @@ class FileUploader extends Import {
      */
     public function initialize() {
         $this->config[self::OPT_IGNORE_DIRECTORIES] = explode(',',$this->modx->getOption('cliche.import_ignore_directories',null,'.,..,.svn,.git,__MACOSX,.DS_Store'));
-        $this->config['sizeLimit'] = $this->modx->getOption('sizeLimit', null, 2097152);
-        $this->config['allowedExtensions'] = $this->modx->getOption('allowedExtensions', null, 'jpg,jpeg,gif,png,zip'); 
+        $this->config['sizeLimit'] = $this->modx->getOption('cliche.upload_size_limit', null, 2097152);
+        $this->config['allowedExtensions'] = $this->modx->getOption('cliche.upload_allowed_extensions', null, 'jpg,jpeg,gif,png,zip'); 
         $this->_checkServerSettings();        
     }
-        
+
     /**
      * Check server upload parameter in php config.
      *
