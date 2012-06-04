@@ -245,8 +245,10 @@ class FileUploader extends Import {
 
         $name =  filter_var($name, FILTER_SANITIZE_STRING);                                        
         $name = filter_var($name, FILTER_SANITIZE_URL);        
+        $name = strtolower($name);        
+        $ext = strtolower($this->pathinfo['extension']);
         if($rename){
-            rename($this->target . $this->pathinfo['filename'] .'.'. $this->pathinfo['extension'], $this->target . $name .'.'. strtolower($this->pathinfo['extension']));
+            rename($this->target . $this->pathinfo['filename'] .'.'. $this->pathinfo['extension'], $this->target . $name .'.'. $ext);
         }
         return $name;
     }
