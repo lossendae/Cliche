@@ -61,13 +61,19 @@ class ClicheMgrAlbumsManagerController extends ClicheManagerController {
             Ext.ns("Cliche"); Cliche.getPanels = function(){ return '. $this->loadPanels() .'; }(); 
             Cliche.config = '. $this->modx->toJSON($this->cliche->config) .';
             Cliche.allowedExtensions = '. $this->modx->toJSON($allowedExtensions) .';
-            Cliche.postMaxSize = '. $this->_toBytes(ini_get('post_max_size')) .';
-            Cliche.uploadMaxFilesize = '. $this->_toBytes(ini_get('upload_max_filesize')) .';
+            Cliche.postMaxSize = '. $this->cliche->_toBytes(ini_get('post_max_size')) .';
+            Cliche.uploadMaxFilesize = '. $this->cliche->_toBytes(ini_get('upload_max_filesize')) .';
             MODx.add("cliche-main-panel"); Ext.ux.Lightbox.register("a.lightbox"); 
 });</script>');
     }
+    
     public function getTemplateFile() { return ''; }
     
+    /**
+     * Helper method to add xtypes to cliche CMP.
+     * 
+     * @param string $xtype
+     */
     public function addPanel($xtype){
         switch($xtype){
             case 'album':
@@ -84,25 +90,12 @@ class ClicheMgrAlbumsManagerController extends ClicheManagerController {
         );
     }
     
+    /**
+     * load all registred panels
+     * 
+     * @return string The json string containing all panels
+     */
     public function loadPanels(){
         return $this->modx->toJSON($this->panels);
-    }
-    
-    /**
-     * Check the value of a server parameter.
-     *
-     * @access protected
-     * @param string $str The php parameter to check. Defaults to web.
-     * @return int The value in byte format.
-     */
-    protected function _toBytes($str){
-        $val = trim($str);
-        $last = strtolower($str[strlen($str)-1]);
-        switch($last) {
-            case 'g': $val *= 1024;
-            case 'm': $val *= 1024;
-            case 'k': $val *= 1024;        
-        }
-        return $val;
     }
 }
