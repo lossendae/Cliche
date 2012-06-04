@@ -228,11 +228,11 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
         var files = this.uploader.files;
         var toRemove = [];
         Ext.each(files, function(file){
-            var ext = file.name.split('.').pop();    
+            var ext = file.name.split('.').pop().toLowerCase();
             var del = false;    
             // First, let's check if it's a valid extension
             if (!Cliche.allowedExtensions[ext]) {
-                var del = pnl.addItemErrorMessage(file.id, _('cliche.upload_extensions_error') + Cliche.config['allowed_extension']);
+                var del = pnl.addItemErrorMessage(file.id, _('cliche.invalid_extensions_error') + Cliche.config['allowed_extension']);
                 pnl.updateList = false;
                 if(del){                        
                     toRemove.push(file);
@@ -240,7 +240,7 @@ Ext.extend(MODx.panel.ClicheUploadPanel,MODx.Panel,{
             }
             // Is the file too large 
             if (file.size > maxSize && !del){
-                var del = pnl.addItemErrorMessage(file.id, _('cliche.upload_file_too_large_error'));
+                var del = pnl.addItemErrorMessage(file.id, _('cliche.file_too_large_error'));
                 pnl.updateList = false;
                 if(del){                        
                     toRemove.push(file);
