@@ -2,7 +2,11 @@ Changelog for Cliche
 
 *** Cliche 1.0.1 RC4 ***
 
-    - Fix issues with fileuploader (file with extension uppercased and cliche's upload size limit)
+    - Fix file extension error with fileuploader
+    - Fix upload size limit (Added system setting to manage them)
+    - Fix chunk override with default front end viewer
+    - Added item zoom option for album if fancybox is activated
+    - Added system setting and setup options
 
 *** Cliche 1.0.1 RC3 ***
 
