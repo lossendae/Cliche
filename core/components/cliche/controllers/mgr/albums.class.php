@@ -49,20 +49,21 @@ class ClicheMgrAlbumsManagerController extends ClicheManagerController {
                 }
             }
         }
-        $allowedExtensions = explode(',', 'jpg,jpeg,gif,png,zip');
+        $allowedExtensions = $this->modx->getOption('cliche.upload_allowed_extensions', null, 'jpg,jpeg,gif,png,zip');
+        $allowedExtensions = explode(',', $allowedExtensions);
         foreach($allowedExtensions as $key => $value){
             $allowedExtensions[$value] = 1;
             unset($allowedExtensions[$key]);
         }
-        
-        
+        $uploadSizeLimit = $this->modx->getOption('cliche.upload_size_limit', null, 2097152);
+                
         $this->loadPanels();
         $this->addHtml('<script type="text/javascript">Ext.onReady(function() {    
             Ext.ns("Cliche"); Cliche.getPanels = function(){ return '. $this->loadPanels() .'; }(); 
             Cliche.config = '. $this->modx->toJSON($this->cliche->config) .';
             Cliche.allowedExtensions = '. $this->modx->toJSON($allowedExtensions) .';
-            Cliche.postMaxSize = '. $this->cliche->_toBytes(ini_get('post_max_size')) .';
-            Cliche.uploadMaxFilesize = '. $this->cliche->_toBytes(ini_get('upload_max_filesize')) .';
+            Cliche.postMaxSize = '. $this->cliche->_toBytes( ini_get('post_max_size') ) .';
+            Cliche.uploadMaxFilesize = '. $this->cliche->_toBytes( $uploadSizeLimit ) .';
             MODx.add("cliche-main-panel"); Ext.ux.Lightbox.register("a.lightbox"); 
 });</script>');
     }
