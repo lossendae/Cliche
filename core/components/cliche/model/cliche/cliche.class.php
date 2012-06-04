@@ -175,4 +175,22 @@ class Cliche {
         }
         return $this->controller;
     }
+    
+    /**
+     * Check the value of a server parameter.
+     *
+     * @access public
+     * @param string $str The php parameter to check. Defaults to web.
+     * @return int The value in byte format.
+     */
+    public function _toBytes($str){
+        $val = trim($str);
+        $last = strtolower($str[strlen($str)-1]);
+        switch($last) {
+            case 'g': $val *= 1024;
+            case 'm': $val *= 1024;
+            case 'k': $val *= 1024;        
+        }
+        return $val;
+    }
 }

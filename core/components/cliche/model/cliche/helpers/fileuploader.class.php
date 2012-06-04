@@ -52,34 +52,30 @@ class FileUploader extends Import {
      * @access protected
      */
     protected function _checkServerSettings(){        
-        $postSize = $this->_toBytes(ini_get('post_max_size'));
-        $uploadSize = $this->_toBytes(ini_get('upload_max_filesize'));        
+        $postSize = $this->cliche->_toBytes(ini_get('post_max_size'));
+        $uploadMaxSize = $this->cliche->_toBytes(ini_get('upload_max_filesize'));
         
-        if ($postSize < $this->config['sizeLimit'] || $uploadSize < $this->config['sizeLimit']){
-            $size = max(1, $this->config['sizeLimit'] / 1024 / 1024) . 'M';  
-            $response = $this->_response($this->modx->lexicon('cliche.increase_post_max_size') . $size .' '. $postSize .' '.$uploadSize);
+        /* Check if the POST php directive is lower than cliche's setting for size limit */
+        if ($postSize < $this->config['sizeLimit']){
+            $msg = $this->modx->lexicon('cliche.upload_max_filesize', array(
+                'size' => $this->config['sizeLimit'],
+                'directive' => $uploadMaxSize,
+            ));
+            $response = $this->_response( $msg );
+            die($response);
+        }
+        
+        /* Check if the upload max size limit php directive is lower than cliche's setting for size limit */
+        if ($uploadMaxSize < $this->config['sizeLimit']){
+            $msg = $this->modx->lexicon('cliche.increase_upload_max_filesize', array(
+                'size' => $this->config['sizeLimit'],
+                'directive' => $uploadMaxSize,
+            ));
+            $response = $this->_response( $msg );
             die($response);    
-        }        
+        }
     }
     
-    /**
-     * Check the value of a server parameter.
-     *
-     * @access protected
-     * @param string $str The php parameter to check. Defaults to web.
-     * @return int The value in byte format.
-     */
-    protected function _toBytes($str){
-        $val = trim($str);
-        $last = strtolower($str[strlen($str)-1]);
-        switch($last) {
-            case 'g': $val *= 1024;
-            case 'm': $val *= 1024;
-            case 'k': $val *= 1024;        
-        }
-        return $val;
-    }    
-
     /**
      * Handle the file upload and registration in database
      *
@@ -92,8 +88,6 @@ class FileUploader extends Import {
         $response = array();
         $response['success'] = $success;
         $response['message'] = $message;        
-        // $response['t'] = $this->contentType;        
-        // $response['z'] = $_GET;        
         return $this->modx->toJSON($response);
     }
     
@@ -171,11 +165,9 @@ class FileUploader extends Import {
             return $this->_response($this->modx->lexicon('cliche.empty_file_error') . $size);
         }
         
-        /* if the file size exceeds server settings */
+        /* if the file size exceeds cliche size limit settings */
         if ($size > $this->config['sizeLimit']) {
             return $this->_response($this->modx->lexicon('cliche.file_too_large_error'));
-        } else {
-            $size = ($size < 1024) ? $size .' bytes' : round(($size * 10)/1024)/10 .' KB';
         }
         
         $this->pathinfo = pathinfo($this->file->getName());
@@ -237,6 +229,13 @@ class FileUploader extends Import {
         return $this->_response($this->modx->lexicon('cliche.misc_error'));
     }
     
+    /**
+     * Sanitize filename and extension after successfull upload
+     * 
+     * @param string $name The filename
+     * @param bool $rename 
+     * @return string $name The sanitized filename
+     */
     public function sanitizeName($name, $rename = true){    
         $name = str_replace(' ','_',$name);
         
@@ -447,19 +446,5 @@ class FileUploader extends Import {
         $archive->unpack($target);
         $archive->close();
         return true;
-    }
-    
-    /**
-     * Get filesize
-     * 
-     * @return $string the filesize
-     */
-    public function getSize($file){
-        $size = null;
-        if(file_exists($file)){
-            $size = filesize($file);
-            $size = ($size < 1024) ? $size .' bytes' : round(($size * 10)/1024)/10 .' KB';
-        }
-        return $size;
     }
 }
