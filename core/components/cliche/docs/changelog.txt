@@ -1,5 +1,9 @@
 Changelog for Cliche
 
+*** Cliche 1.0.1 RC4 ***
+
+    - Fix issues with fileuploader (file with extension uppercased and cliche's upload size limit)
+
 *** Cliche 1.0.1 RC3 ***
 
     - Fix issue with CSS override
