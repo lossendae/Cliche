@@ -15,7 +15,7 @@ set_time_limit(0);
 define('PKG_NAME','Cliche');
 define('PKG_NAMESPACE',strtolower(PKG_NAME));
 define('PKG_VERSION','1.0.1');
-define('PKG_RELEASE','RC3');
+define('PKG_RELEASE','RC4');
 
 function getSnippetContent($path, $name, $debug = false) {
 $filename = $path . $name .'.php';
@@ -59,6 +59,22 @@ $builder->createPackage(PKG_NAMESPACE,PKG_VERSION,PKG_RELEASE);
 $builder->registerNamespace(PKG_NAMESPACE,false,true,'{core_path}components/'.PKG_NAMESPACE.'/');
 $modx->getService('lexicon','modLexicon');
 $modx->lexicon->load('cliche:default,mgr');
+
+/* Load system settings */
+$modx->log(modX::LOG_LEVEL_INFO,'Packaging in System Settings...');
+$settings = include $sources['data'].'transport.settings.php';
+if (empty($settings)) $modx->log(modX::LOG_LEVEL_ERROR,'Could not package in settings.');
+$attributes= array(
+    xPDOTransport::UNIQUE_KEY => 'key',
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => false,
+);
+foreach ($settings as $setting) {
+    $vehicle = $builder->createVehicle($setting,$attributes);
+    $builder->putVehicle($vehicle);
+}
+$modx->log(modX::LOG_LEVEL_INFO,'<strong>Packaged in '.count($settings).' system settings.</strong>'); flush();
+unset($settings,$setting,$attributes);
 
 /* add tv plugin */
 $modx->log(modX::LOG_LEVEL_INFO,'Adding in TV Plugin...');
@@ -169,9 +185,9 @@ $vehicle->resolve('php',array(
     'source' => $sources['resolvers'] . 'resolve.tables.php',
 ));
 
-// $vehicle->resolve('php',array(
-    // 'source' => $sources['resolvers'].'resolve.options.php',
-// ));
+$vehicle->resolve('php',array(
+    'source' => $sources['resolvers'] . 'setupoptions.resolver.php',
+));
 
 $modx->log(modX::LOG_LEVEL_INFO,'Packaged in resolvers.'); flush();
 $builder->putVehicle($vehicle);
@@ -181,9 +197,9 @@ $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
     'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
-    // 'setup-options' => array(
-        // 'source' => $sources['build'].'setup.options.php',
-    // ),
+    'setup-options' => array(
+        'source' => $sources['build'].'setup.options.php',
+    ),
 ));
 $modx->log(modX::LOG_LEVEL_INFO,'Packaged in package attributes.'); flush();
 
