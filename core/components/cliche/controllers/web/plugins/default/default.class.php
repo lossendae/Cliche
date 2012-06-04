@@ -17,7 +17,7 @@ class DefaultPlugin extends ClichePlugin {
                 case 'albums':
                     $this->setProperty('itemTpl','albumcoverzoom');
                     break;
-                case 'album':
+                case 'album':                    
                     $this->setProperty('itemTpl','itemzoom');
                     break;
                 default:
@@ -29,6 +29,7 @@ class DefaultPlugin extends ClichePlugin {
             'columnBreak' => $this->getProperty('columnBreak','<br style="clear: both;">'),
         ));
         $this->useFancyBox = $this->getProperty('useFancyBox', true);    
+        $this->zoomAlbumItem = $this->getProperty('zoomAlbumItem', true);    
         $this->columns = $this->getProperty('columns');
     }
     
@@ -158,7 +159,9 @@ class DefaultPlugin extends ClichePlugin {
             $this->controller->loadCSS($css);
         }
         /* Load fancybox only if we are viewing a single image and/or we're not in browse mode */
-        if($this->useFancyBox && $this->view == 'image' || $this->useFancyBox && !$this->browse){
+        if( $this->useFancyBox && $this->view == 'image' || 
+            $this->useFancyBox && !$this->browse || 
+            $this->view == 'album' && $this->useFancyBox && $this->zoomAlbumItem ){
             
             $this->loadJquery = $this->getProperty('loadJquery', true);
             if($this->loadJquery){
