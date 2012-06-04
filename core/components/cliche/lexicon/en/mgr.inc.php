@@ -85,6 +85,23 @@ $_lang['cliche.upload_items_for'] = '<h3>Images Uploader</h3><p>Upload new image
 $_lang['cliche.upload_ready_msg'] = 'Files ready to be uploaded :';
 $_lang['cliche.upload_successful'] = 'Files uploaded successfully'; 
 
+/* file uploader messages */
+$_lang['cliche.album_id_error'] = '[Cliche] Album id not specified';
+$_lang['cliche.already_exist_error'] = '[Cliche] File already exist';
+$_lang['cliche.create_temp_dir_error'] = '[Cliche] Could not create temp directory';
+$_lang['cliche.empty_file_error'] = '[Cliche] File appears to be empty : ';
+$_lang['cliche.file_too_large_error'] = '[Cliche] File is too large';
+$_lang['cliche.increase_post_max_size'] = '[Cliche] Increase post_max_size and upload_max_filesize to ';
+$_lang['cliche.invalid_extensions_error'] = '[Cliche] Invalid file extension, only the following extensions are accepted : ';
+$_lang['cliche.misc_error'] = '[Cliche] File could not be uploaded';
+$_lang['cliche.no_file_error'] = '[Cliche] No file were uploaded';
+$_lang['cliche.target_dir_error'] = '[Cliche] Could not create the target directory in : ';
+$_lang['cliche.target_dir_write_error'] = '[Cliche] Could not write to directory: ';
+$_lang['cliche.uploadxhr_error'] = '[Cliche] Could not load helper class UploadFileXhr';
+$_lang['cliche.uploadfileform_error'] = '[Cliche] Could not load helper class UploadFileForm from: ';
+$_lang['cliche.xpdozip_not_found'] = '[Cliche] xPDOZip could not be loaded';
+$_lang['cliche.zip_error_unpack'] = '[Cliche] Error while unpacking';
+
 /* Common */
 $_lang['cliche.album_empty_col_msg'] = 'Select an item from the main column to view its description';
 $_lang['cliche.loading'] = '<div class="centered empty-msg">Loading...</div>';

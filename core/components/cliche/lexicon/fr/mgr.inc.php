@@ -82,6 +82,23 @@ $_lang['cliche.upload_items_for'] = '<h3>Uploader d\'images</h3><p>Uploader de n
 $_lang['cliche.upload_ready_msg'] = 'Fichiers prêts à être uploadés :';
 $_lang['cliche.upload_successful'] = 'Fichiers uploadés avec succès';
 
+/* file uploader messages */
+$_lang['cliche.album_id_error'] = '[Cliche] ID d\'album non indiqué';
+$_lang['cliche.already_exist_error'] = '[Cliche] Le fichier existe déjà';
+$_lang['cliche.create_temp_dir_error'] = '[Cliche] Impossible de créer le répertoire temporaire';
+$_lang['cliche.empty_file_error'] = '[Cliche] Le fichier semble être vide : ';
+$_lang['cliche.file_too_large_error'] = '[Cliche] Le fichier est trop volumineux';
+$_lang['cliche.increase_post_max_size'] = '[Cliche] Augmentez post_max_size et upload_max_filesize à ';
+$_lang['cliche.invalid_extensions_error'] = '[Cliche] Extension de fichier non valide, seules les extensions suivantes sont acceptées : ';
+$_lang['cliche.misc_error'] = '[Cliche] Le fichier n\'a pu être uploadé';
+$_lang['cliche.no_file_error'] = '[Cliche] Aucun fichier n\'a été uploadé';
+$_lang['cliche.target_dir_error'] = '[Cliche] Impossible de créer le répertoire cible dans : ';
+$_lang['cliche.target_dir_write_error'] = '[Cliche] Impossible d\'écrire dans le répertoire : ';
+$_lang['cliche.uploadxhr_error'] = '[Cliche] Impossible de charger la classe UploadFileXhr';
+$_lang['cliche.uploadfileform_error'] = '[Cliche] Impossible de charger la classe UploadFileForm depuis : ';
+$_lang['cliche.xpdozip_not_found'] = '[Cliche] xPDOZip n\'a pu être chargé';
+$_lang['cliche.zip_error_unpack'] = '[Cliche] Erreur lors de la décompression';
+
 /* Common */
 $_lang['cliche.album_empty_col_msg'] = 'Sélectionnez un objet depuis la colonne principale pour voir sa description';
 $_lang['cliche.loading'] = '<div class="centered empty-msg">Chargement…</div>';
