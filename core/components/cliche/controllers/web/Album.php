@@ -86,7 +86,9 @@ class AlbumController extends ClicheController {
         $rows = $this->modx->getCollectionGraph('ClicheItems', '{ "Album":{} }',$c);
         
         if(!$rows) return $this->modx->lexicon('cliche.album_not_found');
-        
+        /* Limit images to display from certain album */
+        $limit = $this->view = $this->getProperty('limit', 0);
+		$i = 0;
         foreach($rows as $row){
             $data = $row->toArray();
             $list .= $this->getItem($data, $row);
@@ -95,6 +97,8 @@ class AlbumController extends ClicheController {
             if($modified){
                 $list = $modified;
             }
+        /* Limit if */    
+        if (++$i == $limit) break;    
         }
         $phs = $row->Album->toArray();
         $phs['items'] = $list;
